@@ -15,3 +15,10 @@ SELECT label.id, label.title, label.description, label.backgroundColor, label.te
         WHERE issueLabel.issueId = :issueId; 
     
 """
+
+const val INSERT_LABEL: String = """
+
+INSERT INTO `pyrodb`.`label`(title, description, backgroundColor, textColor)
+VALUES (:title, :description, :backgroundColor,  :textColor)
+    
+"""

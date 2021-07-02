@@ -1,5 +1,6 @@
 package com.issuetracker.service;
 
+import com.issuetracker.dto.request.NewLabelRequest;
 import com.issuetracker.dto.response.LabelResponse;
 import com.issuetracker.dto.response.LabelsResponse;
 import com.issuetracker.repository.LabelRepository;
@@ -19,5 +20,9 @@ public class LabelService {
     public LabelsResponse findAll() {
         List<LabelResponse> labels = labelRepository.findAll().stream().map(LabelResponse::from).collect(Collectors.toList());
         return new LabelsResponse(labels);
+    }
+
+    public void save(NewLabelRequest newLabelRequest) {
+        labelRepository.save(newLabelRequest.toLabel());
     }
 }

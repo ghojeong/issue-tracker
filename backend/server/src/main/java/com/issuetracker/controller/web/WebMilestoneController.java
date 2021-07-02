@@ -7,18 +7,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/web")
+@RequestMapping("/api/web/milestones")
 public class WebMilestoneController {
-
     private final MilestoneService milestoneService;
 
     public WebMilestoneController(MilestoneService milestoneService) {
         this.milestoneService = milestoneService;
     }
 
-    @GetMapping("/milestones")
+    @GetMapping
     public MilestonesResponse getMilestoneList() {
         return milestoneService.findAll();
     }
-
 }

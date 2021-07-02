@@ -1,14 +1,15 @@
 package com.issuetracker.domain;
 
+import java.util.List;
+
 public class IssuesNumbers {
+    private final List<Long> issueNumbers;
 
-    private final Long[] issueNumbers;
-
-    public IssuesNumbers(Long[] issueNumbers) {
+    public IssuesNumbers(List<Long> issueNumbers) {
         this.issueNumbers = issueNumbers;
     }
 
-    public Long[] toList() {
+    public List<Long> toList() {
         return issueNumbers;
     }
 }

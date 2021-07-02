@@ -1,6 +1,6 @@
 package com.issuetracker.controller.web;
 
-import com.issuetracker.dto.response.LabelsDto;
+import com.issuetracker.dto.response.LabelsResponse;
 import com.issuetracker.service.LabelService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +17,7 @@ public class WebLabelController {
     }
 
     @GetMapping("/labels")
-    public LabelsDto findLabels() {
+    public LabelsResponse findLabels() {
         return labelService.findAll();
     }
 

@@ -1,4 +1,4 @@
-package com.issuetracker.dto.response;
+package com.issuetracker.dto.request;
 
 import com.issuetracker.domain.IssuesNumbers;
 
@@ -6,12 +6,10 @@ import java.util.List;
 
 //TODO. 네이밍 변경해야함.
 // 클라이언트가 복수개로 선택한 이슈 번호를 서버로 리퀘스트 보낼 때 매칭되는 dto
-public class IssuesNumbersDto {
-    private List<Long> issueNumbers;
+public class IssuesNumbersRequest {
+    private final List<Long> issueNumbers;
 
-    public IssuesNumbersDto() {}
-
-    public IssuesNumbersDto(List<Long> issueNumbers) {
+    public IssuesNumbersRequest(List<Long> issueNumbers) {
         this.issueNumbers = issueNumbers;
     }
 

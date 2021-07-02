@@ -4,8 +4,12 @@ import com.issuetracker.domain.Comments;
 import com.issuetracker.domain.Issue;
 import com.issuetracker.domain.Status;
 import com.issuetracker.dto.auth.UserDto;
-import com.issuetracker.dto.request.NewIssueDto;
-import com.issuetracker.dto.response.*;
+import com.issuetracker.dto.request.IssuesNumbersRequest;
+import com.issuetracker.dto.request.NewIssueRequest;
+import com.issuetracker.dto.response.CommentsResponse;
+import com.issuetracker.dto.response.IssueDetailResponse;
+import com.issuetracker.dto.response.IssueOptionResponse;
+import com.issuetracker.dto.response.IssuesResponse;
 import com.issuetracker.repository.CommentRepository;
 import com.issuetracker.repository.IssueRepository;
 import org.springframework.stereotype.Service;
@@ -20,33 +24,33 @@ public class IssueService {
         this.commentRepository = commentRepository;
     }
 
-    public IssuesDto getIssues(UserDto userDto, String status) {
-        return IssuesDto.from(issueRepository.getIssues(userDto.toUser(), Status.from(status)));
+    public IssuesResponse getIssues(UserDto userDto, String status) {
+        return IssuesResponse.from(issueRepository.getIssues(userDto.toUser(), Status.from(status)));
     }
 
     //INFO.  "issueNumbers": [1, 2, 3] 이 들어오면, 해당 번호의 이슈의 상태를 반전
     //INFO. 아직 repository 완성되지 않음.
-    public void toggleIssue(IssuesNumbersDto issueNumber) {
+    public void toggleIssue(IssuesNumbersRequest issueNumber) {
         issueRepository.toggle(issueNumber.toIssueNumber()); //TODO. toggle 네이밍 변경 필요해보임.
     }
 
-    public IssueOptionDto findIssueOption() {
-        return IssueOptionDto.from(issueRepository.findIssueOption());
+    public IssueOptionResponse findIssueOption() {
+        return IssueOptionResponse.from(issueRepository.findIssueOption());
     }
 
-    public void save(UserDto userDto, NewIssueDto issueDto) {
+    public void save(UserDto userDto, NewIssueRequest issueDto) {
         issueRepository.save(userDto.toUser(), issueDto.toNewIssue());
     }
 
-    public IssueDetailDto findDetailedIssueId(Long issueId) {
+    public IssueDetailResponse findDetailedIssueId(Long issueId) {
         Issue issue = issueRepository.findById(issueId);
         Comments comments = commentRepository.findByIssueId(issueId);
 
-        return IssueDetailDto.from(issue, comments);
+        return IssueDetailResponse.from(issue, comments);
     }
 
-    public CommentsDto findCommentsByIssueId(Long issueId) {
-        return CommentsDto.from(commentRepository.findByIssueId(issueId));
+    public CommentsResponse findCommentsByIssueId(Long issueId) {
+        return CommentsResponse.from(commentRepository.findByIssueId(issueId));
     }
 
 }

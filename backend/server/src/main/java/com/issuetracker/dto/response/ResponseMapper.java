@@ -8,33 +8,33 @@ import java.util.stream.Collectors;
 public class ResponseMapper {
     private ResponseMapper() {}
 
-    public static List<AssigneeDto> export(Assignees assignees) {
+    public static List<AssigneeResponse> export(Assignees assignees) {
         return assignees.toList().stream()
-                .map(AssigneeDto::from)
+                .map(AssigneeResponse::from)
                 .collect(Collectors.toList());
     }
 
-    public static List<LabelDto> export(Labels labels) {
+    public static List<LabelResponse> export(Labels labels) {
         return labels.toList().stream()
-                .map(LabelDto::from)
+                .map(LabelResponse::from)
                 .collect(Collectors.toList());
     }
 
-    public static List<CommentDto> export(Comments comments) {
+    public static List<CommentResponse> export(Comments comments) {
         return comments.toList().stream()
-                .map(CommentDto::from)
+                .map(CommentResponse::from)
                 .collect(Collectors.toList());
     }
 
-    public static List<MilestoneSummaryDto> exportSummary(Milestones milestones) {
+    public static List<MilestoneSummaryResponse> exportSummary(Milestones milestones) {
         return milestones.toList().stream()
-                .map(MilestoneSummaryDto::from)
+                .map(MilestoneSummaryResponse::from)
                 .collect(Collectors.toList());
     }
 
-    public static List<IssueSummaryDto> exportSummary(Issues issues) {
+    public static List<IssueSummaryResponse> exportSummary(Issues issues) {
         return issues.toList().stream()
-                .map(IssueSummaryDto::from)
+                .map(IssueSummaryResponse::from)
                 .collect(Collectors.toList());
     }
 }

@@ -2,11 +2,11 @@ package com.issuetracker.dto.response;
 
 import com.issuetracker.domain.Writer;
 
-public class WriterDto {
+public class WriterResponse {
     private final String name;
     private final String profileImageUrl;
 
-    public WriterDto(String name, String profileImageUrl) {
+    public WriterResponse(String name, String profileImageUrl) {
         this.name = name;
         this.profileImageUrl = profileImageUrl;
     }
@@ -19,7 +19,7 @@ public class WriterDto {
         return profileImageUrl;
     }
 
-    public static WriterDto from(Writer writer) {
-        return new WriterDto(writer.getName(), writer.getProfileImageUrl());
+    public static WriterResponse from(Writer writer) {
+        return new WriterResponse(writer.getName(), writer.getProfileImageUrl());
     }
 }

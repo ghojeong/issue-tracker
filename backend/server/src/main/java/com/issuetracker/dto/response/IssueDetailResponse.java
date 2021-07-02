@@ -8,25 +8,25 @@ import java.util.List;
 
 import static com.issuetracker.dto.response.ResponseMapper.export;
 
-public class IssueDetailDto {
-    private Long issueId;
-    private MilestoneInfoDto milestoneInfo;
-    private String title;
-    private String content;
-    private String status;
-    private WriterDto writer;
-    private LocalDateTime createdDateTime;
-    private List<AssigneeDto> assignees;
-    private List<LabelDto> labels;
-    private List<CommentDto> comments;
+public class IssueDetailResponse {
+    private final Long issueId;
+    private final MilestoneInfoResponse milestoneInfo;
+    private final String title;
+    private final String content;
+    private final String status;
+    private final WriterResponse writer;
+    private final LocalDateTime createdDateTime;
+    private final List<AssigneeResponse> assignees;
+    private final List<LabelResponse> labels;
+    private final List<CommentResponse> comments;
 
-    public static IssueDetailDto from(Issue issue, Comments comments) {
-        return new IssueDetailDto(issue.getIssueId(),
-                MilestoneInfoDto.from(issue.getMilestoneInfo()),
+    public static IssueDetailResponse from(Issue issue, Comments comments) {
+        return new IssueDetailResponse(issue.getIssueId(),
+                MilestoneInfoResponse.from(issue.getMilestoneInfo()),
                 issue.getTitle(),
                 issue.getContent(),
                 issue.getStatus().name(),
-                WriterDto.from(issue.getWriter()),
+                WriterResponse.from(issue.getWriter()),
                 issue.getCreatedDateTime(),
                 export(issue.getAssignees()),
                 export(issue.getLabels()),
@@ -34,7 +34,7 @@ public class IssueDetailDto {
         );
     }
 
-    public IssueDetailDto(Long issueId, MilestoneInfoDto milestoneInfo, String title, String content, String status, WriterDto writer, LocalDateTime createdDateTime, List<AssigneeDto> assignees, List<LabelDto> labels, List<CommentDto> comments) {
+    public IssueDetailResponse(Long issueId, MilestoneInfoResponse milestoneInfo, String title, String content, String status, WriterResponse writer, LocalDateTime createdDateTime, List<AssigneeResponse> assignees, List<LabelResponse> labels, List<CommentResponse> comments) {
         this.issueId = issueId;
         this.milestoneInfo = milestoneInfo;
         this.title = title;
@@ -51,7 +51,7 @@ public class IssueDetailDto {
         return issueId;
     }
 
-    public MilestoneInfoDto getMilestoneInfo() {
+    public MilestoneInfoResponse getMilestoneInfo() {
         return milestoneInfo;
     }
 
@@ -67,7 +67,7 @@ public class IssueDetailDto {
         return status;
     }
 
-    public WriterDto getWriter() {
+    public WriterResponse getWriter() {
         return writer;
     }
 
@@ -75,15 +75,15 @@ public class IssueDetailDto {
         return createdDateTime;
     }
 
-    public List<AssigneeDto> getAssignees() {
+    public List<AssigneeResponse> getAssignees() {
         return assignees;
     }
 
-    public List<LabelDto> getLabels() {
+    public List<LabelResponse> getLabels() {
         return labels;
     }
 
-    public List<CommentDto> getComments() {
+    public List<CommentResponse> getComments() {
         return comments;
     }
 }

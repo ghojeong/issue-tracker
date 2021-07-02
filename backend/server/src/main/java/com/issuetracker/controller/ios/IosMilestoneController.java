@@ -1,6 +1,6 @@
 package com.issuetracker.controller.ios;
 
-import com.issuetracker.dto.response.MilestonesDto;
+import com.issuetracker.dto.response.MilestonesResponse;
 import com.issuetracker.service.MilestoneService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +17,7 @@ public class IosMilestoneController {
     }
 
     @GetMapping("/milestones")
-    public MilestonesDto getMilestoneList() {
+    public MilestonesResponse getMilestoneList() {
         return milestoneService.findAll();
     }
 

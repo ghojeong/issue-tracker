@@ -1,4 +1,4 @@
-package com.issuetracker.dto;
+package com.issuetracker.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 

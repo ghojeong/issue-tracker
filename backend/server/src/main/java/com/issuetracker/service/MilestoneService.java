@@ -1,6 +1,6 @@
 package com.issuetracker.service;
 
-import com.issuetracker.dto.response.MilestonesDto;
+import com.issuetracker.dto.response.MilestonesResponse;
 import com.issuetracker.repository.MilestoneRepository;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +13,8 @@ public class MilestoneService {
         this.milestoneRepository = milestoneRepository;
     }
 
-    public MilestonesDto findAll() {
-        return MilestonesDto.from(milestoneRepository.findAllMilestoneInfo());
+    public MilestonesResponse findAll() {
+        return MilestonesResponse.from(milestoneRepository.findAllMilestoneInfo());
     }
 
 }

@@ -1,7 +1,7 @@
 package com.issuetracker.service;
 
-import com.issuetracker.dto.response.LabelDto;
-import com.issuetracker.dto.response.LabelsDto;
+import com.issuetracker.dto.response.LabelResponse;
+import com.issuetracker.dto.response.LabelsResponse;
 import com.issuetracker.repository.LabelRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +16,8 @@ public class LabelService {
         this.labelRepository = labelRepository;
     }
 
-    public LabelsDto findAll() {
-        List<LabelDto> labels = labelRepository.findAll().stream().map(LabelDto::from).collect(Collectors.toList());
-        return new LabelsDto(labels);
+    public LabelsResponse findAll() {
+        List<LabelResponse> labels = labelRepository.findAll().stream().map(LabelResponse::from).collect(Collectors.toList());
+        return new LabelsResponse(labels);
     }
 }

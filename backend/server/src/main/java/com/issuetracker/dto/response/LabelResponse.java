@@ -2,14 +2,14 @@ package com.issuetracker.dto.response;
 
 import com.issuetracker.domain.Label;
 
-public class LabelDto {
-    private Long id;
-    private String title;
-    private String description;
-    private String backgroundColorHexa;
-    private String textColorHexa;
+public class LabelResponse {
+    private final Long id;
+    private final String title;
+    private final String description;
+    private final String backgroundColorHexa;
+    private final String textColorHexa;
 
-    public LabelDto(Long id, String title, String description, String backgroundColorHexa, String textColorHexa) {
+    public LabelResponse(Long id, String title, String description, String backgroundColorHexa, String textColorHexa) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -17,8 +17,8 @@ public class LabelDto {
         this.textColorHexa = textColorHexa;
     }
 
-    public static LabelDto from(Label label) {
-        return new LabelDto(label.getId(), label.getTitle(), label.getDescription(), label.getBackgroundColorHexa(), label.getTextColorHexa());
+    public static LabelResponse from(Label label) {
+        return new LabelResponse(label.getId(), label.getTitle(), label.getDescription(), label.getBackgroundColorHexa(), label.getTextColorHexa());
     }
 
     public Label toLabel() {

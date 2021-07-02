@@ -1,6 +1,6 @@
 package com.issuetracker.controller;
 
-import com.issuetracker.dto.MessageResponse;
+import com.issuetracker.dto.response.MessageResponse;
 import com.issuetracker.exception.AuthenticationException;
 import com.issuetracker.exception.JwtException;
 import org.slf4j.Logger;

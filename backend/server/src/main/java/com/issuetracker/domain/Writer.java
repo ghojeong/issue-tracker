@@ -2,18 +2,18 @@ package com.issuetracker.domain;
 
 public class Writer {
     private final String name;
-    private final String profileImageUrl;
+    private final String avatarUrl;
 
-    public Writer(String name, String profileImageUrl) {
+    public Writer(String name, String avatarUrl) {
         this.name = name;
-        this.profileImageUrl = profileImageUrl;
+        this.avatarUrl = avatarUrl;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getProfileImageUrl() {
-        return profileImageUrl;
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 }

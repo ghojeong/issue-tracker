@@ -51,6 +51,6 @@ public class IosAuthController {
                 .body(new AuthResponse(
                         JwtUtil.createJwt(userDto),
                         userDto.getName(),
-                        userDto.getProfileImageUrl()));
+                        userDto.getAvatarUrl()));
     }
 }

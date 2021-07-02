@@ -3,12 +3,12 @@ package com.issuetracker.domain;
 public class Assignee {
     private final String id;
     private String name;
-    private String profileImageUrl;
+    private String avatarUrl;
 
-    public Assignee(String id, String name, String profileImageUrl) {
+    public Assignee(String id, String name, String avatarUrl) {
         this.id = id;
         this.name = name;
-        this.profileImageUrl = profileImageUrl;
+        this.avatarUrl = avatarUrl;
     }
 
     public String getId() {
@@ -19,7 +19,7 @@ public class Assignee {
         return name;
     }
 
-    public String getProfileImageUrl() {
-        return profileImageUrl;
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 }

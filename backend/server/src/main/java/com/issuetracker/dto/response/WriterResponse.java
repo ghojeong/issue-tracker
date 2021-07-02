@@ -4,22 +4,22 @@ import com.issuetracker.domain.Writer;
 
 public class WriterResponse {
     private final String name;
-    private final String profileImageUrl;
+    private final String avatarUrl;
 
-    public WriterResponse(String name, String profileImageUrl) {
+    public WriterResponse(String name, String avatarUrl) {
         this.name = name;
-        this.profileImageUrl = profileImageUrl;
+        this.avatarUrl = avatarUrl;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getProfileImageUrl() {
-        return profileImageUrl;
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 
     public static WriterResponse from(Writer writer) {
-        return new WriterResponse(writer.getName(), writer.getProfileImageUrl());
+        return new WriterResponse(writer.getName(), writer.getAvatarUrl());
     }
 }

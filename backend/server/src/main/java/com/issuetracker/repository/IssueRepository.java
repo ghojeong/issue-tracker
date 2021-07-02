@@ -27,7 +27,7 @@ public class IssueRepository {
     private static final Logger logger = LoggerFactory.getLogger(IssueRepository.class.getName());
 
     private static final String ISSUE_SQL = "SELECT issue.id, issue.title, issue.content, issue.statusId, issue.createdDate, "
-            + "user.name, user.profileImageUrl, "
+            + "user.name, user.avatarUrl, "
             + "milestone.title AS milestoneTitle, milestone.description AS milestoneDescription, milestone.statusId AS milestoneStatus, milestone.dueDate AS milestoneDueDate "
             + "FROM issue "
             + "INNER JOIN user ON issue.writerId = user.id "
@@ -68,7 +68,7 @@ public class IssueRepository {
                 rs.getTimestamp("milestoneDueDate").toLocalDateTime()
         ) : null;
 
-        Writer writer = new Writer(rs.getString("name"), rs.getString("profileImageUrl"));
+        Writer writer = new Writer(rs.getString("name"), rs.getString("avatarUrl"));
 
         return new Issue(
                 issueId,
@@ -89,8 +89,8 @@ public class IssueRepository {
         return new Assignees(jdbc.query(FIND_ALL_ASSIGNEE_BY_USER_ID, params, (rs, rowNum) -> {
             String id = rs.getString("id");
             String name = rs.getString("name");
-            String profileImageUrl = rs.getString("profileImageUrl");
-            return new Assignee(id, name, profileImageUrl);
+            String avatarUrl = rs.getString("avatarUrl");
+            return new Assignee(id, name, avatarUrl);
         }));
     }
 
@@ -120,7 +120,7 @@ public class IssueRepository {
         List<Assignee> assigneeList = jdbc.query(FIND_ALL_USER, Collections.emptyMap(), (rs, rowNum) -> new Assignee(
                 rs.getString("userId"),
                 rs.getString("name"),
-                rs.getString("profileImageUrl")));
+                rs.getString("avatarUrl")));
 
         Assignees assignees = new Assignees(assigneeList);
 

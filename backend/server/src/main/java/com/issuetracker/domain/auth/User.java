@@ -11,14 +11,14 @@ public class User {
 
     private String name;
 
-    private String profileImageUrl;
+    private String avatarUrl;
 
     private List<String> emails;
 
-    public User(String id, String name, String profileImageUrl, List<String> emails) {
+    public User(String id, String name, String avatarUrl, List<String> emails) {
         this.id = id;
         this.name = name;
-        this.profileImageUrl = profileImageUrl;
+        this.avatarUrl = avatarUrl;
         this.emails = emails;
     }
 
@@ -30,8 +30,8 @@ public class User {
         return name;
     }
 
-    public String getProfileImageUrl() {
-        return profileImageUrl;
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 
     public List<String> getEmails() {

@@ -1,12 +1,12 @@
-package com.issuetracker.dto.web;
+package com.issuetracker.dto.response;
 
 import com.issuetracker.domain.Writer;
 
-public class WebWriterDto {
+public class WriterDto {
     private final String name;
     private final String profileImageUrl;
 
-    public WebWriterDto(String name, String profileImageUrl) {
+    public WriterDto(String name, String profileImageUrl) {
         this.name = name;
         this.profileImageUrl = profileImageUrl;
     }
@@ -19,7 +19,7 @@ public class WebWriterDto {
         return profileImageUrl;
     }
 
-    public static WebWriterDto from(Writer writer) {
-        return new WebWriterDto(writer.getName(), writer.getProfileImageUrl());
+    public static WriterDto from(Writer writer) {
+        return new WriterDto(writer.getName(), writer.getProfileImageUrl());
     }
 }

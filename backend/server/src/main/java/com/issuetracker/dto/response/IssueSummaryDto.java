@@ -1,4 +1,4 @@
-package com.issuetracker.dto.web;
+package com.issuetracker.dto.response;
 
 import com.issuetracker.domain.Issue;
 import com.issuetracker.domain.MilestoneInfo;
@@ -6,7 +6,7 @@ import com.issuetracker.domain.MilestoneInfo;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class WebIssueSummaryDto {
+public class IssueSummaryDto {
 
     private Long issueId;
 
@@ -18,19 +18,19 @@ public class WebIssueSummaryDto {
 
     private String status;
 
-    private WebWriterDto writer;
+    private WriterDto writer;
 
     private LocalDateTime createdDateTime;
 
-    private WebAssigneesDto assignees;
+    private AssigneesDto assignees;
 
-    private WebLabelsDto labels;
+    private LabelsDto labels;
 
-    public static WebIssueSummaryDto from(Issue issue) {
-        return new WebIssueSummaryDto(issue.getIssueId(), issue.getMilestoneInfo(), issue.getTitle(), issue.getContent(), issue.getStatus().name(), WebWriterDto.from(issue.getWriter()), issue.getCreatedDateTime(), WebAssigneesDto.from(issue.getAssignees()), WebLabelsDto.from(issue.getLabels()));
+    public static IssueSummaryDto from(Issue issue) {
+        return new IssueSummaryDto(issue.getIssueId(), issue.getMilestoneInfo(), issue.getTitle(), issue.getContent(), issue.getStatus().name(), WriterDto.from(issue.getWriter()), issue.getCreatedDateTime(), AssigneesDto.from(issue.getAssignees()), LabelsDto.from(issue.getLabels()));
     }
 
-    public WebIssueSummaryDto(Long issueId, MilestoneInfo milestoneInfo, String title, String content, String status, WebWriterDto writer, LocalDateTime createdDateTime, WebAssigneesDto assignees, WebLabelsDto labels) {
+    public IssueSummaryDto(Long issueId, MilestoneInfo milestoneInfo, String title, String content, String status, WriterDto writer, LocalDateTime createdDateTime, AssigneesDto assignees, LabelsDto labels) {
         this.issueId = issueId;
         this.milestoneInfo = milestoneInfo;
         this.title = title;
@@ -62,7 +62,7 @@ public class WebIssueSummaryDto {
         return status;
     }
 
-    public WebWriterDto getWriter() {
+    public WriterDto getWriter() {
         return writer;
     }
 
@@ -70,11 +70,11 @@ public class WebIssueSummaryDto {
         return createdDateTime;
     }
 
-    public List<WebAssigneeDto> getAssignees() {
+    public List<AssigneeDto> getAssignees() {
         return assignees.toList();
     }
 
-    public List<WebLabelDto> getLabels() {
+    public List<LabelDto> getLabels() {
         return labels.getLabels();
     }
 }

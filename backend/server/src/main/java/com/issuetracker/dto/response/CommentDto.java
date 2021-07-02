@@ -1,11 +1,11 @@
-package com.issuetracker.dto.web;
+package com.issuetracker.dto.response;
 
 import com.issuetracker.domain.Comment;
 import com.issuetracker.domain.Writer;
 
 import java.time.LocalDateTime;
 
-public class WebCommentDto {
+public class CommentDto {
 
     private Long id;
 
@@ -15,15 +15,15 @@ public class WebCommentDto {
 
     private LocalDateTime dateTime;
 
-    public WebCommentDto(Long id, Writer writer, String content, LocalDateTime dateTime) {
+    public CommentDto(Long id, Writer writer, String content, LocalDateTime dateTime) {
         this.id = id;
         this.writer = writer;
         this.content = content;
         this.dateTime = dateTime;
     }
 
-    public static WebCommentDto from(Comment comment) {
-        return new WebCommentDto(comment.getId(), comment.getWriter(), comment.getContent(), comment.getDateTime());
+    public static CommentDto from(Comment comment) {
+        return new CommentDto(comment.getId(), comment.getWriter(), comment.getContent(), comment.getDateTime());
     }
 
     public Long getId() {

@@ -1,10 +1,8 @@
-package com.issuetracker.dto.ios;
-
-import com.issuetracker.domain.MilestoneInfo;
+package com.issuetracker.dto.response;
 
 import java.time.LocalDateTime;
 
-public class IosMilestoneInfo {
+public class MilestoneInfo {
 
     private String title;
 
@@ -14,15 +12,15 @@ public class IosMilestoneInfo {
 
     private LocalDateTime dueDate;
 
-    public IosMilestoneInfo(String title, String description, String status, LocalDateTime dueDate) {
+    public MilestoneInfo(String title, String description, String status, LocalDateTime dueDate) {
         this.title = title;
         this.description = description;
         this.status = status;
         this.dueDate = dueDate;
     }
 
-    public static IosMilestoneInfo from(MilestoneInfo milestoneInfo) {
-        return new IosMilestoneInfo(milestoneInfo.getTitle(), milestoneInfo.getDescription(), milestoneInfo.getStatus().name(), milestoneInfo.getDueDate());
+    public static MilestoneInfo from(com.issuetracker.domain.MilestoneInfo milestoneInfo) {
+        return new MilestoneInfo(milestoneInfo.getTitle(), milestoneInfo.getDescription(), milestoneInfo.getStatus().name(), milestoneInfo.getDueDate());
     }
 
     public String getTitle() {

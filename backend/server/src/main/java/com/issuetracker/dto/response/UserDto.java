@@ -1,11 +1,11 @@
-package com.issuetracker.dto.web;
+package com.issuetracker.dto.response;
 
-public class WebUserDto {
+public class UserDto {
     private final String id;
     private final String name;
     private final String profileImageUrl;
 
-    public WebUserDto(String id, String name, String profileImageUrl) {
+    public UserDto(String id, String name, String profileImageUrl) {
         this.id = id;
         this.name = name;
         this.profileImageUrl = profileImageUrl;

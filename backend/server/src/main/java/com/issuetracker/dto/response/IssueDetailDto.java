@@ -1,4 +1,4 @@
-package com.issuetracker.dto.ios;
+package com.issuetracker.dto.response;
 
 import com.issuetracker.domain.Comments;
 import com.issuetracker.domain.Issue;
@@ -7,7 +7,7 @@ import com.issuetracker.domain.MilestoneInfo;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class IosIssueDetailDto {
+public class IssueDetailDto {
 
     private Long issueId;
 
@@ -19,17 +19,21 @@ public class IosIssueDetailDto {
 
     private String status;
 
-    private IosWriterDto writer;
+    private WriterDto writer;
 
     private LocalDateTime createdDateTime;
 
-    private IosAssigneesDto assignees;
+    private AssigneesDto assignees;
 
-    private IosLabelsDto labels;
+    private LabelsDto labels;
 
-    private IosCommentsDto comments;
+    private CommentsDto comments;
 
-    public IosIssueDetailDto(Long issueId, MilestoneInfo milestoneInfo, String title, String content, String status, IosWriterDto writer, LocalDateTime createdDateTime, IosAssigneesDto assignees, IosLabelsDto labels, IosCommentsDto comments) {
+    public static IssueDetailDto from(Issue issue, Comments comments) {
+        return new IssueDetailDto(issue.getIssueId(), issue.getMilestoneInfo(), issue.getTitle(), issue.getContent(), issue.getStatus().name(), WriterDto.from(issue.getWriter()), issue.getCreatedDateTime(), AssigneesDto.from(issue.getAssignees()), LabelsDto.from(issue.getLabels()), CommentsDto.from(comments));
+    }
+
+    public IssueDetailDto(Long issueId, MilestoneInfo milestoneInfo, String title, String content, String status, WriterDto writer, LocalDateTime createdDateTime, AssigneesDto assignees, LabelsDto labels, CommentsDto comments) {
         this.issueId = issueId;
         this.milestoneInfo = milestoneInfo;
         this.title = title;
@@ -40,10 +44,6 @@ public class IosIssueDetailDto {
         this.assignees = assignees;
         this.labels = labels;
         this.comments = comments;
-    }
-
-    public static IosIssueDetailDto from(Issue issue, Comments comments) {
-        return new IosIssueDetailDto(issue.getIssueId(), issue.getMilestoneInfo(), issue.getTitle(), issue.getContent(), issue.getStatus().name(), IosWriterDto.from(issue.getWriter()), issue.getCreatedDateTime(), IosAssigneesDto.from(issue.getAssignees()), IosLabelsDto.from(issue.getLabels()), IosCommentsDto.from(comments));
     }
 
     public Long getIssueId() {
@@ -66,7 +66,7 @@ public class IosIssueDetailDto {
         return status;
     }
 
-    public IosWriterDto getWriter() {
+    public WriterDto getWriter() {
         return writer;
     }
 
@@ -74,15 +74,15 @@ public class IosIssueDetailDto {
         return createdDateTime;
     }
 
-    public List<IosAssigneeDto> getAssignees() {
+    public List<AssigneeDto> getAssignees() {
         return assignees.toList();
     }
 
-    public List<IosLabelDto> getLabels() {
+    public List<LabelDto> getLabels() {
         return labels.toList();
     }
 
-    public IosCommentsDto getComments() {
+    public CommentsDto getComments() {
         return comments;
     }
 }

@@ -1,7 +1,7 @@
 package com.issuetracker.controller.ios;
 
-import com.issuetracker.dto.ios.IosLabelsDto;
-import com.issuetracker.service.ios.IosLabelService;
+import com.issuetracker.dto.response.LabelsDto;
+import com.issuetracker.service.LabelService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/ios")
 public class IosLabelController {
 
-    private final IosLabelService iosLabelService;
+    private final LabelService labelService;
 
-    public IosLabelController(IosLabelService iosLabelService) {
-        this.iosLabelService = iosLabelService;
+    public IosLabelController(LabelService labelService) {
+        this.labelService = labelService;
     }
 
     @GetMapping("/labels")
-    public IosLabelsDto findLabels(){
-        return iosLabelService.findAll();
+    public LabelsDto findLabels(){
+        return labelService.findAll();
     }
 
 }

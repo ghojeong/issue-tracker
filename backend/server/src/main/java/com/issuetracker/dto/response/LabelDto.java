@@ -1,8 +1,8 @@
-package com.issuetracker.dto.web;
+package com.issuetracker.dto.response;
 
 import com.issuetracker.domain.Label;
 
-public class WebLabelDto {
+public class LabelDto {
 
     private Long id;
 
@@ -14,7 +14,7 @@ public class WebLabelDto {
 
     private String textColorHexa;
 
-    public WebLabelDto(Long id, String title, String description, String backgroundColorHexa, String textColorHexa) {
+    public LabelDto(Long id, String title, String description, String backgroundColorHexa, String textColorHexa) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -22,8 +22,8 @@ public class WebLabelDto {
         this.textColorHexa = textColorHexa;
     }
 
-    public static WebLabelDto from(Label label) {
-        return new WebLabelDto(label.getId(), label.getTitle(), label.getDescription(), label.getBackgroundColorHexa(), label.getTextColorHexa());
+    public static LabelDto from(Label label) {
+        return new LabelDto(label.getId(), label.getTitle(), label.getDescription(), label.getBackgroundColorHexa(), label.getTextColorHexa());
     }
 
     public Label toLabel() {

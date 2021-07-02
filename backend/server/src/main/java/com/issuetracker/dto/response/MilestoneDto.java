@@ -4,22 +4,21 @@ import com.issuetracker.domain.Milestone;
 
 import java.util.List;
 
+import static com.issuetracker.dto.response.ResponseMapper.exportSummary;
+
 public class MilestoneDto {
-
     private final Long id;
+    private final List<IssueSummaryDto> issues;
+    private final MilestoneInfoDto milestoneInfoDto;
 
-    private final IssuesDto issues;
-
-    private final MilestoneInfo milestoneInfo;
-
-    public MilestoneDto(Long id, IssuesDto issues, MilestoneInfo milestoneInfo) {
+    public MilestoneDto(Long id, List<IssueSummaryDto> issues, MilestoneInfoDto milestoneInfoDto) {
         this.id = id;
         this.issues = issues;
-        this.milestoneInfo = milestoneInfo;
+        this.milestoneInfoDto = milestoneInfoDto;
     }
 
     public static MilestoneDto from(Milestone milestone) {
-        return new MilestoneDto(milestone.getId(), IssuesDto.from(milestone.getIssues()), MilestoneInfo.from(milestone.getMilestoneInfo()));
+        return new MilestoneDto(milestone.getId(), exportSummary(milestone.getIssues()), MilestoneInfoDto.from(milestone.getMilestoneInfo()));
     }
 
     public Long getId() {
@@ -27,10 +26,10 @@ public class MilestoneDto {
     }
 
     public List<IssueSummaryDto> getIssues() {
-        return issues.getIssues();
+        return issues;
     }
 
-    public MilestoneInfo getMilestoneInfo() {
-        return milestoneInfo;
+    public MilestoneInfoDto getMilestoneInfo() {
+        return milestoneInfoDto;
     }
 }

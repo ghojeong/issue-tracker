@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class LabelsDto {
-
     private final List<LabelDto> labels;
 
     public LabelsDto(List<LabelDto> labels) {

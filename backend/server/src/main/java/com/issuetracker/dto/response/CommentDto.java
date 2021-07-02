@@ -6,13 +6,9 @@ import com.issuetracker.domain.Writer;
 import java.time.LocalDateTime;
 
 public class CommentDto {
-
     private Long id;
-
     private Writer writer;
-
     private String content;
-
     private LocalDateTime dateTime;
 
     public CommentDto(Long id, Writer writer, String content, LocalDateTime dateTime) {

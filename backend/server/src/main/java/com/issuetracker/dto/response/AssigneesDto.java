@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class AssigneesDto {
-
     private final List<AssigneeDto> assignees;
 
     public AssigneesDto(List<AssigneeDto> assignees) {

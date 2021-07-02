@@ -1,36 +1,37 @@
 package com.issuetracker.dto.response;
 
 import com.issuetracker.domain.Issue;
-import com.issuetracker.domain.MilestoneInfo;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static com.issuetracker.dto.response.ResponseMapper.export;
+
 public class IssueSummaryDto {
-
     private Long issueId;
-
-    private MilestoneInfo milestoneInfo;
-
+    private MilestoneInfoDto milestoneInfo;
     private String title;
-
     private String content;
-
     private String status;
-
     private WriterDto writer;
-
     private LocalDateTime createdDateTime;
-
-    private AssigneesDto assignees;
-
-    private LabelsDto labels;
+    private List<AssigneeDto> assignees;
+    private List<LabelDto> labels;
 
     public static IssueSummaryDto from(Issue issue) {
-        return new IssueSummaryDto(issue.getIssueId(), issue.getMilestoneInfo(), issue.getTitle(), issue.getContent(), issue.getStatus().name(), WriterDto.from(issue.getWriter()), issue.getCreatedDateTime(), AssigneesDto.from(issue.getAssignees()), LabelsDto.from(issue.getLabels()));
+        return new IssueSummaryDto(issue.getIssueId(),
+                MilestoneInfoDto.from(issue.getMilestoneInfo()),
+                issue.getTitle(),
+                issue.getContent(),
+                issue.getStatus().name(),
+                WriterDto.from(issue.getWriter()),
+                issue.getCreatedDateTime(),
+                export(issue.getAssignees()),
+                export(issue.getLabels())
+        );
     }
 
-    public IssueSummaryDto(Long issueId, MilestoneInfo milestoneInfo, String title, String content, String status, WriterDto writer, LocalDateTime createdDateTime, AssigneesDto assignees, LabelsDto labels) {
+    public IssueSummaryDto(Long issueId, MilestoneInfoDto milestoneInfo, String title, String content, String status, WriterDto writer, LocalDateTime createdDateTime, List<AssigneeDto> assignees, List<LabelDto> labels) {
         this.issueId = issueId;
         this.milestoneInfo = milestoneInfo;
         this.title = title;
@@ -46,7 +47,7 @@ public class IssueSummaryDto {
         return issueId;
     }
 
-    public MilestoneInfo getMilestoneInfo() {
+    public MilestoneInfoDto getMilestoneInfo() {
         return milestoneInfo;
     }
 
@@ -71,10 +72,10 @@ public class IssueSummaryDto {
     }
 
     public List<AssigneeDto> getAssignees() {
-        return assignees.toList();
+        return assignees;
     }
 
     public List<LabelDto> getLabels() {
-        return labels.getLabels();
+        return labels;
     }
 }

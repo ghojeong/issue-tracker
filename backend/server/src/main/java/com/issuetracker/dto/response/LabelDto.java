@@ -3,15 +3,10 @@ package com.issuetracker.dto.response;
 import com.issuetracker.domain.Label;
 
 public class LabelDto {
-
     private Long id;
-
     private String title;
-
     private String description;
-
     private String backgroundColorHexa;
-
     private String textColorHexa;
 
     public LabelDto(Long id, String title, String description, String backgroundColorHexa, String textColorHexa) {

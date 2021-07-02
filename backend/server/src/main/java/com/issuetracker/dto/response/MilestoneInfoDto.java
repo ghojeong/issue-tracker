@@ -1,26 +1,24 @@
 package com.issuetracker.dto.response;
 
+import com.issuetracker.domain.MilestoneInfo;
+
 import java.time.LocalDateTime;
 
-public class MilestoneInfo {
-
+public class MilestoneInfoDto {
     private String title;
-
     private String description;
-
     private String status;
-
     private LocalDateTime dueDate;
 
-    public MilestoneInfo(String title, String description, String status, LocalDateTime dueDate) {
+    public MilestoneInfoDto(String title, String description, String status, LocalDateTime dueDate) {
         this.title = title;
         this.description = description;
         this.status = status;
         this.dueDate = dueDate;
     }
 
-    public static MilestoneInfo from(com.issuetracker.domain.MilestoneInfo milestoneInfo) {
-        return new MilestoneInfo(milestoneInfo.getTitle(), milestoneInfo.getDescription(), milestoneInfo.getStatus().name(), milestoneInfo.getDueDate());
+    public static MilestoneInfoDto from(MilestoneInfo milestoneInfo) {
+        return new MilestoneInfoDto(milestoneInfo.getTitle(), milestoneInfo.getDescription(), milestoneInfo.getStatus().name(), milestoneInfo.getDueDate());
     }
 
     public String getTitle() {

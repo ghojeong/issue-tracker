@@ -4,6 +4,7 @@ import com.issuetracker.domain.Comments;
 import com.issuetracker.domain.Issue;
 import com.issuetracker.domain.Status;
 import com.issuetracker.dto.auth.UserDto;
+import com.issuetracker.dto.request.NewIssueDto;
 import com.issuetracker.dto.response.*;
 import com.issuetracker.repository.CommentRepository;
 import com.issuetracker.repository.IssueRepository;

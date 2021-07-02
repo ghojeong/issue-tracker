@@ -1,20 +1,20 @@
 package com.issuetracker.dto.response;
 
+import com.issuetracker.domain.Milestone;
+
 import java.time.LocalDateTime;
 
 public class MilestoneSummaryDto {
-
     private final Long id;
+    private final MilestoneInfoDto milestoneInfoDto;
 
-    private final MilestoneInfo milestoneInfo;
-
-    public MilestoneSummaryDto(Long id, MilestoneInfo milestoneInfo) {
+    public MilestoneSummaryDto(Long id, MilestoneInfoDto milestoneInfoDto) {
         this.id = id;
-        this.milestoneInfo = milestoneInfo;
+        this.milestoneInfoDto = milestoneInfoDto;
     }
 
-    public static MilestoneSummaryDto from(MilestoneDto milestone) {
-        return new MilestoneSummaryDto(milestone.getId(), milestone.getMilestoneInfo());
+    public static MilestoneSummaryDto from(Milestone milestone) {
+        return new MilestoneSummaryDto(milestone.getId(), MilestoneInfoDto.from(milestone.getMilestoneInfo()));
     }
 
     public Long getId() {
@@ -22,14 +22,14 @@ public class MilestoneSummaryDto {
     }
 
     public String getTitle() {
-        return milestoneInfo.getTitle();
+        return milestoneInfoDto.getTitle();
     }
 
     public String getDescription() {
-        return milestoneInfo.getDescription();
+        return milestoneInfoDto.getDescription();
     }
 
     public LocalDateTime getDueDate() {
-        return milestoneInfo.getDueDate();
+        return milestoneInfoDto.getDueDate();
     }
 }

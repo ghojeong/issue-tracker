@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class MilestonesDto {
-
     private final List<MilestoneDto> milestones;
 
     public MilestonesDto(List<MilestoneDto> milestones) {

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CommentsDto {
-
     private final List<CommentDto> comments;
 
     public CommentsDto(List<CommentDto> comments) {

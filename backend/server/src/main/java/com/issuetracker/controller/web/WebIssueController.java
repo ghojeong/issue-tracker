@@ -2,6 +2,7 @@ package com.issuetracker.controller.web;
 
 import com.issuetracker.annotation.LoginRequired;
 import com.issuetracker.dto.auth.UserDto;
+import com.issuetracker.dto.request.NewIssueDto;
 import com.issuetracker.dto.response.*;
 import com.issuetracker.service.AuthService;
 import com.issuetracker.service.IssueService;

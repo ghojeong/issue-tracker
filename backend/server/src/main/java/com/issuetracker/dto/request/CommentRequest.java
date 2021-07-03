@@ -1,12 +1,12 @@
 package com.issuetracker.dto.request;
 
-public class NewCommentRequest {
+public class CommentRequest {
     private final String content;
 
-    public NewCommentRequest(Long issueId, String content) {
+    public CommentRequest(Long issueId, String content) {
         this.content = content;
     }
-    
+
     public String getContent() {
         return content;
     }

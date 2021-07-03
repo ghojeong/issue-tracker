@@ -1,6 +1,6 @@
 package com.issuetracker.controller.web;
 
-import com.issuetracker.dto.request.NewMilestoneRequest;
+import com.issuetracker.dto.request.MilestoneRequest;
 import com.issuetracker.dto.response.MilestonesResponse;
 import com.issuetracker.service.MilestoneService;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +20,7 @@ public class WebMilestoneController {
     }
 
     @PostMapping
-    public void createMilestone(@RequestBody NewMilestoneRequest newMilestoneRequest) {
-        milestoneService.save(newMilestoneRequest);
+    public void createMilestone(@RequestBody MilestoneRequest milestoneRequest) {
+        milestoneService.save(milestoneRequest);
     }
 }

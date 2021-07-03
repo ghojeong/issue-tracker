@@ -1,6 +1,6 @@
 package com.issuetracker.controller.web;
 
-import com.issuetracker.dto.request.NewLabelRequest;
+import com.issuetracker.dto.request.LabelRequest;
 import com.issuetracker.dto.response.LabelsResponse;
 import com.issuetracker.service.LabelService;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +21,7 @@ public class WebLabelController {
     }
 
     @PostMapping
-    public void createLabel(@RequestBody NewLabelRequest newLabelRequest) {
-        labelService.save(newLabelRequest);
+    public void createLabel(@RequestBody LabelRequest labelRequest) {
+        labelService.save(labelRequest);
     }
 }

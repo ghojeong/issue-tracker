@@ -1,6 +1,6 @@
 package com.issuetracker.service;
 
-import com.issuetracker.dto.request.NewMilestoneRequest;
+import com.issuetracker.dto.request.MilestoneRequest;
 import com.issuetracker.dto.response.MilestonesResponse;
 import com.issuetracker.repository.MilestoneRepository;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ public class MilestoneService {
         return MilestonesResponse.from(milestoneRepository.findAllMilestoneInfo());
     }
 
-    public void save(NewMilestoneRequest newMilestone) {
+    public void save(MilestoneRequest newMilestone) {
         milestoneRepository.save(newMilestone.toMilestoneInfo());
     }
 }

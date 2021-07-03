@@ -1,4 +1,4 @@
-INSERT INTO `pyrodb`.`user`(id, `name`, profileImageUrl)
+INSERT INTO `pyrodb`.`user`(id, `name`, avatarUrl)
 VALUES ('san', '노을',
         'http://postfiles16.naver.net/20140606_111/sjinwon2_1402052862659ofnU1_PNG/130917_224626.png?type=w1'),
        ('pyro', '파이로',

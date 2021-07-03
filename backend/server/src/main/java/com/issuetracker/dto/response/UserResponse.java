@@ -3,12 +3,12 @@ package com.issuetracker.dto.response;
 public class UserResponse {
     private final String id;
     private final String name;
-    private final String profileImageUrl;
+    private final String avatarUrl;
 
-    public UserResponse(String id, String name, String profileImageUrl) {
+    public UserResponse(String id, String name, String avatarUrl) {
         this.id = id;
         this.name = name;
-        this.profileImageUrl = profileImageUrl;
+        this.avatarUrl = avatarUrl;
     }
 
     public String getId() {
@@ -19,7 +19,7 @@ public class UserResponse {
         return name;
     }
 
-    public String getProfileImageUrl() {
-        return profileImageUrl;
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 }

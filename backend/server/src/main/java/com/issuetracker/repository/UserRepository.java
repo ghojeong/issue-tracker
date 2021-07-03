@@ -22,9 +22,9 @@ public class UserRepository {
     }
 
     private void saveUser(User user) {
-        String sql = "INSERT INTO `user` (`id`, `name`, `profileImageUrl`) values (?, ?, ?) "
-                + "ON DUPLICATE KEY UPDATE `name` = ?, `profileImageUrl` = ?";
-        jdbcTemplate.update(sql, user.getId(), user.getName(), user.getProfileImageUrl(), user.getName(), user.getProfileImageUrl());
+        String sql = "INSERT INTO `user` (`id`, `name`, `avatarUrl`) values (?, ?, ?) "
+                + "ON DUPLICATE KEY UPDATE `name` = ?, `avatarUrl` = ?";
+        jdbcTemplate.update(sql, user.getId(), user.getName(), user.getAvatarUrl(), user.getName(), user.getAvatarUrl());
     }
 
     private void saveEmail(User user) {

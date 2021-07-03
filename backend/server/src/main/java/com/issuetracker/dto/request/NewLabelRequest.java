@@ -1,32 +1,18 @@
-package com.issuetracker.dto.response;
+package com.issuetracker.dto.request;
 
 import com.issuetracker.domain.Label;
 
-public class LabelResponse {
-    private final Long id;
+public class NewLabelRequest {
     private final String title;
     private final String description;
     private final String backgroundColor;
     private final String textColor;
 
-    public LabelResponse(Long id, String title, String description, String backgroundColor, String textColor) {
-        this.id = id;
+    public NewLabelRequest(String title, String description, String backgroundColor, String textColor) {
         this.title = title;
         this.description = description;
         this.backgroundColor = backgroundColor;
         this.textColor = textColor;
-    }
-
-    public static LabelResponse from(Label label) {
-        return new LabelResponse(label.getId(), label.getTitle(), label.getDescription(), label.getBackgroundColor(), label.getTextColor());
-    }
-
-    public Label toLabel() {
-        return new Label(id, title, description, backgroundColor, textColor);
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getTitle() {
@@ -43,5 +29,9 @@ public class LabelResponse {
 
     public String getTextColor() {
         return textColor;
+    }
+
+    public Label toLabel() {
+        return new Label(null, title, description, backgroundColor, textColor);
     }
 }

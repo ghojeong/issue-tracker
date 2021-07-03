@@ -9,7 +9,7 @@ CREATE TABLE `pyrodb`.`user`
 (
     `id`              VARCHAR(50) NOT NULL PRIMARY KEY,
     `name`            VARCHAR(50),
-    `profileImageUrl` VARCHAR(300)
+    `avatarUrl` VARCHAR(300)
 );
 
 DROP TABLE IF EXISTS `pyrodb`.`email`;

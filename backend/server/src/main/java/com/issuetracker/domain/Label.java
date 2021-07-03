@@ -11,16 +11,16 @@ public class Label {
 
     private final String description;
 
-    private final String backgroundColorHexa;
+    private final String backgroundColor;
 
-    private final String textColorHexa;
+    private final String textColor;
 
-    public Label(Long id, String title, String description, String backgroundColorHexa, String textColorHexa) {
+    public Label(Long id, String title, String description, String backgroundColor, String textColor) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.backgroundColorHexa = backgroundColorHexa;
-        this.textColorHexa = textColorHexa;
+        this.backgroundColor = backgroundColor;
+        this.textColor = textColor;
     }
 
     public String getTitle() {
@@ -31,12 +31,12 @@ public class Label {
         return description;
     }
 
-    public String getBackgroundColorHexa() {
-        return backgroundColorHexa;
+    public String getBackgroundColor() {
+        return backgroundColor;
     }
 
-    public String getTextColorHexa() {
-        return textColorHexa;
+    public String getTextColor() {
+        return textColor;
     }
 
     public Long getId() {

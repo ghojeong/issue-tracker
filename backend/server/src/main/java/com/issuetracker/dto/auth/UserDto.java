@@ -11,19 +11,19 @@ public class UserDto {
 
     private final String name;
 
-    private final String profileImageUrl;
+    private final String avatarUrl;
 
     private final List<String> emails;
 
-    public UserDto(String id, String name, String profileImageUrl, List<String> emails) {
+    public UserDto(String id, String name, String avatarUrl, List<String> emails) {
         this.id = id;
         this.name = name;
-        this.profileImageUrl = profileImageUrl;
+        this.avatarUrl = avatarUrl;
         this.emails = emails;
     }
 
     public User toUser() {
-        return new User(id, name, profileImageUrl, emails);
+        return new User(id, name, avatarUrl, emails);
     }
 
     public static UserDto from(UserInfoDto userInfoDto, UserEmailDto[] emails) {
@@ -34,7 +34,7 @@ public class UserDto {
     }
 
     public static UserDto from(User user) {
-        return new UserDto(user.getId(), user.getName(), user.getProfileImageUrl(), user.getEmails());
+        return new UserDto(user.getId(), user.getName(), user.getAvatarUrl(), user.getEmails());
     }
 
     public String getId() {
@@ -45,8 +45,8 @@ public class UserDto {
         return name;
     }
 
-    public String getProfileImageUrl() {
-        return profileImageUrl;
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 
     public List<String> getEmails() {

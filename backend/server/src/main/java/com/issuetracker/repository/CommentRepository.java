@@ -25,7 +25,7 @@ public class CommentRepository {
         Map<String, Long> params = Collections.singletonMap("issueId", issueId);
 
         List<Comment> commentList = jdbc.query(FIND_ALL_COMMENT_BY_ISSUE_ID, params, (rs, rowNum) -> {
-            Writer writer = new Writer(rs.getString("name"), rs.getString("profileImageUrl"));
+            Writer writer = new Writer(rs.getString("name"), rs.getString("avatarUrl"));
 
             return new Comment(rs.getLong("id"),
                     rs.getLong("issueId"),

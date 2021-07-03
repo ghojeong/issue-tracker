@@ -14,7 +14,7 @@ public class JwtUtil {
     private static final String JWT_ISSUER = "jwtIssuer";
     private static final String USER_ID = "userId";
     private static final String USER_NAME = "name";
-    private static final String USER_PROFILE_IMAGE_URL = "profileImageUrl";
+    private static final String USER_PROFILE_IMAGE_URL = "avatarUrl";
 
     private JwtUtil() {}
 
@@ -25,7 +25,7 @@ public class JwtUtil {
                     .withIssuer(JWT_ISSUER)
                     .withClaim(USER_ID, user.getId())
                     .withClaim(USER_NAME, user.getName())
-                    .withClaim(USER_PROFILE_IMAGE_URL, user.getProfileImageUrl())
+                    .withClaim(USER_PROFILE_IMAGE_URL, user.getAvatarUrl())
                     .sign(algorithm);
         } catch (JWTCreationException exception) {
             throw new JwtException("JWT 생성 실패");

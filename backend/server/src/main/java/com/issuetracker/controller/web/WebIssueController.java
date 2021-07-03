@@ -2,9 +2,9 @@ package com.issuetracker.controller.web;
 
 import com.issuetracker.annotation.LoginRequired;
 import com.issuetracker.dto.auth.UserDto;
+import com.issuetracker.dto.request.CommentRequest;
+import com.issuetracker.dto.request.IssueRequest;
 import com.issuetracker.dto.request.IssuesNumbersRequest;
-import com.issuetracker.dto.request.NewCommentRequest;
-import com.issuetracker.dto.request.NewIssueRequest;
 import com.issuetracker.dto.response.CommentsResponse;
 import com.issuetracker.dto.response.IssueDetailResponse;
 import com.issuetracker.dto.response.IssueOptionResponse;
@@ -47,7 +47,7 @@ public class WebIssueController {
 
     @PostMapping
     @LoginRequired
-    public void createIssue(HttpServletRequest request, @RequestBody NewIssueRequest issue) {
+    public void createIssue(HttpServletRequest request, @RequestBody IssueRequest issue) {
         String userId = (String) request.getAttribute("userId");
         UserDto loginUser = authService.getUser(userId);
         issueService.save(loginUser, issue);
@@ -65,8 +65,13 @@ public class WebIssueController {
 
     @PostMapping("/{issueId}/comments")
     @LoginRequired
-    public void createComment(@PathVariable Long issueId, @RequestBody NewCommentRequest newCommentRequest, HttpServletRequest request) {
+    public void createComment(@PathVariable Long issueId, @RequestBody CommentRequest commentRequest, HttpServletRequest request) {
         String writerId = (String) request.getAttribute("userId");
-        issueService.addComment(newCommentRequest, writerId, issueId);
+        issueService.addComment(commentRequest, writerId, issueId);
+    }
+
+    @PutMapping("/{issueId}/comments/{commentId}")
+    public void updateMilestone(@PathVariable Long commentId, @RequestBody CommentRequest commentRequest) {
+        issueService.updateComment(commentId, commentRequest);
     }
 }

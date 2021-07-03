@@ -4,9 +4,9 @@ import com.issuetracker.domain.Comments;
 import com.issuetracker.domain.Issue;
 import com.issuetracker.domain.Status;
 import com.issuetracker.dto.auth.UserDto;
+import com.issuetracker.dto.request.CommentRequest;
+import com.issuetracker.dto.request.IssueRequest;
 import com.issuetracker.dto.request.IssuesNumbersRequest;
-import com.issuetracker.dto.request.NewCommentRequest;
-import com.issuetracker.dto.request.NewIssueRequest;
 import com.issuetracker.dto.response.CommentsResponse;
 import com.issuetracker.dto.response.IssueDetailResponse;
 import com.issuetracker.dto.response.IssueOptionResponse;
@@ -39,7 +39,7 @@ public class IssueService {
         return IssueOptionResponse.from(issueRepository.findIssueOption());
     }
 
-    public void save(UserDto userDto, NewIssueRequest issueDto) {
+    public void save(UserDto userDto, IssueRequest issueDto) {
         issueRepository.save(userDto.toUser(), issueDto.toNewIssue());
     }
 
@@ -54,7 +54,11 @@ public class IssueService {
         return CommentsResponse.from(commentRepository.findByIssueId(issueId));
     }
 
-    public void addComment(NewCommentRequest newCommentRequest, String writerId, Long issueId) {
-        issueRepository.addComment(newCommentRequest.getContent(), writerId, issueId);
+    public void addComment(CommentRequest commentRequest, String writerId, Long issueId) {
+        issueRepository.addComment(commentRequest.getContent(), writerId, issueId);
+    }
+
+    public void updateComment(Long commentId, CommentRequest commentRequest) {
+        issueRepository.updateComment(commentId, commentRequest.getContent());
     }
 }

@@ -4,14 +4,14 @@ import com.issuetracker.domain.NewIssue;
 
 import java.util.List;
 
-public class NewIssueRequest {
+public class IssueRequest {
     private final String title;
     private final String comment;
     private final List<String> assigneeIds;
     private final List<Long> labelIds;
     private final Long milestoneId;
 
-    public NewIssueRequest(String title, String comment, List<String> assigneeIds, List<Long> labelIds, Long milestoneId) {
+    public IssueRequest(String title, String comment, List<String> assigneeIds, List<Long> labelIds, Long milestoneId) {
         this.title = title;
         this.comment = comment;
         this.assigneeIds = assigneeIds;

@@ -22,3 +22,11 @@ INSERT INTO `pyrodb`.`label`(title, description, backgroundColor, textColor)
 VALUES (:title, :description, :backgroundColor,  :textColor)
     
 """
+
+const val UPDATE_LABEL: String = """
+
+UPDATE `pyrodb`.`label`
+SET title=:title, description=:description, backgroundColor=:backgroundColor, textColor=:textColor
+WHERE id=:labelId
+    
+"""

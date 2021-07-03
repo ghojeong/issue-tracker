@@ -11,10 +11,3 @@ INSERT INTO `pyrodb`.`issue`(title, content, writerId, statusId, milestoneId, cr
 VALUES (:title, :content, :writerId,  :statusId, :milestoneId, NOW())
     
 """
-
-const val INSERT_COMMENT: String = """
-
-INSERT INTO `pyrodb`.`comment`(content, dateTime, writerId, issueId)
-VALUES (:content, now(), :writerId,  :issueId)
-    
-"""

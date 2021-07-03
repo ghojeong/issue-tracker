@@ -1,6 +1,6 @@
 package com.issuetracker.service;
 
-import com.issuetracker.dto.request.NewLabelRequest;
+import com.issuetracker.dto.request.LabelRequest;
 import com.issuetracker.dto.response.LabelResponse;
 import com.issuetracker.dto.response.LabelsResponse;
 import com.issuetracker.repository.LabelRepository;
@@ -22,7 +22,11 @@ public class LabelService {
         return new LabelsResponse(labels);
     }
 
-    public void save(NewLabelRequest newLabelRequest) {
-        labelRepository.save(newLabelRequest.toLabel());
+    public void save(LabelRequest labelRequest) {
+        labelRepository.save(labelRequest.toLabel());
+    }
+
+    public void update(Long labelId, LabelRequest labelRequest) {
+        labelRepository.update(labelId, labelRequest.toLabel());
     }
 }

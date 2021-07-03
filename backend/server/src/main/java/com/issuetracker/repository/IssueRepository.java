@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.issuetracker.repository.sql.AssigneeQueriesKt.FIND_ALL_ASSIGNEE_BY_USER_ID;
+import static com.issuetracker.repository.sql.IssueQueriesKt.INSERT_COMMENT;
 import static com.issuetracker.repository.sql.IssueQueriesKt.INSERT_ISSUE;
 import static com.issuetracker.repository.sql.LabelQueriesKt.FIND_ALL_LABEL;
 import static com.issuetracker.repository.sql.LabelQueriesKt.FIND_ALL_LABEL_BY_ISSUE_ID;
@@ -169,4 +170,11 @@ public class IssueRepository {
         return jdbc.queryForObject(ISSUE_SQL + " WHERE issue.id = :issueId", parameter, issueMapper);
     }
 
+    public void addComment(String content, String writerId, Long issueId) {
+        SqlParameterSource parameter = new MapSqlParameterSource()
+                .addValue("content", content)
+                .addValue("writerId", writerId)
+                .addValue("issueId", issueId);
+        jdbc.update(INSERT_COMMENT, parameter);
+    }
 }

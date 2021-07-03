@@ -16,7 +16,8 @@ import java.util.List;
 import java.util.Map;
 
 import static com.issuetracker.repository.sql.AssigneeQueriesKt.FIND_ALL_ASSIGNEE_BY_USER_ID;
-import static com.issuetracker.repository.sql.IssueQueriesKt.INSERT_COMMENT;
+import static com.issuetracker.repository.sql.CommentQueriesKt.INSERT_COMMENT;
+import static com.issuetracker.repository.sql.CommentQueriesKt.UPDATE_COMMENT;
 import static com.issuetracker.repository.sql.IssueQueriesKt.INSERT_ISSUE;
 import static com.issuetracker.repository.sql.LabelQueriesKt.FIND_ALL_LABEL;
 import static com.issuetracker.repository.sql.LabelQueriesKt.FIND_ALL_LABEL_BY_ISSUE_ID;
@@ -176,5 +177,12 @@ public class IssueRepository {
                 .addValue("writerId", writerId)
                 .addValue("issueId", issueId);
         jdbc.update(INSERT_COMMENT, parameter);
+    }
+
+    public void updateComment(Long commentId, String content) {
+        SqlParameterSource parameter = new MapSqlParameterSource()
+                .addValue("commentId", commentId)
+                .addValue("content", content);
+        jdbc.update(UPDATE_COMMENT, parameter);
     }
 }

@@ -57,4 +57,8 @@ public class IssueService {
     public void addComment(CommentRequest commentRequest, String writerId, Long issueId) {
         issueRepository.addComment(commentRequest.getContent(), writerId, issueId);
     }
+
+    public void updateComment(Long commentId, CommentRequest commentRequest) {
+        issueRepository.updateComment(commentId, commentRequest.getContent());
+    }
 }

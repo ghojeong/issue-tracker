@@ -10,8 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.issuetracker.repository.sql.MilestoneQueriesKt.FIND_ALL_MILESTONE;
-import static com.issuetracker.repository.sql.MilestoneQueriesKt.INSERT_MILESTONE;
+import static com.issuetracker.repository.sql.MilestoneQueriesKt.*;
 
 @Repository
 public class MilestoneRepository {
@@ -49,5 +48,13 @@ public class MilestoneRepository {
                 .addValue("description", milestoneInfo.getDescription())
                 .addValue("statusId", milestoneInfo.getStatus().name());
         jdbc.update(INSERT_MILESTONE, parameter);
+    }
+
+    public void update(Long milestoneId, MilestoneInfo milestoneInfo) {
+        SqlParameterSource parameter = new MapSqlParameterSource()
+                .addValue("milestoneId", milestoneId)
+                .addValue("title", milestoneInfo.getTitle())
+                .addValue("description", milestoneInfo.getDescription());
+        jdbc.update(UPDATE_MILESTONE, parameter);
     }
 }

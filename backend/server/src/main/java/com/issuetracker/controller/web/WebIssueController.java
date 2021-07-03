@@ -69,4 +69,9 @@ public class WebIssueController {
         String writerId = (String) request.getAttribute("userId");
         issueService.addComment(commentRequest, writerId, issueId);
     }
+
+    @PutMapping("/{issueId}/comments/{commentId}")
+    public void updateMilestone(@PathVariable Long commentId, @RequestBody CommentRequest commentRequest) {
+        issueService.updateComment(commentId, commentRequest);
+    }
 }

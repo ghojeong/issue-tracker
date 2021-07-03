@@ -40,4 +40,14 @@ public class LabelRepository {
                 .addValue("textColor", label.getTextColor());
         jdbc.update(INSERT_LABEL, parameter);
     }
+
+    public void update(Long labelId, Label label) {
+        SqlParameterSource parameter = new MapSqlParameterSource()
+                .addValue("labelId", labelId)
+                .addValue("title", label.getTitle())
+                .addValue("description", label.getDescription())
+                .addValue("backgroundColor", label.getBackgroundColor())
+                .addValue("textColor", label.getTextColor());
+        jdbc.update(UPDATE_LABEL, parameter);
+    }
 }

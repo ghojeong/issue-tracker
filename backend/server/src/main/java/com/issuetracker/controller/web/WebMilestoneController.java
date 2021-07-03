@@ -23,4 +23,9 @@ public class WebMilestoneController {
     public void createMilestone(@RequestBody MilestoneRequest milestoneRequest) {
         milestoneService.save(milestoneRequest);
     }
+
+    @PutMapping("/{milestoneId}")
+    public void updateMilestone(@PathVariable Long milestoneId, @RequestBody MilestoneRequest milestoneRequest) {
+        milestoneService.update(milestoneId, milestoneRequest);
+    }
 }

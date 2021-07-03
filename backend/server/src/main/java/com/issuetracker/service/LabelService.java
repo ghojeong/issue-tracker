@@ -25,4 +25,8 @@ public class LabelService {
     public void save(LabelRequest labelRequest) {
         labelRepository.save(labelRequest.toLabel());
     }
+
+    public void update(Long labelId, LabelRequest labelRequest) {
+        labelRepository.update(labelId, labelRequest.toLabel());
+    }
 }

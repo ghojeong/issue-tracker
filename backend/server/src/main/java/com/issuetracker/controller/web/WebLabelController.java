@@ -24,4 +24,9 @@ public class WebLabelController {
     public void createLabel(@RequestBody LabelRequest labelRequest) {
         labelService.save(labelRequest);
     }
+
+    @PutMapping("/{labelId}")
+    public void updateLabel(@PathVariable Long labelId, @RequestBody LabelRequest labelRequest) {
+        labelService.update(labelId, labelRequest);
+    }
 }

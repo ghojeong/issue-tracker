@@ -7,3 +7,19 @@ FROM comment
          INNER JOIN issue ON comment.issueId = issue.id
 WHERE comment.issueId = :issueId;
 """
+
+const val INSERT_COMMENT: String = """
+
+INSERT INTO `pyrodb`.`comment`(content, dateTime, writerId, issueId)
+VALUES (:content, now(), :writerId,  :issueId)
+    
+"""
+
+
+const val UPDATE_COMMENT: String = """
+
+UPDATE `pyrodb`.`comment`
+SET content=:content
+WHERE id=:commentId
+    
+"""

@@ -5,6 +5,7 @@ import com.issuetracker.domain.Issue;
 import com.issuetracker.domain.Status;
 import com.issuetracker.dto.auth.UserDto;
 import com.issuetracker.dto.request.IssuesNumbersRequest;
+import com.issuetracker.dto.request.NewCommentRequest;
 import com.issuetracker.dto.request.NewIssueRequest;
 import com.issuetracker.dto.response.CommentsResponse;
 import com.issuetracker.dto.response.IssueDetailResponse;
@@ -53,4 +54,7 @@ public class IssueService {
         return CommentsResponse.from(commentRepository.findByIssueId(issueId));
     }
 
+    public void addComment(NewCommentRequest newCommentRequest, String writerId, Long issueId) {
+        issueRepository.addComment(newCommentRequest.getContent(), writerId, issueId);
+    }
 }

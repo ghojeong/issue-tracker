@@ -3,6 +3,7 @@ package com.issuetracker.controller.web;
 import com.issuetracker.annotation.LoginRequired;
 import com.issuetracker.dto.auth.UserDto;
 import com.issuetracker.dto.request.IssuesNumbersRequest;
+import com.issuetracker.dto.request.NewCommentRequest;
 import com.issuetracker.dto.request.NewIssueRequest;
 import com.issuetracker.dto.response.CommentsResponse;
 import com.issuetracker.dto.response.IssueDetailResponse;
@@ -60,5 +61,12 @@ public class WebIssueController {
     @GetMapping("/{issueId}/comments")
     public CommentsResponse commentList(@PathVariable Long issueId) {
         return issueService.findCommentsByIssueId(issueId);
+    }
+
+    @PostMapping("/{issueId}/comments")
+    @LoginRequired
+    public void createComment(@PathVariable Long issueId, @RequestBody NewCommentRequest newCommentRequest, HttpServletRequest request) {
+        String writerId = (String) request.getAttribute("userId");
+        issueService.addComment(newCommentRequest, writerId, issueId);
     }
 }

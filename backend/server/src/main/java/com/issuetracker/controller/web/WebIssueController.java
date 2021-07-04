@@ -49,10 +49,10 @@ public class WebIssueController {
     }
 
     @PostMapping
+    @LoginRequired
     public void createIssue(HttpServletRequest request, @RequestBody IssueRequest issue) {
-        //String userId = (String) request.getAttribute("userId");
-        //UserDto loginUser = authService.getUser(userId);
-        UserDto loginUser = new UserDto("neo", "네오", null, null);
+        String userId = (String) request.getAttribute("userId");
+        UserDto loginUser = authService.getUser(userId);
         issueService.save(loginUser, issue);
 
         //TODO. save를 하면서 바로 이슈 아이디를 리턴해주면 아래 로직이 불필요할 텐데...아직 방법을 모르겠다 ㅠ

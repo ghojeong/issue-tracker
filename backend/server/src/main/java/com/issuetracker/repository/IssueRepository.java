@@ -17,6 +17,7 @@ import static com.issuetracker.repository.sql.AssigneeQueriesKt.FIND_ALL_ASSIGNE
 import static com.issuetracker.repository.sql.CommentQueriesKt.INSERT_COMMENT;
 import static com.issuetracker.repository.sql.CommentQueriesKt.UPDATE_COMMENT;
 import static com.issuetracker.repository.sql.IssueQueriesKt.INSERT_ISSUE;
+import static com.issuetracker.repository.sql.IssueQueriesKt.UPDATE_ISSUE;
 import static com.issuetracker.repository.sql.LabelQueriesKt.FIND_ALL_LABEL;
 import static com.issuetracker.repository.sql.LabelQueriesKt.FIND_ALL_LABEL_BY_ISSUE_ID;
 import static com.issuetracker.repository.sql.MilestoneQueriesKt.FIND_ALL_MILESTONE;
@@ -26,7 +27,7 @@ import static com.issuetracker.repository.sql.UserQueriesKt.FIND_ALL_USER;
 public class IssueRepository {
 
     private static final String ISSUE_SQL = "SELECT issue.id, issue.title, issue.content, issue.statusId, issue.createdDate, "
-            + "user.name, user.avatarUrl, "
+            + "user.id, user.avatarUrl, "
             + "milestone.title AS milestoneTitle, milestone.description AS milestoneDescription, milestone.statusId AS milestoneStatus, milestone.dueDate AS milestoneDueDate "
             + "FROM issue "
             + "INNER JOIN user ON issue.writerId = user.id "
@@ -54,7 +55,7 @@ public class IssueRepository {
     }
 
     private final RowMapper<Issue> issueMapper = (rs, rowNum) -> {
-        Long issueId = rs.getLong("id");
+        Long issueId = rs.getLong("issue.id");
 
         Assignees assignees = getAssignees(issueId);
         Labels labels = getLabels(issueId);
@@ -67,7 +68,7 @@ public class IssueRepository {
                 rs.getTimestamp("milestoneDueDate").toLocalDateTime()
         ) : null;
 
-        Writer writer = new Writer(rs.getString("name"), rs.getString("avatarUrl"));
+        Writer writer = new Writer(rs.getString("user.id"), rs.getString("avatarUrl"));
 
         return new Issue(
                 issueId,
@@ -163,7 +164,7 @@ public class IssueRepository {
                 .addValue("writerId", loginUser.getId())
                 .addValue("statusId", "OPEN")
                 .addValue("milestoneId", issue.getMilestoneId() != null ? issue.getMilestoneId() : null);
-       
+
         jdbc.update(INSERT_ISSUE, parameter);
     }
 
@@ -196,5 +197,17 @@ public class IssueRepository {
                 .addValue("content", issue.getComment())
                 .addValue("writerId", loginUser.getId());
         return jdbc.queryForObject(ISSUE_SQL + " WHERE issue.title = :title AND issue.content = :content AND issue.writerId = :writerId", parameter, issueMapper);
+    }
+
+    public void updateIssue(User loginUser, NewIssue issue, Long issueId) {
+        //TODO. null 분기처리를 하는게 뭔가 이상함....다른 방안이 필요함.
+        SqlParameterSource parameter = new MapSqlParameterSource()
+                .addValue("title", issue.getTitle())
+                .addValue("content", issue.getComment())
+                .addValue("writerId", loginUser.getId())
+                .addValue("milestoneId", issue.getMilestoneId() != null ? issue.getMilestoneId() : null)
+                .addValue("issueId", issueId);
+
+        jdbc.update(UPDATE_ISSUE, parameter);
     }
 }

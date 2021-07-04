@@ -76,6 +76,15 @@ public class WebIssueController {
         return issueService.findDetailedIssueId(issueId);
     }
 
+    @PutMapping("/{issueId}")
+    @LoginRequired
+    public void updateIssue(HttpServletRequest request, @RequestBody IssueRequest issue, @PathVariable Long issueId) {
+        String userId = (String) request.getAttribute("userId");
+        UserDto loginUser = authService.getUser(userId);
+        
+        issueService.updateIssue(loginUser, issue, issueId);
+    }
+
     @GetMapping("/{issueId}/comments")
     public CommentsResponse commentList(@PathVariable Long issueId) {
         return issueService.findCommentsByIssueId(issueId);
@@ -92,4 +101,5 @@ public class WebIssueController {
     public void updateMilestone(@PathVariable Long commentId, @RequestBody CommentRequest commentRequest) {
         issueService.updateComment(commentId, commentRequest);
     }
+
 }

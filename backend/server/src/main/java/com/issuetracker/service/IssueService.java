@@ -8,6 +8,7 @@ import com.issuetracker.dto.request.CommentRequest;
 import com.issuetracker.dto.request.IssueRequest;
 import com.issuetracker.dto.request.IssuesNumbersRequest;
 import com.issuetracker.dto.response.*;
+import com.issuetracker.exception.AuthenticationException;
 import com.issuetracker.repository.CommentRepository;
 import com.issuetracker.repository.IssueRepository;
 import org.springframework.stereotype.Service;
@@ -61,5 +62,16 @@ public class IssueService {
 
     public IssueSummaryResponse findIssue(UserDto userDto, IssueRequest issueDto) {
         return IssueSummaryResponse.from(issueRepository.findIssue(userDto.toUser(), issueDto.toNewIssue()));
+    }
+
+    public void updateIssue(UserDto loginUser, IssueRequest updateIssue, Long issueId) {
+        Issue findIssue = issueRepository.findIssueById(issueId);
+
+        if (!findIssue.getWriter().getId().equals(loginUser.getId())) {
+            throw new AuthenticationException("인증되지 않은 유저입니다.");
+        }
+
+        issueRepository.updateIssue(loginUser.toUser(), updateIssue.toNewIssue(), issueId);
+
     }
 }

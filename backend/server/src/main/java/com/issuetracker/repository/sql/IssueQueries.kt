@@ -11,3 +11,10 @@ INSERT INTO `pyrodb`.`issue`(title, content, writerId, statusId, milestoneId, cr
 VALUES (:title, :content, :writerId,  :statusId, :milestoneId, NOW())
     
 """
+
+const val UPDATE_ISSUE: String = """
+    
+UPDATE issue SET title = :title, content = :content, writerId = :writerId, milestoneId = :milestoneId
+WHERE issue.id = :issueId;
+
+"""

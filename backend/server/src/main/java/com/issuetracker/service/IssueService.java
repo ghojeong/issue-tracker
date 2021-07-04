@@ -7,10 +7,7 @@ import com.issuetracker.dto.auth.UserDto;
 import com.issuetracker.dto.request.CommentRequest;
 import com.issuetracker.dto.request.IssueRequest;
 import com.issuetracker.dto.request.IssuesNumbersRequest;
-import com.issuetracker.dto.response.CommentsResponse;
-import com.issuetracker.dto.response.IssueDetailResponse;
-import com.issuetracker.dto.response.IssueOptionResponse;
-import com.issuetracker.dto.response.IssuesResponse;
+import com.issuetracker.dto.response.*;
 import com.issuetracker.repository.CommentRepository;
 import com.issuetracker.repository.IssueRepository;
 import org.springframework.stereotype.Service;
@@ -44,7 +41,7 @@ public class IssueService {
     }
 
     public IssueDetailResponse findDetailedIssueId(Long issueId) {
-        Issue issue = issueRepository.findById(issueId);
+        Issue issue = issueRepository.findIssueById(issueId);
         Comments comments = commentRepository.findByIssueId(issueId);
 
         return IssueDetailResponse.from(issue, comments);
@@ -60,5 +57,9 @@ public class IssueService {
 
     public void updateComment(Long commentId, CommentRequest commentRequest) {
         issueRepository.updateComment(commentId, commentRequest.getContent());
+    }
+
+    public IssueSummaryResponse findIssue(UserDto userDto, IssueRequest issueDto) {
+        return IssueSummaryResponse.from(issueRepository.findIssue(userDto.toUser(), issueDto.toNewIssue()));
     }
 }

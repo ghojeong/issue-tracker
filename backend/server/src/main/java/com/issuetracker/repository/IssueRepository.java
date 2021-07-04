@@ -2,8 +2,6 @@ package com.issuetracker.repository;
 
 import com.issuetracker.domain.*;
 import com.issuetracker.domain.auth.User;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -26,7 +24,6 @@ import static com.issuetracker.repository.sql.UserQueriesKt.FIND_ALL_USER;
 
 @Repository
 public class IssueRepository {
-    private static final Logger logger = LoggerFactory.getLogger(IssueRepository.class.getName());
 
     private static final String ISSUE_SQL = "SELECT issue.id, issue.title, issue.content, issue.statusId, issue.createdDate, "
             + "user.name, user.avatarUrl, "
@@ -85,6 +82,7 @@ public class IssueRepository {
         );
     };
 
+    //TODO. Assignee Repository로 이동
     private Assignees getAssignees(Long issueId) {
         Map<String, Long> params = Collections.singletonMap("issueId", issueId);
 
@@ -157,16 +155,19 @@ public class IssueRepository {
     }
 
     public void save(User loginUser, NewIssue issue) {
+
+        //TODO. null 분기처리를 하는게 뭔가 이상함....다른 방안이 필요함.
         SqlParameterSource parameter = new MapSqlParameterSource()
                 .addValue("title", issue.getTitle())
                 .addValue("content", issue.getComment())
                 .addValue("writerId", loginUser.getId())
                 .addValue("statusId", "OPEN")
-                .addValue("milestoneId", issue.getMilestoneId());
+                .addValue("milestoneId", issue.getMilestoneId() != null ? issue.getMilestoneId() : null);
+       
         jdbc.update(INSERT_ISSUE, parameter);
     }
 
-    public Issue findById(Long issueId) {
+    public Issue findIssueById(Long issueId) {
         Map<String, Long> parameter = Collections.singletonMap("issueId", issueId);
         return jdbc.queryForObject(ISSUE_SQL + " WHERE issue.id = :issueId", parameter, issueMapper);
     }
@@ -184,5 +185,16 @@ public class IssueRepository {
                 .addValue("commentId", commentId)
                 .addValue("content", content);
         jdbc.update(UPDATE_COMMENT, parameter);
+    }
+
+    //TODO. AssigneeRepsitory의 Assignee를 조회할 때 IssueId가 필요해서 만든 함수인데, 진짜 필요한지 잘 모르겠음
+    // 메서드 네이밍도 이상함
+    //TODO. 작성자와 글 제목, 내용이 모두 일치하는 중복 게시글이 존재할 경우 탐색할 수 없는 문제점이 있음.
+    public Issue findIssue(User loginUser, NewIssue issue) {
+        SqlParameterSource parameter = new MapSqlParameterSource()
+                .addValue("title", issue.getTitle())
+                .addValue("content", issue.getComment())
+                .addValue("writerId", loginUser.getId());
+        return jdbc.queryForObject(ISSUE_SQL + " WHERE issue.title = :title AND issue.content = :content AND issue.writerId = :writerId", parameter, issueMapper);
     }
 }

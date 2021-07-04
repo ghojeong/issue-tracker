@@ -7,19 +7,21 @@ import com.issuetracker.dto.auth.UserDto;
 import com.issuetracker.dto.request.CommentRequest;
 import com.issuetracker.dto.request.IssueRequest;
 import com.issuetracker.dto.request.IssuesNumbersRequest;
-import com.issuetracker.dto.response.*;
-import com.issuetracker.repository.CommentRepository;
+import com.issuetracker.dto.response.CommentsResponse;
+import com.issuetracker.dto.response.IssueDetailResponse;
+import com.issuetracker.dto.response.IssueOptionResponse;
+import com.issuetracker.dto.response.IssuesResponse;
 import com.issuetracker.repository.IssueRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class IssueService {
     private final IssueRepository issueRepository;
-    private final CommentRepository commentRepository;
 
-    public IssueService(IssueRepository issueRepository, CommentRepository commentRepository) {
+    public IssueService(IssueRepository issueRepository) {
         this.issueRepository = issueRepository;
-        this.commentRepository = commentRepository;
     }
 
     public IssuesResponse getIssues(UserDto userDto, String status) {
@@ -42,13 +44,13 @@ public class IssueService {
 
     public IssueDetailResponse findDetailedIssueId(Long issueId) {
         Issue issue = issueRepository.findIssueById(issueId);
-        Comments comments = commentRepository.findByIssueId(issueId);
+        Comments comments = issueRepository.findCommentsByIssueId(issueId);
 
         return IssueDetailResponse.from(issue, comments);
     }
 
     public CommentsResponse findCommentsByIssueId(Long issueId) {
-        return CommentsResponse.from(commentRepository.findByIssueId(issueId));
+        return CommentsResponse.from(issueRepository.findCommentsByIssueId(issueId));
     }
 
     public void addComment(CommentRequest commentRequest, String writerId, Long issueId) {
@@ -59,7 +61,15 @@ public class IssueService {
         issueRepository.updateComment(commentId, commentRequest.getContent());
     }
 
-    public IssueSummaryResponse findIssue(UserDto userDto, IssueRequest issueDto) {
-        return IssueSummaryResponse.from(issueRepository.findIssue(userDto.toUser(), issueDto.toNewIssue()));
+    public void saveAssignee(Long issueId, List<String> assigneesId) {
+        for (String assigneeId : assigneesId) {
+            issueRepository.saveAssignee(issueId, assigneeId);
+        }
+    }
+
+    public void saveIssueLabel(Long issueId, List<Long> labelIds) {
+        for (Long labelId : labelIds) {
+            issueRepository.saveIssueLabel(issueId, labelId);
+        }
     }
 }

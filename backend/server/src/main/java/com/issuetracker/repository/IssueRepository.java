@@ -14,8 +14,9 @@ import java.util.List;
 import java.util.Map;
 
 import static com.issuetracker.repository.sql.AssigneeQueriesKt.FIND_ALL_ASSIGNEE_BY_USER_ID;
-import static com.issuetracker.repository.sql.CommentQueriesKt.INSERT_COMMENT;
-import static com.issuetracker.repository.sql.CommentQueriesKt.UPDATE_COMMENT;
+import static com.issuetracker.repository.sql.AssigneeQueriesKt.INSERT_ASSIGNEE;
+import static com.issuetracker.repository.sql.CommentQueriesKt.*;
+import static com.issuetracker.repository.sql.IssueLabelQueriesKt.INSERT_ISSUE_LABEL;
 import static com.issuetracker.repository.sql.IssueQueriesKt.INSERT_ISSUE;
 import static com.issuetracker.repository.sql.LabelQueriesKt.FIND_ALL_LABEL;
 import static com.issuetracker.repository.sql.LabelQueriesKt.FIND_ALL_LABEL_BY_ISSUE_ID;
@@ -82,7 +83,6 @@ public class IssueRepository {
         );
     };
 
-    //TODO. Assignee Repository로 이동
     private Assignees getAssignees(Long issueId) {
         Map<String, Long> params = Collections.singletonMap("issueId", issueId);
 
@@ -163,7 +163,7 @@ public class IssueRepository {
                 .addValue("writerId", loginUser.getId())
                 .addValue("statusId", "OPEN")
                 .addValue("milestoneId", issue.getMilestoneId() != null ? issue.getMilestoneId() : null);
-       
+
         jdbc.update(INSERT_ISSUE, parameter);
     }
 
@@ -187,14 +187,35 @@ public class IssueRepository {
         jdbc.update(UPDATE_COMMENT, parameter);
     }
 
-    //TODO. AssigneeRepsitory의 Assignee를 조회할 때 IssueId가 필요해서 만든 함수인데, 진짜 필요한지 잘 모르겠음
-    // 메서드 네이밍도 이상함
-    //TODO. 작성자와 글 제목, 내용이 모두 일치하는 중복 게시글이 존재할 경우 탐색할 수 없는 문제점이 있음.
-    public Issue findIssue(User loginUser, NewIssue issue) {
-        SqlParameterSource parameter = new MapSqlParameterSource()
-                .addValue("title", issue.getTitle())
-                .addValue("content", issue.getComment())
-                .addValue("writerId", loginUser.getId());
-        return jdbc.queryForObject(ISSUE_SQL + " WHERE issue.title = :title AND issue.content = :content AND issue.writerId = :writerId", parameter, issueMapper);
+    public Comments findCommentsByIssueId(Long issueId) {
+
+        Map<String, Long> params = Collections.singletonMap("issueId", issueId);
+
+        List<Comment> commentList = jdbc.query(FIND_ALL_COMMENT_BY_ISSUE_ID, params, (rs, rowNum) -> {
+            Writer writer = new Writer(rs.getString("name"), rs.getString("avatarUrl"));
+
+            return new Comment(rs.getLong("id"),
+                    rs.getLong("issueId"),
+                    writer,
+                    rs.getString("content"),
+                    rs.getTimestamp("datetime").toLocalDateTime());
+        });
+
+        return new Comments(commentList);
     }
+
+    public void saveAssignee(Long issueId, String assigneeId) {
+        SqlParameterSource parameter = new MapSqlParameterSource()
+                .addValue("issueId", issueId)
+                .addValue("assigneeId", assigneeId);
+        jdbc.update(INSERT_ASSIGNEE, parameter);
+    }
+
+    public void saveIssueLabel(Long issueId, Long labelId) {
+        SqlParameterSource parameter = new MapSqlParameterSource()
+                .addValue("issueId", issueId)
+                .addValue("labelId", labelId);
+        jdbc.update(INSERT_ISSUE_LABEL, parameter);
+    }
+
 }

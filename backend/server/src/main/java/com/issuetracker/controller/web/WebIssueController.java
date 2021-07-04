@@ -9,9 +9,7 @@ import com.issuetracker.dto.response.CommentsResponse;
 import com.issuetracker.dto.response.IssueDetailResponse;
 import com.issuetracker.dto.response.IssueOptionResponse;
 import com.issuetracker.dto.response.IssuesResponse;
-import com.issuetracker.service.AssigneeService;
 import com.issuetracker.service.AuthService;
-import com.issuetracker.service.IssueLabelService;
 import com.issuetracker.service.IssueService;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,22 +21,17 @@ public class WebIssueController {
 
     private final AuthService authService;
     private final IssueService issueService;
-    private final AssigneeService assigneeService;
-    private final IssueLabelService issueLabelService;
 
-    public WebIssueController(AuthService authService, IssueService issueService, AssigneeService assigneeService, IssueLabelService issueLabelService) {
+    public WebIssueController(AuthService authService, IssueService issueService) {
         this.authService = authService;
         this.issueService = issueService;
-        this.assigneeService = assigneeService;
-        this.issueLabelService = issueLabelService;
     }
 
     @GetMapping
     public IssuesResponse getIssues(UserDto user, @RequestParam(value = "status", required = false) String issueStatus, @RequestParam(required = false) String milestone, @RequestParam(required = false) String writer, @RequestParam(required = false) String created) {
         return issueService.getIssues(user, issueStatus);
     }
-
-
+    
     //TODO. 로직 미구현
     @PatchMapping
     public void closeIssue(@RequestBody IssuesNumbersRequest issueNumber) {

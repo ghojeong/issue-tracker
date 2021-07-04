@@ -5,7 +5,10 @@ import com.issuetracker.dto.auth.UserDto;
 import com.issuetracker.dto.request.CommentRequest;
 import com.issuetracker.dto.request.IssueRequest;
 import com.issuetracker.dto.request.IssuesNumbersRequest;
-import com.issuetracker.dto.response.*;
+import com.issuetracker.dto.response.CommentsResponse;
+import com.issuetracker.dto.response.IssueDetailResponse;
+import com.issuetracker.dto.response.IssueOptionResponse;
+import com.issuetracker.dto.response.IssuesResponse;
 import com.issuetracker.service.AssigneeService;
 import com.issuetracker.service.AuthService;
 import com.issuetracker.service.IssueLabelService;
@@ -54,21 +57,6 @@ public class WebIssueController {
         String userId = (String) request.getAttribute("userId");
         UserDto loginUser = authService.getUser(userId);
         issueService.save(loginUser, issue);
-
-        //TODO. save를 하면서 바로 이슈 아이디를 리턴해주면 아래 로직이 불필요할 텐데...아직 방법을 모르겠다 ㅠ
-        //TODO. 아래 로직은 이슈를 작성한 유저와 글 제목, 내용 비교를 통해서 이슈 아이디를 탐색하는데
-        // 위 3가지 조건이 모두 동일한 이슈가 중복해서 존재할 경우 이슈를 탐색할 수 없는 **문제점**이 있다.
-        //TODO. 파라미터로 도메인이 아닌 변수로 받아도 괜찮을까? 아직 객체로 래핑할 생각을 못함.
-        //TODO. JSON에서 null value를 JAVA에서 어떻게 처리할 지 모르겠음.
-        //json null value를 받으면 size 1의 null을 가지게 돼서.. 아래와 같이 null 체크를 했는데
-        // 옳은 방법은 아닌 것 같음.
-        IssueSummaryResponse findIssue = issueService.findIssue(loginUser, issue);
-        if (issue.getAssigneeIds().get(0) != null) {
-            assigneeService.save(findIssue.getIssueId(), issue.getAssigneeIds());
-        }
-        if (issue.getLabelIds().get(0) != null) {
-            issueLabelService.save(findIssue.getIssueId(), issue.getLabelIds());
-        }
     }
 
     @GetMapping("/{issueId}")

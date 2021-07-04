@@ -10,3 +10,7 @@ const val FIND_ALL_ASSIGNEE_BY_USER_ID: String = """
 const val FIND_ALL_ASSIGNEE: String = """
     SELECT issueId, userId FROM assignee;
 """
+
+const val INSERT_ASSIGNEE: String = """
+    INSERT INTO assignee(issueId, userId) VALUES (:issueId, :assigneeId);
+"""

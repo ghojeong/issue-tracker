@@ -2,8 +2,6 @@ package com.issuetracker.repository;
 
 import com.issuetracker.domain.*;
 import com.issuetracker.domain.auth.User;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -16,8 +14,9 @@ import java.util.List;
 import java.util.Map;
 
 import static com.issuetracker.repository.sql.AssigneeQueriesKt.FIND_ALL_ASSIGNEE_BY_USER_ID;
-import static com.issuetracker.repository.sql.CommentQueriesKt.INSERT_COMMENT;
-import static com.issuetracker.repository.sql.CommentQueriesKt.UPDATE_COMMENT;
+import static com.issuetracker.repository.sql.AssigneeQueriesKt.INSERT_ASSIGNEE;
+import static com.issuetracker.repository.sql.CommentQueriesKt.*;
+import static com.issuetracker.repository.sql.IssueLabelQueriesKt.INSERT_ISSUE_LABEL;
 import static com.issuetracker.repository.sql.IssueQueriesKt.INSERT_ISSUE;
 import static com.issuetracker.repository.sql.LabelQueriesKt.FIND_ALL_LABEL;
 import static com.issuetracker.repository.sql.LabelQueriesKt.FIND_ALL_LABEL_BY_ISSUE_ID;
@@ -26,7 +25,6 @@ import static com.issuetracker.repository.sql.UserQueriesKt.FIND_ALL_USER;
 
 @Repository
 public class IssueRepository {
-    private static final Logger logger = LoggerFactory.getLogger(IssueRepository.class.getName());
 
     private static final String ISSUE_SQL = "SELECT issue.id, issue.title, issue.content, issue.statusId, issue.createdDate, "
             + "user.name, user.avatarUrl, "
@@ -157,16 +155,19 @@ public class IssueRepository {
     }
 
     public void save(User loginUser, NewIssue issue) {
+
+        //TODO. null 분기처리를 하는게 뭔가 이상함....다른 방안이 필요함.
         SqlParameterSource parameter = new MapSqlParameterSource()
                 .addValue("title", issue.getTitle())
                 .addValue("content", issue.getComment())
                 .addValue("writerId", loginUser.getId())
                 .addValue("statusId", "OPEN")
-                .addValue("milestoneId", issue.getMilestoneId());
+                .addValue("milestoneId", issue.getMilestoneId() != null ? issue.getMilestoneId() : null);
+
         jdbc.update(INSERT_ISSUE, parameter);
     }
 
-    public Issue findById(Long issueId) {
+    public Issue findIssueById(Long issueId) {
         Map<String, Long> parameter = Collections.singletonMap("issueId", issueId);
         return jdbc.queryForObject(ISSUE_SQL + " WHERE issue.id = :issueId", parameter, issueMapper);
     }
@@ -185,4 +186,36 @@ public class IssueRepository {
                 .addValue("content", content);
         jdbc.update(UPDATE_COMMENT, parameter);
     }
+
+    public Comments findCommentsByIssueId(Long issueId) {
+
+        Map<String, Long> params = Collections.singletonMap("issueId", issueId);
+
+        List<Comment> commentList = jdbc.query(FIND_ALL_COMMENT_BY_ISSUE_ID, params, (rs, rowNum) -> {
+            Writer writer = new Writer(rs.getString("name"), rs.getString("avatarUrl"));
+
+            return new Comment(rs.getLong("id"),
+                    rs.getLong("issueId"),
+                    writer,
+                    rs.getString("content"),
+                    rs.getTimestamp("datetime").toLocalDateTime());
+        });
+
+        return new Comments(commentList);
+    }
+
+    public void saveAssignee(Long issueId, String assigneeId) {
+        SqlParameterSource parameter = new MapSqlParameterSource()
+                .addValue("issueId", issueId)
+                .addValue("assigneeId", assigneeId);
+        jdbc.update(INSERT_ASSIGNEE, parameter);
+    }
+
+    public void saveIssueLabel(Long issueId, Long labelId) {
+        SqlParameterSource parameter = new MapSqlParameterSource()
+                .addValue("issueId", issueId)
+                .addValue("labelId", labelId);
+        jdbc.update(INSERT_ISSUE_LABEL, parameter);
+    }
+
 }

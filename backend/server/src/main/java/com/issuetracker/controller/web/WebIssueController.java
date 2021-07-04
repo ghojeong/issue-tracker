@@ -31,8 +31,7 @@ public class WebIssueController {
     public IssuesResponse getIssues(UserDto user, @RequestParam(value = "status", required = false) String issueStatus, @RequestParam(required = false) String milestone, @RequestParam(required = false) String writer, @RequestParam(required = false) String created) {
         return issueService.getIssues(user, issueStatus);
     }
-
-
+    
     //TODO. 로직 미구현
     @PatchMapping
     public void closeIssue(@RequestBody IssuesNumbersRequest issueNumber) {

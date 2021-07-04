@@ -2,6 +2,7 @@ package com.issuetracker.controller.web;
 
 import com.issuetracker.annotation.LoginRequired;
 import com.issuetracker.dto.auth.UserDto;
+import com.issuetracker.dto.request.AssigneesRequest;
 import com.issuetracker.dto.request.CommentRequest;
 import com.issuetracker.dto.request.IssueRequest;
 import com.issuetracker.dto.request.IssuesNumbersRequest;
@@ -31,7 +32,7 @@ public class WebIssueController {
     public IssuesResponse getIssues(UserDto user, @RequestParam(value = "status", required = false) String issueStatus, @RequestParam(required = false) String milestone, @RequestParam(required = false) String writer, @RequestParam(required = false) String created) {
         return issueService.getIssues(user, issueStatus);
     }
-    
+
     //TODO. 로직 미구현
     @PatchMapping
     public void closeIssue(@RequestBody IssuesNumbersRequest issueNumber) {
@@ -62,8 +63,14 @@ public class WebIssueController {
     public void updateIssue(HttpServletRequest request, @RequestBody IssueRequest issue, @PathVariable Long issueId) {
         String userId = (String) request.getAttribute("userId");
         UserDto loginUser = authService.getUser(userId);
-        
+
         issueService.updateIssue(loginUser, issue, issueId);
+    }
+
+    @PutMapping("/{issueId}/assignees")
+    public void updateIssue(@RequestBody AssigneesRequest assignees, @PathVariable Long issueId) {
+        // TODO: 기능 마저 구현하기
+        System.out.println(assignees.getAssigneeIds());
     }
 
     @GetMapping("/{issueId}/comments")

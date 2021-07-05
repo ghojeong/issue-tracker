@@ -13,11 +13,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static com.issuetracker.repository.sql.AssigneeQueriesKt.FIND_ALL_ASSIGNEE_BY_USER_ID;
-import static com.issuetracker.repository.sql.AssigneeQueriesKt.INSERT_ASSIGNEE;
+import static com.issuetracker.repository.sql.AssigneeQueriesKt.*;
 import static com.issuetracker.repository.sql.CommentQueriesKt.*;
+import static com.issuetracker.repository.sql.IssueLabelQueriesKt.DELETE_ISSUE_LABEL;
 import static com.issuetracker.repository.sql.IssueLabelQueriesKt.INSERT_ISSUE_LABEL;
 import static com.issuetracker.repository.sql.IssueQueriesKt.INSERT_ISSUE;
+import static com.issuetracker.repository.sql.IssueQueriesKt.UPDATE_ISSUE;
 import static com.issuetracker.repository.sql.LabelQueriesKt.FIND_ALL_LABEL;
 import static com.issuetracker.repository.sql.LabelQueriesKt.FIND_ALL_LABEL_BY_ISSUE_ID;
 import static com.issuetracker.repository.sql.MilestoneQueriesKt.FIND_ALL_MILESTONE;
@@ -27,7 +28,7 @@ import static com.issuetracker.repository.sql.UserQueriesKt.FIND_ALL_USER;
 public class IssueRepository {
 
     private static final String ISSUE_SQL = "SELECT issue.id, issue.title, issue.content, issue.statusId, issue.createdDate, "
-            + "user.name, user.avatarUrl, "
+            + "user.id, user.avatarUrl, "
             + "milestone.title AS milestoneTitle, milestone.description AS milestoneDescription, milestone.statusId AS milestoneStatus, milestone.dueDate AS milestoneDueDate "
             + "FROM issue "
             + "INNER JOIN user ON issue.writerId = user.id "
@@ -55,7 +56,7 @@ public class IssueRepository {
     }
 
     private final RowMapper<Issue> issueMapper = (rs, rowNum) -> {
-        Long issueId = rs.getLong("id");
+        Long issueId = rs.getLong("issue.id");
 
         Assignees assignees = getAssignees(issueId);
         Labels labels = getLabels(issueId);
@@ -68,7 +69,7 @@ public class IssueRepository {
                 rs.getTimestamp("milestoneDueDate").toLocalDateTime()
         ) : null;
 
-        Writer writer = new Writer(rs.getString("name"), rs.getString("avatarUrl"));
+        Writer writer = new Writer(rs.getString("user.id"), rs.getString("avatarUrl"));
 
         return new Issue(
                 issueId,
@@ -204,11 +205,15 @@ public class IssueRepository {
         return new Comments(commentList);
     }
 
-    public void saveAssignee(Long issueId, String assigneeId) {
+    public void updateIssue(NewIssue issue, Long issueId) {
+        //TODO. null 분기처리를 하는게 뭔가 이상함....다른 방안이 필요함.
         SqlParameterSource parameter = new MapSqlParameterSource()
-                .addValue("issueId", issueId)
-                .addValue("assigneeId", assigneeId);
-        jdbc.update(INSERT_ASSIGNEE, parameter);
+                .addValue("title", issue.getTitle())
+                .addValue("content", issue.getComment())
+                .addValue("milestoneId", issue.getMilestoneId() != null ? issue.getMilestoneId() : null)
+                .addValue("issueId", issueId);
+
+        jdbc.update(UPDATE_ISSUE, parameter);
     }
 
     public void saveIssueLabel(Long issueId, Long labelId) {
@@ -218,4 +223,40 @@ public class IssueRepository {
         jdbc.update(INSERT_ISSUE_LABEL, parameter);
     }
 
+    public void deleteAssignees(Long issueId) {
+        SqlParameterSource parameter = new MapSqlParameterSource()
+                .addValue("issueId", issueId);
+        jdbc.update(DELETE_ASSIGNEE, parameter);
+    }
+
+    public void addAssignees(Long issueId, String assigneeId) {
+
+        if (assigneeId == null) {
+            return;
+        }
+
+        //TODO. batch insert 못하겠습니다..
+        SqlParameterSource parameter = new MapSqlParameterSource()
+                .addValue("issueId", issueId)
+                .addValue("assigneeId", assigneeId);
+        jdbc.update(INSERT_ASSIGNEE, parameter);
+    }
+
+    public void deleteLabelsOfIssue(Long issueId) {
+        SqlParameterSource parameter = new MapSqlParameterSource()
+                .addValue("issueId", issueId);
+        jdbc.update(DELETE_ISSUE_LABEL, parameter);
+    }
+
+    public void addLabelOfIssue(Long issueId, Long labelId) {
+        if (labelId == null) {
+            return;
+        }
+
+        //TODO. batch insert 못하겠습니다..
+        SqlParameterSource parameter = new MapSqlParameterSource()
+                .addValue("issueId", issueId)
+                .addValue("labelId", labelId);
+        jdbc.update(INSERT_ISSUE_LABEL, parameter);
+    }
 }

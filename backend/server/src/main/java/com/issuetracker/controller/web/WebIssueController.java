@@ -2,9 +2,7 @@ package com.issuetracker.controller.web;
 
 import com.issuetracker.annotation.LoginRequired;
 import com.issuetracker.dto.auth.UserDto;
-import com.issuetracker.dto.request.CommentRequest;
-import com.issuetracker.dto.request.IssueRequest;
-import com.issuetracker.dto.request.IssuesNumbersRequest;
+import com.issuetracker.dto.request.*;
 import com.issuetracker.dto.response.CommentsResponse;
 import com.issuetracker.dto.response.IssueDetailResponse;
 import com.issuetracker.dto.response.IssueOptionResponse;
@@ -31,7 +29,7 @@ public class WebIssueController {
     public IssuesResponse getIssues(UserDto user, @RequestParam(value = "status", required = false) String issueStatus, @RequestParam(required = false) String milestone, @RequestParam(required = false) String writer, @RequestParam(required = false) String created) {
         return issueService.getIssues(user, issueStatus);
     }
-    
+
     //TODO. 로직 미구현
     @PatchMapping
     public void closeIssue(@RequestBody IssuesNumbersRequest issueNumber) {
@@ -55,6 +53,27 @@ public class WebIssueController {
     @GetMapping("/{issueId}")
     public IssueDetailResponse detailIssue(@PathVariable Long issueId) {
         return issueService.findDetailedIssueId(issueId);
+    }
+
+    @PutMapping("/{issueId}")
+    @LoginRequired
+    public void updateIssue(HttpServletRequest request, @RequestBody IssueRequest issue, @PathVariable Long issueId) {
+        String loginUserId = (String) request.getAttribute("userId");
+        issueService.updateIssue(loginUserId, issue, issueId);
+    }
+
+    @PutMapping("/{issueId}/assignees")
+    @LoginRequired
+    public void updateIssue(HttpServletRequest request, @RequestBody AssigneesRequest assignees, @PathVariable Long issueId) {
+        String loginUserId = (String) request.getAttribute("userId");
+        issueService.addAssignees(assignees, loginUserId, issueId);
+    }
+
+    @PutMapping("/{issueId}/labels")
+    @LoginRequired
+    public void updateIssue(HttpServletRequest request, @RequestBody LabelNumbersRequest labels, @PathVariable Long issueId) {
+        String loginUserId = (String) request.getAttribute("userId");
+        issueService.addLabels(labels, loginUserId, issueId);
     }
 
     @GetMapping("/{issueId}/comments")

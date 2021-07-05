@@ -20,6 +20,6 @@ public class WriterResponse {
     }
 
     public static WriterResponse from(Writer writer) {
-        return new WriterResponse(writer.getName(), writer.getAvatarUrl());
+        return new WriterResponse(writer.getId(), writer.getAvatarUrl());
     }
 }

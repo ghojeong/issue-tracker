@@ -4,13 +4,12 @@ import com.issuetracker.domain.Comments;
 import com.issuetracker.domain.Issue;
 import com.issuetracker.domain.Status;
 import com.issuetracker.dto.auth.UserDto;
-import com.issuetracker.dto.request.CommentRequest;
-import com.issuetracker.dto.request.IssueRequest;
-import com.issuetracker.dto.request.IssuesNumbersRequest;
+import com.issuetracker.dto.request.*;
 import com.issuetracker.dto.response.CommentsResponse;
 import com.issuetracker.dto.response.IssueDetailResponse;
 import com.issuetracker.dto.response.IssueOptionResponse;
 import com.issuetracker.dto.response.IssuesResponse;
+import com.issuetracker.exception.AuthenticationException;
 import com.issuetracker.repository.IssueRepository;
 import org.springframework.stereotype.Service;
 
@@ -61,15 +60,47 @@ public class IssueService {
         issueRepository.updateComment(commentId, commentRequest.getContent());
     }
 
-    public void saveAssignee(Long issueId, List<String> assigneesId) {
-        for (String assigneeId : assigneesId) {
-            issueRepository.saveAssignee(issueId, assigneeId);
-        }
-    }
-
     public void saveIssueLabel(Long issueId, List<Long> labelIds) {
         for (Long labelId : labelIds) {
             issueRepository.saveIssueLabel(issueId, labelId);
         }
+    }
+
+    public void updateIssue(String loginUserId, IssueRequest updateIssue, Long issueId) {
+        Issue findIssue = issueRepository.findIssueById(issueId);
+
+        if (!findIssue.getWriter().getId().equals(loginUserId)) {
+            throw new AuthenticationException("인증되지 않은 유저입니다.");
+        }
+
+        issueRepository.updateIssue(updateIssue.toNewIssue(), issueId);
+
+    }
+
+    public void addAssignees(AssigneesRequest assigneeRequest, String writerId, Long issueId) {
+        Issue findIssue = issueRepository.findIssueById(issueId);
+        if (!findIssue.getWriter().getId().equals(writerId)) {
+            throw new AuthenticationException("인증되지 않은 유저입니다.");
+        }
+        issueRepository.deleteAssignees(issueId);
+
+
+        for (String assignee : assigneeRequest.getAssigneeIds()) {
+            issueRepository.addAssignees(issueId, assignee);
+        }
+
+    }
+
+    public void addLabels(LabelNumbersRequest labels, String writerId, Long issueId) {
+        Issue findIssue = issueRepository.findIssueById(issueId);
+        if (!findIssue.getWriter().getId().equals(writerId)) {
+            throw new AuthenticationException("인증되지 않은 유저입니다.");
+        }
+        issueRepository.deleteLabelsOfIssue(issueId);
+
+        for (Long labelId : labels.getLabelIds()) {
+            issueRepository.addLabelOfIssue(issueId, labelId);
+        }
+
     }
 }

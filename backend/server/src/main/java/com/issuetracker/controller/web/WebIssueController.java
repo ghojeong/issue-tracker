@@ -68,9 +68,10 @@ public class WebIssueController {
     }
 
     @PutMapping("/{issueId}/assignees")
-    public void updateIssue(@RequestBody AssigneesRequest assignees, @PathVariable Long issueId) {
-        // TODO: 기능 마저 구현하기
-        System.out.println(assignees.getAssigneeIds());
+    @LoginRequired
+    public void updateIssue(HttpServletRequest request, @RequestBody AssigneesRequest assignees, @PathVariable Long issueId) {
+        String userId = (String) request.getAttribute("userId");
+        issueService.addAssignees(assignees, userId, issueId);
     }
 
     @GetMapping("/{issueId}/comments")
@@ -89,5 +90,4 @@ public class WebIssueController {
     public void updateMilestone(@PathVariable Long commentId, @RequestBody CommentRequest commentRequest) {
         issueService.updateComment(commentId, commentRequest);
     }
-
 }

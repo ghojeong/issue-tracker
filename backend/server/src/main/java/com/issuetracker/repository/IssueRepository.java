@@ -13,8 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static com.issuetracker.repository.sql.AssigneeQueriesKt.FIND_ALL_ASSIGNEE_BY_USER_ID;
-import static com.issuetracker.repository.sql.AssigneeQueriesKt.INSERT_ASSIGNEE;
+import static com.issuetracker.repository.sql.AssigneeQueriesKt.*;
 import static com.issuetracker.repository.sql.CommentQueriesKt.*;
 import static com.issuetracker.repository.sql.IssueLabelQueriesKt.INSERT_ISSUE_LABEL;
 import static com.issuetracker.repository.sql.IssueQueriesKt.INSERT_ISSUE;
@@ -205,13 +204,6 @@ public class IssueRepository {
         return new Comments(commentList);
     }
 
-    public void saveAssignee(Long issueId, String assigneeId) {
-        SqlParameterSource parameter = new MapSqlParameterSource()
-                .addValue("issueId", issueId)
-                .addValue("assigneeId", assigneeId);
-        jdbc.update(INSERT_ASSIGNEE, parameter);
-    }
-    
     public void updateIssue(User loginUser, NewIssue issue, Long issueId) {
         //TODO. null 분기처리를 하는게 뭔가 이상함....다른 방안이 필요함.
         SqlParameterSource parameter = new MapSqlParameterSource()
@@ -231,4 +223,22 @@ public class IssueRepository {
         jdbc.update(INSERT_ISSUE_LABEL, parameter);
     }
 
+    public void deleteAssignees(Long issueId) {
+        SqlParameterSource parameter = new MapSqlParameterSource()
+                .addValue("issueId", issueId);
+        jdbc.update(DELETE_ASSIGNEE, parameter);
+    }
+
+    public void addAssignees(Long issueId, String assigneeId) {
+
+        if (assigneeId == null) {
+            return;
+        }
+
+        //TODO. batch insert 못하겠습니다..
+        SqlParameterSource parameter = new MapSqlParameterSource()
+                .addValue("issueId", issueId)
+                .addValue("assigneeId", assigneeId);
+        jdbc.update(INSERT_ASSIGNEE, parameter);
+    }
 }

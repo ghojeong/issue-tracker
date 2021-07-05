@@ -69,14 +69,14 @@ public class IssueService {
         }
     }
 
-    public void updateIssue(UserDto loginUser, IssueRequest updateIssue, Long issueId) {
+    public void updateIssue(String loginUserId, IssueRequest updateIssue, Long issueId) {
         Issue findIssue = issueRepository.findIssueById(issueId);
 
-        if (!findIssue.getWriter().getId().equals(loginUser.getId())) {
+        if (!findIssue.getWriter().getId().equals(loginUserId)) {
             throw new AuthenticationException("인증되지 않은 유저입니다.");
         }
 
-        issueRepository.updateIssue(loginUser.toUser(), updateIssue.toNewIssue(), issueId);
+        issueRepository.updateIssue(updateIssue.toNewIssue(), issueId);
 
     }
 
@@ -87,7 +87,7 @@ public class IssueService {
         }
         issueRepository.deleteAssignees(issueId);
 
- 
+
         for (String assignee : assigneeRequest.getAssigneeIds()) {
             issueRepository.addAssignees(issueId, assignee);
         }

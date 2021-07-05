@@ -204,12 +204,11 @@ public class IssueRepository {
         return new Comments(commentList);
     }
 
-    public void updateIssue(User loginUser, NewIssue issue, Long issueId) {
+    public void updateIssue(NewIssue issue, Long issueId) {
         //TODO. null 분기처리를 하는게 뭔가 이상함....다른 방안이 필요함.
         SqlParameterSource parameter = new MapSqlParameterSource()
                 .addValue("title", issue.getTitle())
                 .addValue("content", issue.getComment())
-                .addValue("writerId", loginUser.getId())
                 .addValue("milestoneId", issue.getMilestoneId() != null ? issue.getMilestoneId() : null)
                 .addValue("issueId", issueId);
 

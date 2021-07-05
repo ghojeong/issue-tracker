@@ -14,7 +14,7 @@ VALUES (:title, :content, :writerId,  :statusId, :milestoneId, NOW())
 
 const val UPDATE_ISSUE: String = """
     
-UPDATE issue SET title = :title, content = :content, writerId = :writerId, milestoneId = :milestoneId
+UPDATE issue SET title = :title, content = :content, milestoneId = :milestoneId
 WHERE issue.id = :issueId;
 
 """

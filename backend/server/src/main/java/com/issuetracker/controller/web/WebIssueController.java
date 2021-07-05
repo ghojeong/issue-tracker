@@ -61,10 +61,8 @@ public class WebIssueController {
     @PutMapping("/{issueId}")
     @LoginRequired
     public void updateIssue(HttpServletRequest request, @RequestBody IssueRequest issue, @PathVariable Long issueId) {
-        String userId = (String) request.getAttribute("userId");
-        UserDto loginUser = authService.getUser(userId);
-
-        issueService.updateIssue(loginUser, issue, issueId);
+        String loginUserId = (String) request.getAttribute("userId");
+        issueService.updateIssue(loginUserId, issue, issueId);
     }
 
     @PutMapping("/{issueId}/assignees")

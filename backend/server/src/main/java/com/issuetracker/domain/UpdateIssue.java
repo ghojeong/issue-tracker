@@ -1,11 +1,11 @@
 package com.issuetracker.domain;
 
-public class NewIssue {
+public class UpdateIssue {
     private final String title;
     private final String comment;
     private final Long milestoneId;
 
-    public NewIssue(String title, String comment, Long milestoneId) {
+    public UpdateIssue(String title, String comment, Long milestoneId) {
         this.title = title;
         this.comment = comment;
         this.milestoneId = milestoneId;
@@ -18,7 +18,7 @@ public class NewIssue {
     public String getComment() {
         return comment;
     }
-    
+
     public Long getMilestoneId() {
         return milestoneId;
     }

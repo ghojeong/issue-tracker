@@ -1,13 +1,13 @@
 package com.issuetracker.dto.request;
 
-import com.issuetracker.domain.NewIssue;
+import com.issuetracker.domain.UpdateIssue;
 
-public class IssueRequest {
+public class UpdateIssueRequest {
     private final String title;
     private final String comment;
     private final Long milestoneId;
 
-    public IssueRequest(String title, String comment, Long milestoneId) {
+    public UpdateIssueRequest(String title, String comment, Long milestoneId) {
         this.title = title;
         this.comment = comment;
         this.milestoneId = milestoneId;
@@ -20,12 +20,12 @@ public class IssueRequest {
     public String getComment() {
         return comment;
     }
-    
+
     public Long getMilestoneId() {
         return milestoneId;
     }
 
-    public NewIssue toNewIssue() {
-        return new NewIssue(title, comment, milestoneId);
+    public UpdateIssue toUpdateIssue() {
+        return new UpdateIssue(title, comment, milestoneId);
     }
 }

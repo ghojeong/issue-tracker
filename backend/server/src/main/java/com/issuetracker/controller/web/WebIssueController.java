@@ -43,11 +43,11 @@ public class WebIssueController {
     }
 
     @PostMapping
-    @LoginRequired
-    public void createIssue(HttpServletRequest request, @RequestBody IssueRequest issue) {
-        String userId = (String) request.getAttribute("userId");
-        UserDto loginUser = authService.getUser(userId);
-        issueService.save(loginUser, issue);
+//    @LoginRequired
+    public void createIssue(HttpServletRequest request, @RequestBody InsertIssueRequest issue) {
+//        String writerId = (String) request.getAttribute("userId");
+        String writerId = "pyro";
+        issueService.save(writerId, issue);
     }
 
     @GetMapping("/{issueId}")
@@ -57,7 +57,7 @@ public class WebIssueController {
 
     @PutMapping("/{issueId}")
     @LoginRequired
-    public void updateIssue(HttpServletRequest request, @RequestBody IssueRequest issue, @PathVariable Long issueId) {
+    public void updateIssue(HttpServletRequest request, @RequestBody UpdateIssueRequest issue, @PathVariable Long issueId) {
         String loginUserId = (String) request.getAttribute("userId");
         issueService.updateIssue(loginUserId, issue, issueId);
     }

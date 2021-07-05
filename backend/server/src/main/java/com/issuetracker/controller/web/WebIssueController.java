@@ -2,10 +2,7 @@ package com.issuetracker.controller.web;
 
 import com.issuetracker.annotation.LoginRequired;
 import com.issuetracker.dto.auth.UserDto;
-import com.issuetracker.dto.request.AssigneesRequest;
-import com.issuetracker.dto.request.CommentRequest;
-import com.issuetracker.dto.request.IssueRequest;
-import com.issuetracker.dto.request.IssuesNumbersRequest;
+import com.issuetracker.dto.request.*;
 import com.issuetracker.dto.response.CommentsResponse;
 import com.issuetracker.dto.response.IssueDetailResponse;
 import com.issuetracker.dto.response.IssueOptionResponse;
@@ -68,8 +65,15 @@ public class WebIssueController {
     @PutMapping("/{issueId}/assignees")
     @LoginRequired
     public void updateIssue(HttpServletRequest request, @RequestBody AssigneesRequest assignees, @PathVariable Long issueId) {
-        String userId = (String) request.getAttribute("userId");
-        issueService.addAssignees(assignees, userId, issueId);
+        String loginUserId = (String) request.getAttribute("userId");
+        issueService.addAssignees(assignees, loginUserId, issueId);
+    }
+
+    @PutMapping("/{issueId}/labels")
+    @LoginRequired
+    public void updateIssue(HttpServletRequest request, @RequestBody LabelNumbersRequest labels, @PathVariable Long issueId) {
+        String loginUserId = (String) request.getAttribute("userId");
+        issueService.addLabels(labels, loginUserId, issueId);
     }
 
     @GetMapping("/{issueId}/comments")

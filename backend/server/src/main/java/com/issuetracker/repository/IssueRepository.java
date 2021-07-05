@@ -15,6 +15,7 @@ import java.util.Map;
 
 import static com.issuetracker.repository.sql.AssigneeQueriesKt.*;
 import static com.issuetracker.repository.sql.CommentQueriesKt.*;
+import static com.issuetracker.repository.sql.IssueLabelQueriesKt.DELETE_ISSUE_LABEL;
 import static com.issuetracker.repository.sql.IssueLabelQueriesKt.INSERT_ISSUE_LABEL;
 import static com.issuetracker.repository.sql.IssueQueriesKt.INSERT_ISSUE;
 import static com.issuetracker.repository.sql.IssueQueriesKt.UPDATE_ISSUE;
@@ -239,5 +240,23 @@ public class IssueRepository {
                 .addValue("issueId", issueId)
                 .addValue("assigneeId", assigneeId);
         jdbc.update(INSERT_ASSIGNEE, parameter);
+    }
+
+    public void deleteLabelsOfIssue(Long issueId) {
+        SqlParameterSource parameter = new MapSqlParameterSource()
+                .addValue("issueId", issueId);
+        jdbc.update(DELETE_ISSUE_LABEL, parameter);
+    }
+
+    public void addLabelOfIssue(Long issueId, Long labelId) {
+        if (labelId == null) {
+            return;
+        }
+
+        //TODO. batch insert 못하겠습니다..
+        SqlParameterSource parameter = new MapSqlParameterSource()
+                .addValue("issueId", issueId)
+                .addValue("labelId", labelId);
+        jdbc.update(INSERT_ISSUE_LABEL, parameter);
     }
 }

@@ -33,7 +33,7 @@ CREATE TABLE `pyrodb`.`milestone`
     `title`       VARCHAR(50) NOT NULL,
     `description` VARCHAR(300),
     `statusId`    VARCHAR(50)  NOT NULL,
-    `dueDate`     TIMESTAMP,
+    `dueDate`     TIMESTAMP NULL,
     FOREIGN KEY (`statusId`) REFERENCES `pyrodb`.`status` (`id`)
 );
 

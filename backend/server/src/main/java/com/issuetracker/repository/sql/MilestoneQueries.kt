@@ -6,16 +6,12 @@ FROM milestone;
 """
 
 const val INSERT_MILESTONE: String = """
-
 INSERT INTO `pyrodb`.`milestone`(title, description, statusId, dueDate)
-VALUES (:title, :description, :statusId,  now())
-    
+VALUES (:title, :description, :statusId, :dueDate)
 """
 
 const val UPDATE_MILESTONE: String = """
-
 UPDATE `pyrodb`.`milestone`
 SET title=:title, description=:description
 WHERE id=:milestoneId
-    
 """

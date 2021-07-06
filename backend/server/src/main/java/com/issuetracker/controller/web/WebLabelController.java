@@ -29,4 +29,9 @@ public class WebLabelController {
     public void updateLabel(@PathVariable Long labelId, @RequestBody LabelRequest labelRequest) {
         labelService.update(labelId, labelRequest);
     }
+
+    @DeleteMapping("/{labelId}")
+    public void deleteLabel(@PathVariable Long labelId) {
+        labelService.delete(labelId);
+    }
 }

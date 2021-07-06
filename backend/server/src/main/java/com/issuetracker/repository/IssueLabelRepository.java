@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
+import static com.issuetracker.repository.sql.IssueLabelQueriesKt.DELETE_ISSUE_LABEL;
 import static com.issuetracker.repository.sql.IssueLabelQueriesKt.INSERT_ISSUE_LABEL;
 
 @Repository
@@ -21,5 +22,10 @@ public class IssueLabelRepository {
                 .addValue("issueId", issueId)
                 .addValue("labelId", labelId);
         jdbc.update(INSERT_ISSUE_LABEL, parameter);
+    }
+
+    public void delete(Long labelId) {
+        SqlParameterSource parameter = new MapSqlParameterSource().addValue("labelId", labelId);
+        jdbc.update(DELETE_ISSUE_LABEL, parameter);
     }
 }

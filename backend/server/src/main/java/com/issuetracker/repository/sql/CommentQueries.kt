@@ -23,3 +23,25 @@ SET content=:content
 WHERE id=:commentId
     
 """
+
+const val FIND_COMMENT: String = """
+
+SELECT id, content, dateTime, writerId, issueId 
+FROM comment 
+WHERE 
+    issueId = :issueId 
+    AND 
+    id = :commentId;
+
+"""
+
+const val DELETE_COMMENT: String = """
+
+DELETE 
+FROM comment 
+WHERE 
+    issueId = :issueId 
+    AND 
+    id = :commentId;
+    
+"""

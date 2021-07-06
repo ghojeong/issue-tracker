@@ -1,5 +1,6 @@
 package com.issuetracker.service;
 
+import com.issuetracker.domain.Comment;
 import com.issuetracker.domain.Comments;
 import com.issuetracker.domain.Issue;
 import com.issuetracker.domain.Status;
@@ -91,5 +92,15 @@ public class IssueService {
             throw new AuthenticationException("인증되지 않은 유저입니다.");
         }
         issueRepository.updateLabelsOfIssue(issueId, labels.getLabelIds());
+    }
+
+    public void deleteComment(String writerId, Long issueId, Long commentId) {
+
+        Comment comment = issueRepository.findCommentById(issueId, commentId);
+        if (!comment.getWriter().getId().equals(writerId)) {
+            throw new AuthenticationException("타인의 댓글은 제거할 수 없습니다.");
+        }
+
+        issueRepository.deleteComment(issueId, commentId);
     }
 }

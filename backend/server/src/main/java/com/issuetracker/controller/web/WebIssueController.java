@@ -91,4 +91,11 @@ public class WebIssueController {
     public void updateMilestone(@PathVariable Long commentId, @RequestBody CommentRequest commentRequest) {
         issueService.updateComment(commentId, commentRequest);
     }
+
+    @DeleteMapping("/{issueId}/comments/{commentId}")
+    @LoginRequired
+    public void deleteComments(@PathVariable Long issueId, @PathVariable Long commentId, HttpServletRequest request) {
+        String writerId = (String) request.getAttribute("userId");
+        issueService.deleteComment(writerId, issueId, commentId);
+    }
 }

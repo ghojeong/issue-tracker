@@ -15,3 +15,9 @@ UPDATE `pyrodb`.`milestone`
 SET title=:title, description=:description
 WHERE id=:milestoneId
 """
+
+const val DELETE_MILESTONE: String = """
+
+DELETE FROM milestone WHERE id=:milestoneId 
+  
+"""

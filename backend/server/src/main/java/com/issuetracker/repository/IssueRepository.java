@@ -17,8 +17,7 @@ import static com.issuetracker.repository.sql.AssigneeQueriesKt.*;
 import static com.issuetracker.repository.sql.CommentQueriesKt.*;
 import static com.issuetracker.repository.sql.IssueLabelQueriesKt.DELETE_ISSUE_LABEL;
 import static com.issuetracker.repository.sql.IssueLabelQueriesKt.INSERT_ISSUE_LABEL;
-import static com.issuetracker.repository.sql.IssueQueriesKt.INSERT_ISSUE;
-import static com.issuetracker.repository.sql.IssueQueriesKt.UPDATE_ISSUE;
+import static com.issuetracker.repository.sql.IssueQueriesKt.*;
 import static com.issuetracker.repository.sql.LabelQueriesKt.FIND_ALL_LABEL;
 import static com.issuetracker.repository.sql.LabelQueriesKt.FIND_ALL_LABEL_BY_ISSUE_ID;
 import static com.issuetracker.repository.sql.MilestoneQueriesKt.FIND_ALL_MILESTONE;
@@ -304,5 +303,16 @@ public class IssueRepository {
                 .addValue("issueId", issueId)
                 .addValue("commentId", commentId);
         jdbc.update(DELETE_COMMENT, parameter);
+    }
+
+
+    public void deleteMilestoneId(Long milestoneId) {
+        if (milestoneId == null) {
+            return;
+        }
+        SqlParameterSource parameter = new MapSqlParameterSource()
+                .addValue("milestoneId", milestoneId);
+        jdbc.update(DELETE_MILESTONE_OF_ISSUE, parameter);
+
     }
 }

@@ -175,6 +175,11 @@ public class IssueRepository {
         return jdbc.queryForObject(ISSUE_SQL + " WHERE issue.id = :issueId", parameter, issueMapper);
     }
 
+    public Issues findIssuesByMilestone(Long milestoneId) {
+        Map<String, Long> parameter = Collections.singletonMap("milestoneId", milestoneId);
+        return new Issues(jdbc.query(ISSUE_SQL + " WHERE issue.milestoneId = :milestoneId", parameter, issueMapper));
+    }
+
     public void addComment(String content, String writerId, Long issueId) {
         SqlParameterSource parameter = new MapSqlParameterSource()
                 .addValue("content", content)

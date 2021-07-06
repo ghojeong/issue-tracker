@@ -6,9 +6,8 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
+import java.sql.Timestamp;
 import java.util.Collections;
-import java.util.List;
 
 import static com.issuetracker.repository.sql.MilestoneQueriesKt.*;
 
@@ -16,37 +15,33 @@ import static com.issuetracker.repository.sql.MilestoneQueriesKt.*;
 public class MilestoneRepository {
 
     private final NamedParameterJdbcTemplate jdbc;
+    private final IssueRepository issueRepository;
 
-    public MilestoneRepository(NamedParameterJdbcTemplate jdbc) {
+    public MilestoneRepository(NamedParameterJdbcTemplate jdbc, IssueRepository issueRepository) {
         this.jdbc = jdbc;
+        this.issueRepository = issueRepository;
     }
 
     public Milestones findAllMilestoneInfo() {
-        List<MilestoneInfo> milestonesInfo = jdbc.query(FIND_ALL_MILESTONE, Collections.emptyMap(), (rs, rowNum) -> new MilestoneInfo(
-                rs.getString("title"),
-                rs.getString("description"),
-                Status.from(rs.getString("statusId")),
-                rs.getTimestamp("dueDate").toLocalDateTime())
-        );
-
-        List<Milestone> milestoneList = new ArrayList<>();
-
-        for (MilestoneInfo milestoneInfo : milestonesInfo) {
-            milestoneList = jdbc.query(FIND_ALL_MILESTONE, Collections.emptyMap(), (rs, rowNum) -> new Milestone(
-                    rs.getLong("id"),
-                    new Issues(new ArrayList<>()),
-                    milestoneInfo));
-        }
-
-
-        return new Milestones(milestoneList);
+        return new Milestones(jdbc.query(FIND_ALL_MILESTONE, Collections.emptyMap(), (rs, rowNum) -> {
+            Timestamp dueDate = rs.getTimestamp("dueDate");
+            MilestoneInfo milestoneInfo = new MilestoneInfo(
+                    rs.getString("title"),
+                    rs.getString("description"),
+                    Status.from(rs.getString("statusId")),
+                    dueDate != null ? dueDate.toLocalDateTime() : null);
+            Long milestoneId = rs.getLong("id");
+            Issues issues = issueRepository.findIssuesByMilestone(milestoneId);
+            return new Milestone(milestoneId, issues, milestoneInfo);
+        }));
     }
 
     public void save(MilestoneInfo milestoneInfo) {
         SqlParameterSource parameter = new MapSqlParameterSource()
                 .addValue("title", milestoneInfo.getTitle())
                 .addValue("description", milestoneInfo.getDescription())
-                .addValue("statusId", milestoneInfo.getStatus().name());
+                .addValue("statusId", milestoneInfo.getStatus().name())
+                .addValue("dueDate", milestoneInfo.getDueDate());
         jdbc.update(INSERT_MILESTONE, parameter);
     }
 

@@ -52,6 +52,9 @@ public class LabelRepository {
     }
 
     public void delete(Long labelId) {
+        if (labelId == null) {
+            return;
+        }
         SqlParameterSource parameter = new MapSqlParameterSource().addValue("labelId", labelId);
         jdbc.update(DELETE_LABEL, parameter);
     }

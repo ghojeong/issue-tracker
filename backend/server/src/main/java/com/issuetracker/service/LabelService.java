@@ -42,7 +42,7 @@ public class LabelService {
 
     @Transactional(isolation = REPEATABLE_READ)
     public void delete(Long labelId) {
-        issueLabelRepository.delete(labelId);
+        issueLabelRepository.deleteByLabelId(labelId);
         labelRepository.delete(labelId);
     }
 }

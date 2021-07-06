@@ -7,6 +7,10 @@ VALUES (:issueId, :labelId)
     
 """
 
-const val DELETE_ISSUE_LABEL: String = """
+const val DELETE_ISSUE_LABEL_BY_LABEL_ID: String = """
     DELETE FROM issueLabel WHERE labelId = :labelId;
+"""
+
+const val DELETE_ISSUE_LABEL_BY_ISSUE_ID: String = """
+    DELETE FROM issueLabel WHERE issueId = :issueId;
 """

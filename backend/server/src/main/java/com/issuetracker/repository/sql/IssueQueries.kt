@@ -26,3 +26,9 @@ SET milestoneId=null
 WHERE milestoneId=:milestoneId;
   
 """
+
+const val DELETE_ISSUE_BY_ID: String = """
+    
+DELETE FROM issue WHERE id=:issueId
+  
+"""

@@ -98,4 +98,11 @@ public class WebIssueController {
         String writerId = (String) request.getAttribute("userId");
         issueService.deleteComment(writerId, issueId, commentId);
     }
+
+    @DeleteMapping("/{issueId}")
+    @LoginRequired
+    public void deleteIssue(@PathVariable Long issueId, HttpServletRequest request) {
+        String writerId = (String) request.getAttribute("userId");
+        issueService.deleteIssue(writerId, issueId);
+    }
 }

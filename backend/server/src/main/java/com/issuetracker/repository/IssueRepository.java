@@ -155,17 +155,19 @@ public class IssueRepository {
         return new IssueOption(assignees, labels, milestones);
     }
 
-    public void save(User loginUser, NewIssue issue) {
-
+    public void save(String writerId, InsertIssue issue) {
         //TODO. null 분기처리를 하는게 뭔가 이상함....다른 방안이 필요함.
         SqlParameterSource parameter = new MapSqlParameterSource()
                 .addValue("title", issue.getTitle())
                 .addValue("content", issue.getComment())
-                .addValue("writerId", loginUser.getId())
+                .addValue("writerId", writerId)
                 .addValue("statusId", "OPEN")
                 .addValue("milestoneId", issue.getMilestoneId() != null ? issue.getMilestoneId() : null);
-
         jdbc.update(INSERT_ISSUE, parameter);
+
+        Long issueId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Collections.emptyMap(), Long.class);
+        updateAssigneesOfIssue(issueId, issue.getAssigneeIds());
+        updateLabelsOfIssue(issueId, issue.getLabelIds());
     }
 
     public Issue findIssueById(Long issueId) {
@@ -205,7 +207,7 @@ public class IssueRepository {
         return new Comments(commentList);
     }
 
-    public void updateIssue(NewIssue issue, Long issueId) {
+    public void updateIssue(UpdateIssue issue, Long issueId) {
         //TODO. null 분기처리를 하는게 뭔가 이상함....다른 방안이 필요함.
         SqlParameterSource parameter = new MapSqlParameterSource()
                 .addValue("title", issue.getTitle())
@@ -223,14 +225,21 @@ public class IssueRepository {
         jdbc.update(INSERT_ISSUE_LABEL, parameter);
     }
 
-    public void deleteAssignees(Long issueId) {
+    public void updateAssigneesOfIssue(Long issueId, List<String> assigneeIds) {
+        if (assigneeIds == null) {
+            return;
+        }
+        deleteAssignees(issueId);
+        assigneeIds.forEach(assigneeId -> addAssignee(issueId, assigneeId));
+    }
+
+    private void deleteAssignees(Long issueId) {
         SqlParameterSource parameter = new MapSqlParameterSource()
                 .addValue("issueId", issueId);
         jdbc.update(DELETE_ASSIGNEE, parameter);
     }
 
-    public void addAssignees(Long issueId, String assigneeId) {
-
+    private void addAssignee(Long issueId, String assigneeId) {
         if (assigneeId == null) {
             return;
         }
@@ -242,13 +251,21 @@ public class IssueRepository {
         jdbc.update(INSERT_ASSIGNEE, parameter);
     }
 
-    public void deleteLabelsOfIssue(Long issueId) {
+    public void updateLabelsOfIssue(Long issueId, List<Long> labelIds) {
+        if (labelIds == null) {
+            return;
+        }
+        deleteLabelsOfIssue(issueId);
+        labelIds.forEach(labelId -> addLabelOfIssue(issueId, labelId));
+    }
+
+    private void deleteLabelsOfIssue(Long issueId) {
         SqlParameterSource parameter = new MapSqlParameterSource()
                 .addValue("issueId", issueId);
         jdbc.update(DELETE_ISSUE_LABEL, parameter);
     }
 
-    public void addLabelOfIssue(Long issueId, Long labelId) {
+    private void addLabelOfIssue(Long issueId, Long labelId) {
         if (labelId == null) {
             return;
         }

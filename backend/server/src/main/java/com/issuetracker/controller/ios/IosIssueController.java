@@ -2,7 +2,7 @@ package com.issuetracker.controller.ios;
 
 import com.issuetracker.annotation.LoginRequired;
 import com.issuetracker.dto.auth.UserDto;
-import com.issuetracker.dto.request.IssueRequest;
+import com.issuetracker.dto.request.InsertIssueRequest;
 import com.issuetracker.dto.request.IssuesNumbersRequest;
 import com.issuetracker.dto.response.CommentsResponse;
 import com.issuetracker.dto.response.IssueDetailResponse;
@@ -46,10 +46,9 @@ public class IosIssueController {
 
     @PostMapping("/issues")
     @LoginRequired
-    public void createIssue(HttpServletRequest request, @RequestBody IssueRequest issue) {
-        String userId = (String) request.getAttribute("userId");
-        UserDto loginUser = authService.getUser(userId);
-        issueService.save(loginUser, issue);
+    public void createIssue(HttpServletRequest request, @RequestBody InsertIssueRequest issue) {
+        String writerId = (String) request.getAttribute("userId");
+        issueService.save(writerId, issue);
     }
 
     @GetMapping("/issues/{issueId}")

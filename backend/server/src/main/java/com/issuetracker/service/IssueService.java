@@ -37,8 +37,8 @@ public class IssueService {
         return IssueOptionResponse.from(issueRepository.findIssueOption());
     }
 
-    public void save(UserDto userDto, IssueRequest issueDto) {
-        issueRepository.save(userDto.toUser(), issueDto.toNewIssue());
+    public void save(String writerId, InsertIssueRequest issueDto) {
+        issueRepository.save(writerId, issueDto.toInsertIssue());
     }
 
     public IssueDetailResponse findDetailedIssueId(Long issueId) {
@@ -66,14 +66,14 @@ public class IssueService {
         }
     }
 
-    public void updateIssue(String loginUserId, IssueRequest updateIssue, Long issueId) {
+    public void updateIssue(String loginUserId, UpdateIssueRequest updateIssue, Long issueId) {
         Issue findIssue = issueRepository.findIssueById(issueId);
 
         if (!findIssue.getWriter().getId().equals(loginUserId)) {
             throw new AuthenticationException("인증되지 않은 유저입니다.");
         }
 
-        issueRepository.updateIssue(updateIssue.toNewIssue(), issueId);
+        issueRepository.updateIssue(updateIssue.toUpdateIssue(), issueId);
 
     }
 
@@ -82,13 +82,7 @@ public class IssueService {
         if (!findIssue.getWriter().getId().equals(writerId)) {
             throw new AuthenticationException("인증되지 않은 유저입니다.");
         }
-        issueRepository.deleteAssignees(issueId);
-
-
-        for (String assignee : assigneeRequest.getAssigneeIds()) {
-            issueRepository.addAssignees(issueId, assignee);
-        }
-
+        issueRepository.updateAssigneesOfIssue(issueId, assigneeRequest.getAssigneeIds());
     }
 
     public void addLabels(LabelNumbersRequest labels, String writerId, Long issueId) {
@@ -96,11 +90,6 @@ public class IssueService {
         if (!findIssue.getWriter().getId().equals(writerId)) {
             throw new AuthenticationException("인증되지 않은 유저입니다.");
         }
-        issueRepository.deleteLabelsOfIssue(issueId);
-
-        for (Long labelId : labels.getLabelIds()) {
-            issueRepository.addLabelOfIssue(issueId, labelId);
-        }
-
+        issueRepository.updateLabelsOfIssue(issueId, labels.getLabelIds());
     }
 }

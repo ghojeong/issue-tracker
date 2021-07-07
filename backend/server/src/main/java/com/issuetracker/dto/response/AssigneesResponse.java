@@ -3,7 +3,8 @@ package com.issuetracker.dto.response;
 import com.issuetracker.domain.Assignees;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static com.issuetracker.dto.response.ResponseMapper.export;
 
 public class AssigneesResponse {
     private final List<AssigneeResponse> assinees;
@@ -13,7 +14,7 @@ public class AssigneesResponse {
     }
 
     public static AssigneesResponse from(Assignees assignees) {
-        return new AssigneesResponse(assignees.toList().stream().map(AssigneeResponse::from).collect(Collectors.toList()));
+        return new AssigneesResponse(export(assignees));
     }
 
     public List<AssigneeResponse> getAssinees() {

@@ -16,7 +16,7 @@ import java.util.Map;
 
 import static com.issuetracker.repository.sql.AssigneeQueriesKt.*;
 import static com.issuetracker.repository.sql.CommentQueriesKt.*;
-import static com.issuetracker.repository.sql.IssueLabelQueriesKt.DELETE_ISSUE_LABEL_BY_LABEL_ID;
+import static com.issuetracker.repository.sql.IssueLabelQueriesKt.DELETE_ISSUE_LABEL_BY_ISSUE_ID;
 import static com.issuetracker.repository.sql.IssueLabelQueriesKt.INSERT_ISSUE_LABEL;
 import static com.issuetracker.repository.sql.IssueQueriesKt.*;
 import static com.issuetracker.repository.sql.LabelQueriesKt.FIND_ALL_LABEL;
@@ -264,7 +264,7 @@ public class IssueRepository {
     private void deleteLabelsOfIssue(Long issueId) {
         SqlParameterSource parameter = new MapSqlParameterSource()
                 .addValue("issueId", issueId);
-        jdbc.update(DELETE_ISSUE_LABEL_BY_LABEL_ID, parameter);
+        jdbc.update(DELETE_ISSUE_LABEL_BY_ISSUE_ID, parameter);
     }
 
     private void addLabelOfIssue(Long issueId, Long labelId) {

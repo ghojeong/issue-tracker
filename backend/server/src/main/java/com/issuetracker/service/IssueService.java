@@ -11,17 +11,23 @@ import com.issuetracker.dto.response.IssueDetailResponse;
 import com.issuetracker.dto.response.IssueOptionResponse;
 import com.issuetracker.dto.response.IssuesResponse;
 import com.issuetracker.exception.AuthenticationException;
+import com.issuetracker.repository.IssueLabelRepository;
 import com.issuetracker.repository.IssueRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
+import static org.springframework.transaction.annotation.Isolation.REPEATABLE_READ;
 
 @Service
 public class IssueService {
     private final IssueRepository issueRepository;
+    private final IssueLabelRepository issueLabelRepository;
 
-    public IssueService(IssueRepository issueRepository) {
+    public IssueService(IssueRepository issueRepository, IssueLabelRepository issueLabelRepository) {
         this.issueRepository = issueRepository;
+        this.issueLabelRepository = issueLabelRepository;
     }
 
     public IssuesResponse getIssues(UserDto userDto, String status) {
@@ -95,12 +101,24 @@ public class IssueService {
     }
 
     public void deleteComment(String writerId, Long issueId, Long commentId) {
-
         Comment comment = issueRepository.findCommentById(issueId, commentId);
         if (!comment.getWriter().getId().equals(writerId)) {
             throw new AuthenticationException("타인의 댓글은 제거할 수 없습니다.");
         }
 
-        issueRepository.deleteComment(issueId, commentId);
+        issueRepository.deleteCommentByIssueIdAndCommentId(issueId, commentId);
+    }
+
+    @Transactional(isolation = REPEATABLE_READ)
+    public void deleteIssue(String writerId, Long issueId) {
+        Issue findIssue = issueRepository.findIssueById(issueId);
+        if (!findIssue.getWriter().getId().equals(writerId)) {
+            throw new AuthenticationException("인증되지 않은 유저입니다.");
+        }
+
+        issueRepository.deleteCommentByIssueId(issueId);
+        issueLabelRepository.deleteByIssueId(issueId);
+        issueRepository.deleteAssignees(issueId);
+        issueRepository.deleteIssueById(issueId);
     }
 }

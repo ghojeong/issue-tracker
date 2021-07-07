@@ -35,7 +35,7 @@ WHERE
 
 """
 
-const val DELETE_COMMENT: String = """
+const val DELETE_COMMENT_BY_ISSUE_AND_COMMENT: String = """
 
 DELETE 
 FROM comment 
@@ -43,5 +43,14 @@ WHERE
     issueId = :issueId 
     AND 
     id = :commentId;
+    
+"""
+
+const val DELETE_COMMENT_BY_ISSUE: String = """
+
+DELETE 
+FROM comment 
+WHERE 
+    issueId = :issueId 
     
 """

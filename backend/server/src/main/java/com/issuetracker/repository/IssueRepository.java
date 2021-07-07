@@ -16,7 +16,7 @@ import java.util.Map;
 
 import static com.issuetracker.repository.sql.AssigneeQueriesKt.*;
 import static com.issuetracker.repository.sql.CommentQueriesKt.*;
-import static com.issuetracker.repository.sql.IssueLabelQueriesKt.DELETE_ISSUE_LABEL;
+import static com.issuetracker.repository.sql.IssueLabelQueriesKt.DELETE_ISSUE_LABEL_BY_LABEL_ID;
 import static com.issuetracker.repository.sql.IssueLabelQueriesKt.INSERT_ISSUE_LABEL;
 import static com.issuetracker.repository.sql.IssueQueriesKt.*;
 import static com.issuetracker.repository.sql.LabelQueriesKt.FIND_ALL_LABEL;
@@ -238,7 +238,7 @@ public class IssueRepository {
         assigneeIds.forEach(assigneeId -> addAssignee(issueId, assigneeId));
     }
 
-    private void deleteAssignees(Long issueId) {
+    public void deleteAssignees(Long issueId) {
         SqlParameterSource parameter = new MapSqlParameterSource()
                 .addValue("issueId", issueId);
         jdbc.update(DELETE_ASSIGNEE, parameter);
@@ -260,7 +260,7 @@ public class IssueRepository {
     private void deleteLabelsOfIssue(Long issueId) {
         SqlParameterSource parameter = new MapSqlParameterSource()
                 .addValue("issueId", issueId);
-        jdbc.update(DELETE_ISSUE_LABEL, parameter);
+        jdbc.update(DELETE_ISSUE_LABEL_BY_LABEL_ID, parameter);
     }
 
     private void addLabelOfIssue(Long issueId, Long labelId) {
@@ -285,11 +285,11 @@ public class IssueRepository {
         )));
     }
 
-    public void deleteComment(Long issueId, Long commentId) {
+    public void deleteCommentByIssueIdAndCommentId(Long issueId, Long commentId) {
         SqlParameterSource parameter = new MapSqlParameterSource()
                 .addValue("issueId", issueId)
                 .addValue("commentId", commentId);
-        jdbc.update(DELETE_COMMENT, parameter);
+        jdbc.update(DELETE_COMMENT_BY_ISSUE_AND_COMMENT, parameter);
     }
 
 
@@ -299,4 +299,17 @@ public class IssueRepository {
         jdbc.update(DELETE_MILESTONE_OF_ISSUE, parameter);
 
     }
+
+    public void deleteCommentByIssueId(Long issueId) {
+        SqlParameterSource parameter = new MapSqlParameterSource()
+                .addValue("issueId", issueId);
+        jdbc.update(DELETE_COMMENT_BY_ISSUE, parameter);
+    }
+
+    public void deleteIssueById(Long issueId) {
+        SqlParameterSource parameter = new MapSqlParameterSource()
+                .addValue("issueId", issueId);
+        jdbc.update(DELETE_ISSUE_BY_ID, parameter);
+    }
+
 }

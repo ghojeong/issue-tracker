@@ -93,7 +93,7 @@ public class WebIssueController {
     }
 
     @PutMapping("/{issueId}/comments/{commentId}")
-    public void updateMilestone(@PathVariable Long commentId, @RequestBody CommentRequest commentRequest) {
+    public void updateComment(@PathVariable Long commentId, @RequestBody CommentRequest commentRequest) {
         issueService.updateComment(commentId, commentRequest);
     }
 }

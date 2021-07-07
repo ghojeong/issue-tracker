@@ -8,7 +8,10 @@ const val FIND_ALL_ASSIGNEE_BY_USER_ID: String = """
 """
 
 const val FIND_ALL_ASSIGNEE: String = """
-    SELECT issueId, userId FROM assignee;
+    SELECT userId, name, avatarUrl
+    FROM assignee 
+    INNER JOIN user 
+    ON assignee.userId = user.id;
 """
 
 const val INSERT_ASSIGNEE: String = """

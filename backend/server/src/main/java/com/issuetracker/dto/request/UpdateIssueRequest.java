@@ -5,12 +5,10 @@ import com.issuetracker.domain.UpdateIssue;
 public class UpdateIssueRequest {
     private final String title;
     private final String comment;
-    private final Long milestoneId;
 
-    public UpdateIssueRequest(String title, String comment, Long milestoneId) {
+    public UpdateIssueRequest(String title, String comment) {
         this.title = title;
         this.comment = comment;
-        this.milestoneId = milestoneId;
     }
 
     public String getTitle() {
@@ -21,11 +19,7 @@ public class UpdateIssueRequest {
         return comment;
     }
 
-    public Long getMilestoneId() {
-        return milestoneId;
-    }
-
     public UpdateIssue toUpdateIssue() {
-        return new UpdateIssue(title, comment, milestoneId);
+        return new UpdateIssue(title, comment);
     }
 }

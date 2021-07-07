@@ -6,15 +6,16 @@ FROM issue;
 """
 
 const val INSERT_ISSUE: String = """
-
 INSERT INTO `pyrodb`.`issue`(title, content, writerId, statusId, milestoneId, createdDate)
 VALUES (:title, :content, :writerId,  :statusId, :milestoneId, NOW())
-    
 """
 
 const val UPDATE_ISSUE: String = """
-    
-UPDATE issue SET title = :title, content = :content, milestoneId = :milestoneId
+UPDATE issue SET title = :title, content = :content
 WHERE issue.id = :issueId;
+"""
 
+const val UPDATE_ISSUE_MILESTONE: String = """
+UPDATE issue SET milestoneId = :milestoneId
+WHERE issue.id = :issueId;
 """

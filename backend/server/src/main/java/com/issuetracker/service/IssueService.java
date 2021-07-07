@@ -68,13 +68,14 @@ public class IssueService {
 
     public void updateIssue(String loginUserId, UpdateIssueRequest updateIssue, Long issueId) {
         Issue findIssue = issueRepository.findIssueById(issueId);
-
         if (!findIssue.getWriter().getId().equals(loginUserId)) {
             throw new AuthenticationException("인증되지 않은 유저입니다.");
         }
-
         issueRepository.updateIssue(updateIssue.toUpdateIssue(), issueId);
+    }
 
+    public void updateIssue(UpdateIssueMilestoneRequest milestoneRequest, Long issueId) {
+        issueRepository.updateIssue(milestoneRequest.getMilestoneId(), issueId);
     }
 
     public void addAssignees(AssigneesRequest assigneeRequest, String writerId, Long issueId) {

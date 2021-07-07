@@ -3,12 +3,10 @@ package com.issuetracker.domain;
 public class UpdateIssue {
     private final String title;
     private final String comment;
-    private final Long milestoneId;
 
-    public UpdateIssue(String title, String comment, Long milestoneId) {
+    public UpdateIssue(String title, String comment) {
         this.title = title;
         this.comment = comment;
-        this.milestoneId = milestoneId;
     }
 
     public String getTitle() {
@@ -17,9 +15,5 @@ public class UpdateIssue {
 
     public String getComment() {
         return comment;
-    }
-
-    public Long getMilestoneId() {
-        return milestoneId;
     }
 }

@@ -18,3 +18,11 @@ UPDATE issue SET title = :title, content = :content, milestoneId = :milestoneId
 WHERE issue.id = :issueId;
 
 """
+
+const val DELETE_MILESTONE_OF_ISSUE: String = """
+    
+UPDATE issue 
+SET milestoneId=null 
+WHERE milestoneId=:milestoneId;
+  
+"""

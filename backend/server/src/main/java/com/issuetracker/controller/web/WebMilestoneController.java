@@ -28,4 +28,10 @@ public class WebMilestoneController {
     public void updateMilestone(@PathVariable Long milestoneId, @RequestBody MilestoneRequest milestoneRequest) {
         milestoneService.update(milestoneId, milestoneRequest);
     }
+
+    @DeleteMapping("/{milestoneId}")
+    public void deleteMilestone(@PathVariable Long milestoneId) {
+        milestoneService.delete(milestoneId);
+    }
+
 }

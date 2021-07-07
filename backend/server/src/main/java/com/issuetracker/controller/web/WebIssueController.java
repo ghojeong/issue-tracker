@@ -61,6 +61,11 @@ public class WebIssueController {
         issueService.updateIssue(loginUserId, issue, issueId);
     }
 
+    @PutMapping("/{issueId}/milestones")
+    public void updateIssueMilestone(@RequestBody UpdateIssueMilestoneRequest milestoneRequest, @PathVariable Long issueId) {
+        issueService.updateIssue(milestoneRequest, issueId);
+    }
+
     @PutMapping("/{issueId}/assignees")
     @LoginRequired
     public void updateIssue(HttpServletRequest request, @RequestBody AssigneesRequest assignees, @PathVariable Long issueId) {
@@ -88,7 +93,7 @@ public class WebIssueController {
     }
 
     @PutMapping("/{issueId}/comments/{commentId}")
-    public void updateMilestone(@PathVariable Long commentId, @RequestBody CommentRequest commentRequest) {
+    public void updateComment(@PathVariable Long commentId, @RequestBody CommentRequest commentRequest) {
         issueService.updateComment(commentId, commentRequest);
     }
 

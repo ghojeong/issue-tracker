@@ -216,14 +216,18 @@ public class IssueRepository {
     }
 
     public void updateIssue(UpdateIssue issue, Long issueId) {
-        //TODO. null 분기처리를 하는게 뭔가 이상함....다른 방안이 필요함.
         SqlParameterSource parameter = new MapSqlParameterSource()
                 .addValue("title", issue.getTitle())
                 .addValue("content", issue.getComment())
-                .addValue("milestoneId", issue.getMilestoneId() != null ? issue.getMilestoneId() : null)
                 .addValue("issueId", issueId);
-
         jdbc.update(UPDATE_ISSUE, parameter);
+    }
+
+    public void updateIssue(Long milestoneId, Long issueId) {
+        SqlParameterSource parameter = new MapSqlParameterSource()
+                .addValue("milestoneId", milestoneId)
+                .addValue("issueId", issueId);
+        jdbc.update(UPDATE_ISSUE_MILESTONE, parameter);
     }
 
     public void saveIssueLabel(Long issueId, Long labelId) {

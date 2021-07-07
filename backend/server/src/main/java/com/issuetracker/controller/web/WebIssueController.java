@@ -44,9 +44,9 @@ public class WebIssueController {
 
     @PostMapping
     @LoginRequired
-    public void createIssue(HttpServletRequest request, @RequestBody InsertIssueRequest issue) {
+    public long createIssue(HttpServletRequest request, @RequestBody InsertIssueRequest issue) {
         String writerId = (String) request.getAttribute("userId");
-        issueService.save(writerId, issue);
+        return issueService.save(writerId, issue);
     }
 
     @GetMapping("/{issueId}")

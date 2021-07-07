@@ -44,8 +44,8 @@ public class IssueService {
         return IssueOptionResponse.from(issueRepository.findIssueOption());
     }
 
-    public void save(String writerId, InsertIssueRequest issueDto) {
-        issueRepository.save(writerId, issueDto.toInsertIssue());
+    public long save(String writerId, InsertIssueRequest issueDto) {
+        return issueRepository.save(writerId, issueDto.toInsertIssue());
     }
 
     public IssueDetailResponse findDetailedIssueId(Long issueId) {

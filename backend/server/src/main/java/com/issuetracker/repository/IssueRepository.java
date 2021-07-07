@@ -6,13 +6,12 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.issuetracker.repository.sql.AssigneeQueriesKt.*;
 import static com.issuetracker.repository.sql.CommentQueriesKt.*;
@@ -158,19 +157,23 @@ public class IssueRepository {
         return new IssueOption(assignees, labels, milestones);
     }
 
-    public void save(String writerId, InsertIssue issue) {
-        //TODO. null 분기처리를 하는게 뭔가 이상함....다른 방안이 필요함.
+    public long save(String writerId, InsertIssue issue) {
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
         SqlParameterSource parameter = new MapSqlParameterSource()
                 .addValue("title", issue.getTitle())
                 .addValue("content", issue.getComment())
                 .addValue("writerId", writerId)
                 .addValue("statusId", "OPEN")
                 .addValue("milestoneId", issue.getMilestoneId() != null ? issue.getMilestoneId() : null);
-        jdbc.update(INSERT_ISSUE, parameter);
+        jdbc.update(INSERT_ISSUE, parameter, keyHolder);
 
-        Long issueId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Collections.emptyMap(), Long.class);
+        Long issueId = Objects.requireNonNull(keyHolder.getKey()).longValue();
         updateAssigneesOfIssue(issueId, issue.getAssigneeIds());
         updateLabelsOfIssue(issueId, issue.getLabelIds());
+
+        return issueId;
     }
 
     public Issue findIssueById(Long issueId) {

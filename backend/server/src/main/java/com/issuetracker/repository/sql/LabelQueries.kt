@@ -30,3 +30,9 @@ SET title=:title, description=:description, backgroundColor=:backgroundColor, te
 WHERE id=:labelId
     
 """
+
+const val DELETE_LABEL: String = """
+    
+DELETE FROM label WHERE id=:labelId;
+
+"""

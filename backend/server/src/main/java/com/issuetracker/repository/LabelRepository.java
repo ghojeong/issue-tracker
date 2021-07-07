@@ -50,4 +50,9 @@ public class LabelRepository {
                 .addValue("textColor", label.getTextColor());
         jdbc.update(UPDATE_LABEL, parameter);
     }
+
+    public void delete(Long labelId) {
+        SqlParameterSource parameter = new MapSqlParameterSource().addValue("labelId", labelId);
+        jdbc.update(DELETE_LABEL, parameter);
+    }
 }

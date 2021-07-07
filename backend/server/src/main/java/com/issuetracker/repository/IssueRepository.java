@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -136,12 +137,15 @@ public class IssueRepository {
 
         Labels labels = new Labels(labelList);
 
-        List<MilestoneInfo> milestoneInfoList = jdbc.query(FIND_ALL_MILESTONE, Collections.emptyMap(), (rs, rowNum) -> new MilestoneInfo(
-                rs.getString("title"),
-                rs.getString("description"),
-                Status.from(rs.getString("statusId")),
-                rs.getTimestamp("dueDate").toLocalDateTime()
-        ));
+        List<MilestoneInfo> milestoneInfoList = jdbc.query(FIND_ALL_MILESTONE, Collections.emptyMap(), (rs, rowNum) -> {
+            Timestamp dueDate = rs.getTimestamp("dueDate");
+            return new MilestoneInfo(
+                    rs.getString("title"),
+                    rs.getString("description"),
+                    Status.from(rs.getString("statusId")),
+                    dueDate != null ? dueDate.toLocalDateTime() : null
+            );
+        });
 
 
         //TODO. 마일스톤 id,와 issue를 또 한번 마일스톤을 돌아서 구할지?
@@ -231,9 +235,6 @@ public class IssueRepository {
     }
 
     public void updateAssigneesOfIssue(Long issueId, List<String> assigneeIds) {
-        if (assigneeIds == null) {
-            return;
-        }
         deleteAssignees(issueId);
         assigneeIds.forEach(assigneeId -> addAssignee(issueId, assigneeId));
     }
@@ -245,10 +246,6 @@ public class IssueRepository {
     }
 
     private void addAssignee(Long issueId, String assigneeId) {
-        if (assigneeId == null) {
-            return;
-        }
-
         //TODO. batch insert 못하겠습니다..
         SqlParameterSource parameter = new MapSqlParameterSource()
                 .addValue("issueId", issueId)
@@ -257,9 +254,6 @@ public class IssueRepository {
     }
 
     public void updateLabelsOfIssue(Long issueId, List<Long> labelIds) {
-        if (labelIds == null) {
-            return;
-        }
         deleteLabelsOfIssue(issueId);
         labelIds.forEach(labelId -> addLabelOfIssue(issueId, labelId));
     }
@@ -271,10 +265,6 @@ public class IssueRepository {
     }
 
     private void addLabelOfIssue(Long issueId, Long labelId) {
-        if (labelId == null) {
-            return;
-        }
-
         //TODO. batch insert 못하겠습니다..
         SqlParameterSource parameter = new MapSqlParameterSource()
                 .addValue("issueId", issueId)
@@ -297,9 +287,6 @@ public class IssueRepository {
     }
 
     public void deleteComment(Long issueId, Long commentId) {
-        if (issueId == null || commentId == null) {
-            return;
-        }
         SqlParameterSource parameter = new MapSqlParameterSource()
                 .addValue("issueId", issueId)
                 .addValue("commentId", commentId);

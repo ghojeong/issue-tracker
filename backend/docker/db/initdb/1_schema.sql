@@ -80,8 +80,8 @@ CREATE TABLE `pyrodb`.`label`
     `id`              INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `title`           VARCHAR(50) NOT NULL,
     `description`     VARCHAR(300),
-    `backgroundColor` VARCHAR(8),
-    `textColor`       VARCHAR(8)
+    `backgroundColor` VARCHAR(16),
+    `textColor`       VARCHAR(16)
 );
 
 DROP TABLE IF EXISTS `pyrodb`.`issueLabel`;

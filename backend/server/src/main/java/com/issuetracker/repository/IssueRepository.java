@@ -231,9 +231,6 @@ public class IssueRepository {
     }
 
     public void updateAssigneesOfIssue(Long issueId, List<String> assigneeIds) {
-        if (assigneeIds == null) {
-            return;
-        }
         deleteAssignees(issueId);
         assigneeIds.forEach(assigneeId -> addAssignee(issueId, assigneeId));
     }
@@ -245,10 +242,6 @@ public class IssueRepository {
     }
 
     private void addAssignee(Long issueId, String assigneeId) {
-        if (assigneeId == null) {
-            return;
-        }
-
         //TODO. batch insert 못하겠습니다..
         SqlParameterSource parameter = new MapSqlParameterSource()
                 .addValue("issueId", issueId)
@@ -257,9 +250,6 @@ public class IssueRepository {
     }
 
     public void updateLabelsOfIssue(Long issueId, List<Long> labelIds) {
-        if (labelIds == null) {
-            return;
-        }
         deleteLabelsOfIssue(issueId);
         labelIds.forEach(labelId -> addLabelOfIssue(issueId, labelId));
     }
@@ -271,10 +261,6 @@ public class IssueRepository {
     }
 
     private void addLabelOfIssue(Long issueId, Long labelId) {
-        if (labelId == null) {
-            return;
-        }
-
         //TODO. batch insert 못하겠습니다..
         SqlParameterSource parameter = new MapSqlParameterSource()
                 .addValue("issueId", issueId)
@@ -297,9 +283,6 @@ public class IssueRepository {
     }
 
     public void deleteComment(Long issueId, Long commentId) {
-        if (issueId == null || commentId == null) {
-            return;
-        }
         SqlParameterSource parameter = new MapSqlParameterSource()
                 .addValue("issueId", issueId)
                 .addValue("commentId", commentId);

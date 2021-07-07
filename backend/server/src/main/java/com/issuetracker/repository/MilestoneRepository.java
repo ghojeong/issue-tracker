@@ -54,10 +54,6 @@ public class MilestoneRepository {
     }
 
     public void delete(Long milestoneId) {
-        if (milestoneId == null) {
-            return;
-        }
-        
         SqlParameterSource parameter = new MapSqlParameterSource()
                 .addValue("milestoneId", milestoneId);
         jdbc.update(DELETE_MILESTONE, parameter);

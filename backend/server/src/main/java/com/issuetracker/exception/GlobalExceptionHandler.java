@@ -12,7 +12,7 @@ public class GlobalExceptionHandler {
             RuntimeException.class
     })
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-    public FailedResultApi<?> notAuthorizedException(MaxLengthException exception) {
+    public FailedResultApi<?> notAuthorizedException(RuntimeException exception) {
         return FailedResultApi.failed(exception);
     }
 }

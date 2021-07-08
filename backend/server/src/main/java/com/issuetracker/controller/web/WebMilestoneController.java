@@ -20,8 +20,8 @@ public class WebMilestoneController {
     }
 
     @PostMapping
-    public void createMilestone(@RequestBody MilestoneRequest milestoneRequest) {
-        milestoneService.save(milestoneRequest);
+    public long createMilestone(@RequestBody MilestoneRequest milestoneRequest) {
+        return milestoneService.save(milestoneRequest);
     }
 
     @PutMapping("/{milestoneId}")

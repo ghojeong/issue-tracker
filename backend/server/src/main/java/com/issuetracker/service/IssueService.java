@@ -16,8 +16,6 @@ import com.issuetracker.repository.IssueRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 import static org.springframework.transaction.annotation.Isolation.REPEATABLE_READ;
 
 @Service
@@ -65,12 +63,6 @@ public class IssueService {
 
     public void updateComment(Long commentId, CommentRequest commentRequest) {
         issueRepository.updateComment(commentId, commentRequest.getContent());
-    }
-
-    public void saveIssueLabel(Long issueId, List<Long> labelIds) {
-        for (Long labelId : labelIds) {
-            issueRepository.saveIssueLabel(issueId, labelId);
-        }
     }
 
     public void updateIssue(String loginUserId, UpdateIssueRequest updateIssue, Long issueId) {

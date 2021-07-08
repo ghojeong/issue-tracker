@@ -212,14 +212,7 @@ public class IssueRepository {
                 .addValue("issueId", issueId);
         jdbc.update(UPDATE_ISSUE_MILESTONE, parameter);
     }
-
-    public void saveIssueLabel(Long issueId, Long labelId) {
-        SqlParameterSource parameter = new MapSqlParameterSource()
-                .addValue("issueId", issueId)
-                .addValue("labelId", labelId);
-        jdbc.update(INSERT_ISSUE_LABEL, parameter);
-    }
-
+    
     public void updateAssigneesOfIssue(Long issueId, List<String> assigneeIds) {
         deleteAssignees(issueId);
         assigneeIds.forEach(assigneeId -> addAssignee(issueId, assigneeId));

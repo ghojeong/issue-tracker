@@ -7,7 +7,6 @@ import com.issuetracker.dto.response.CommentsResponse;
 import com.issuetracker.dto.response.IssueDetailResponse;
 import com.issuetracker.dto.response.IssueOptionResponse;
 import com.issuetracker.dto.response.IssuesResponse;
-import com.issuetracker.service.AuthService;
 import com.issuetracker.service.IssueService;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,11 +17,9 @@ import javax.validation.Valid;
 @RequestMapping("/api/web/issues")
 public class WebIssueController {
 
-    private final AuthService authService;
     private final IssueService issueService;
 
-    public WebIssueController(AuthService authService, IssueService issueService) {
-        this.authService = authService;
+    public WebIssueController(IssueService issueService) {
         this.issueService = issueService;
     }
 

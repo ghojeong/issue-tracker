@@ -30,13 +30,16 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     private void authenticate(HttpServletRequest request) {
         String authorization = Optional.ofNullable(request.getHeader(AUTHORIZATION))
-                .orElseThrow(() -> new AuthenticationException("인증되지 않은 유저입니다."));
+                .orElseThrow(() -> new AuthenticationException("인증되지 않은 유저입니다. Authorization 헤더를 포함해주세요."));
         String[] splitAuth = authorization.split(" ");
         String tokenType = splitAuth[0].toLowerCase();
         if (splitAuth.length < 2 || !tokenType.equals("bearer")) {
-            throw new AuthenticationException("잘못된 Authorization 타입입니다.");
+            throw new AuthenticationException("잘못된 Authorization 타입입니다. 토큰 앞에 Bearer 를 붙여주세요.");
         }
         String userId = JwtUtil.decodeJwt(splitAuth[1]);
+        if (userId == null || userId.length() == 0) {
+            throw new AuthenticationException("로그인되어 있지 않은 유저입니다. 다시 로그인해주세요.");
+        }
         request.setAttribute("userId", userId);
     }
 }

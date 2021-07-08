@@ -24,8 +24,8 @@ public class MilestoneService {
         return MilestonesResponse.from(milestoneRepository.findAllMilestoneInfo());
     }
 
-    public void save(MilestoneRequest newMilestone) {
-        milestoneRepository.save(newMilestone.toMilestoneInfo());
+    public long save(MilestoneRequest newMilestone) {
+        return milestoneRepository.save(newMilestone.toMilestoneInfo());
     }
 
     public void update(Long milestoneId, MilestoneRequest newMilestone) {

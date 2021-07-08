@@ -88,9 +88,9 @@ public class WebIssueController {
 
     @PostMapping("/{issueId}/comments")
     @LoginRequired
-    public void createComment(@PathVariable Long issueId, @RequestBody CommentRequest commentRequest, HttpServletRequest request) {
+    public long createComment(@PathVariable Long issueId, @RequestBody CommentRequest commentRequest, HttpServletRequest request) {
         String writerId = (String) request.getAttribute("userId");
-        issueService.addComment(commentRequest, writerId, issueId);
+        return issueService.addComment(commentRequest, writerId, issueId);
     }
 
     @PutMapping("/{issueId}/comments/{commentId}")

@@ -5,6 +5,8 @@ import com.issuetracker.dto.response.LabelsResponse;
 import com.issuetracker.service.LabelService;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/web/labels")
 public class WebLabelController {
@@ -26,7 +28,7 @@ public class WebLabelController {
     }
 
     @PutMapping("/{labelId}")
-    public void updateLabel(@PathVariable Long labelId, @RequestBody LabelRequest labelRequest) {
+    public void updateLabel(@PathVariable Long labelId, @Valid @RequestBody LabelRequest labelRequest) {
         labelService.update(labelId, labelRequest);
     }
 

@@ -54,13 +54,13 @@ public class WebIssueController {
 
     @PutMapping("/{issueId}")
     @LoginRequired
-    public void updateIssue(HttpServletRequest request, @RequestBody UpdateIssueRequest issue, @PathVariable Long issueId) {
+    public void updateIssue(HttpServletRequest request, @Valid @RequestBody UpdateIssueRequest issue, @PathVariable Long issueId) {
         String loginUserId = (String) request.getAttribute("userId");
         issueService.updateIssue(loginUserId, issue, issueId);
     }
 
     @PutMapping("/{issueId}/milestones")
-    public void updateIssueMilestone(@RequestBody UpdateIssueMilestoneRequest milestoneRequest, @PathVariable Long issueId) {
+    public void updateIssueMilestone(@Valid @RequestBody UpdateIssueMilestoneRequest milestoneRequest, @PathVariable Long issueId) {
         issueService.updateIssue(milestoneRequest, issueId);
     }
 
@@ -85,13 +85,13 @@ public class WebIssueController {
 
     @PostMapping("/{issueId}/comments")
     @LoginRequired
-    public void createComment(@PathVariable Long issueId, @RequestBody CommentRequest commentRequest, HttpServletRequest request) {
+    public void createComment(@PathVariable Long issueId, @Valid @RequestBody CommentRequest commentRequest, HttpServletRequest request) {
         String writerId = (String) request.getAttribute("userId");
         issueService.addComment(commentRequest, writerId, issueId);
     }
 
     @PutMapping("/{issueId}/comments/{commentId}")
-    public void updateComment(@PathVariable Long commentId, @RequestBody CommentRequest commentRequest) {
+    public void updateComment(@PathVariable Long commentId, @Valid @RequestBody CommentRequest commentRequest) {
         issueService.updateComment(commentId, commentRequest);
     }
 

@@ -2,8 +2,17 @@ package com.issuetracker.dto.request;
 
 import com.issuetracker.domain.UpdateIssue;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class UpdateIssueRequest {
+
+    @NotBlank(message = "title이 공백이어선 안됩니다.")
+    @NotNull(message = "title 이 null 값이어선 안됩니다.")
     private final String title;
+
+    @NotBlank(message = "comment가 공백이어선 안됩니다.")
+    @NotNull(message = "comment가 null 값이어선 안됩니다.")
     private final String comment;
 
     public UpdateIssueRequest(String title, String comment) {

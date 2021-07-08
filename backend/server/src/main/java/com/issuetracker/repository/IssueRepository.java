@@ -10,7 +10,6 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Timestamp;
 import java.util.*;
 
 import static com.issuetracker.repository.sql.AssigneeQueriesKt.*;
@@ -22,6 +21,7 @@ import static com.issuetracker.repository.sql.LabelQueriesKt.FIND_ALL_LABEL;
 import static com.issuetracker.repository.sql.LabelQueriesKt.FIND_ALL_LABEL_BY_ISSUE_ID;
 import static com.issuetracker.repository.sql.MilestoneQueriesKt.FIND_ALL_MILESTONE;
 import static com.issuetracker.repository.sql.UserQueriesKt.FIND_ALL_USER;
+import static com.issuetracker.util.TimestampUtil.toLocalDateTime;
 
 @Repository
 public class IssueRepository {
@@ -43,10 +43,8 @@ public class IssueRepository {
         if (status == Status.ALL) {
             return getAllIssues();
         }
-
         String sql = ISSUE_SQL + "WHERE issue.statusId = :statusId ";
         Map<String, String> params = Collections.singletonMap("statusId", status.name());
-
         return new Issues(jdbc.query(sql, params, issueMapper));
     }
 
@@ -65,11 +63,10 @@ public class IssueRepository {
                 milestoneTitle,
                 rs.getString("milestoneDescription"),
                 Status.from(rs.getString("milestoneStatus")),
-                rs.getTimestamp("milestoneDueDate").toLocalDateTime()
+                toLocalDateTime(rs.getTimestamp("milestoneDueDate"))
         ) : null;
 
         Writer writer = new Writer(rs.getString("user.id"), rs.getString("avatarUrl"));
-
         return new Issue(
                 issueId,
                 milestoneInfo,
@@ -77,7 +74,7 @@ public class IssueRepository {
                 rs.getString("content"),
                 Status.from(rs.getString("statusId")),
                 writer,
-                rs.getTimestamp("createdDate").toLocalDateTime(),
+                toLocalDateTime(rs.getTimestamp("createdDate")),
                 assignees,
                 labels
         );
@@ -85,27 +82,20 @@ public class IssueRepository {
 
     private Assignees getAssignees(Long issueId) {
         Map<String, Long> params = Collections.singletonMap("issueId", issueId);
-
-        return new Assignees(jdbc.query(FIND_ALL_ASSIGNEE_BY_USER_ID, params, (rs, rowNum) -> {
-            String id = rs.getString("id");
-            String name = rs.getString("name");
-            String avatarUrl = rs.getString("avatarUrl");
-            return new Assignee(id, name, avatarUrl);
-        }));
+        return new Assignees(jdbc.query(FIND_ALL_ASSIGNEE_BY_USER_ID, params, (rs, rowNum) -> new Assignee(
+                rs.getString("id"),
+                rs.getString("name"),
+                rs.getString("avatarUrl"))));
     }
 
     private Labels getLabels(Long issueId) {
-
         Map<String, Long> params = Collections.singletonMap("issueId", issueId);
-
-        return new Labels(jdbc.query(FIND_ALL_LABEL_BY_ISSUE_ID, params, (rs, rowNum) -> {
-            Long id = rs.getLong("id");
-            String title = rs.getString("title");
-            String description = rs.getString("description");
-            String backgroundColor = rs.getString("backgroundColor");
-            String textColor = rs.getString("textColor");
-            return new Label(id, title, description, backgroundColor, textColor);
-        }));
+        return new Labels(jdbc.query(FIND_ALL_LABEL_BY_ISSUE_ID, params, (rs, rowNum) -> new Label(
+                rs.getLong("id"),
+                rs.getString("title"),
+                rs.getString("description"),
+                rs.getString("backgroundColor"),
+                rs.getString("textColor"))));
     }
 
     // 이슈의 status를 토글하는 기능을 만들고자 했음. on/off
@@ -135,15 +125,12 @@ public class IssueRepository {
 
         Labels labels = new Labels(labelList);
 
-        List<MilestoneInfo> milestoneInfoList = jdbc.query(FIND_ALL_MILESTONE, Collections.emptyMap(), (rs, rowNum) -> {
-            Timestamp dueDate = rs.getTimestamp("dueDate");
-            return new MilestoneInfo(
-                    rs.getString("title"),
-                    rs.getString("description"),
-                    Status.from(rs.getString("statusId")),
-                    dueDate != null ? dueDate.toLocalDateTime() : null
-            );
-        });
+        List<MilestoneInfo> milestoneInfoList = jdbc.query(FIND_ALL_MILESTONE, Collections.emptyMap(), (rs, rowNum) -> new MilestoneInfo(
+                rs.getString("title"),
+                rs.getString("description"),
+                Status.from(rs.getString("statusId")),
+                toLocalDateTime(rs.getTimestamp("dueDate"))
+        ));
 
 
         //TODO. 마일스톤 id,와 issue를 또 한번 마일스톤을 돌아서 구할지?
@@ -202,20 +189,13 @@ public class IssueRepository {
     }
 
     public Comments findCommentsByIssueId(Long issueId) {
-
         Map<String, Long> params = Collections.singletonMap("issueId", issueId);
-
-        List<Comment> commentList = jdbc.query(FIND_ALL_COMMENT_BY_ISSUE_ID, params, (rs, rowNum) -> {
-            Writer writer = new Writer(rs.getString("name"), rs.getString("avatarUrl"));
-
-            return new Comment(rs.getLong("id"),
-                    rs.getLong("issueId"),
-                    writer,
-                    rs.getString("content"),
-                    rs.getTimestamp("datetime").toLocalDateTime());
-        });
-
-        return new Comments(commentList);
+        return new Comments(jdbc.query(FIND_ALL_COMMENT_BY_ISSUE_ID, params, (rs, rowNum) -> new Comment(
+                rs.getLong("id"),
+                rs.getLong("issueId"),
+                new Writer(rs.getString("name"), rs.getString("avatarUrl")),
+                rs.getString("content"),
+                toLocalDateTime(rs.getTimestamp("datetime")))));
     }
 
     public void updateIssue(UpdateIssue issue, Long issueId) {
@@ -282,14 +262,12 @@ public class IssueRepository {
         SqlParameterSource parameter = new MapSqlParameterSource()
                 .addValue("issueId", issueId)
                 .addValue("commentId", commentId);
-
         return jdbc.queryForObject(FIND_COMMENT, parameter, ((rs, rowNum) -> new Comment(
                 rs.getLong("id"),
                 rs.getLong("issueId"),
                 new Writer(rs.getString("writerId"), null), // 댓글 조회에 profileImage는 굳이 필요 없는 거 같아서 null 처리
                 rs.getString("content"),
-                rs.getTimestamp("dateTime") != null ? rs.getTimestamp("dateTime").toLocalDateTime() : null
-        )));
+                toLocalDateTime(rs.getTimestamp("dateTime")))));
     }
 
     public void deleteCommentByIssueIdAndCommentId(Long issueId, Long commentId) {

@@ -90,7 +90,8 @@ public class IssueRepository {
 
     private Labels getLabels(Long issueId) {
         Map<String, Long> params = Collections.singletonMap("issueId", issueId);
-        return new Labels(jdbc.query(FIND_ALL_LABEL_BY_ISSUE_ID, params, (rs, rowNum) -> new Label(rs.getLong("id"),
+        return new Labels(jdbc.query(FIND_ALL_LABEL_BY_ISSUE_ID, params, (rs, rowNum) -> new Label(
+                rs.getLong("id"),
                 rs.getString("title"),
                 rs.getString("description"),
                 rs.getString("backgroundColor"),
@@ -189,7 +190,8 @@ public class IssueRepository {
 
     public Comments findCommentsByIssueId(Long issueId) {
         Map<String, Long> params = Collections.singletonMap("issueId", issueId);
-        return new Comments(jdbc.query(FIND_ALL_COMMENT_BY_ISSUE_ID, params, (rs, rowNum) -> new Comment(rs.getLong("id"),
+        return new Comments(jdbc.query(FIND_ALL_COMMENT_BY_ISSUE_ID, params, (rs, rowNum) -> new Comment(
+                rs.getLong("id"),
                 rs.getLong("issueId"),
                 new Writer(rs.getString("name"), rs.getString("avatarUrl")),
                 rs.getString("content"),
@@ -260,14 +262,12 @@ public class IssueRepository {
         SqlParameterSource parameter = new MapSqlParameterSource()
                 .addValue("issueId", issueId)
                 .addValue("commentId", commentId);
-
         return jdbc.queryForObject(FIND_COMMENT, parameter, ((rs, rowNum) -> new Comment(
                 rs.getLong("id"),
                 rs.getLong("issueId"),
                 new Writer(rs.getString("writerId"), null), // 댓글 조회에 profileImage는 굳이 필요 없는 거 같아서 null 처리
                 rs.getString("content"),
-                toLocalDateTime(rs.getTimestamp("dateTime"))
-        )));
+                toLocalDateTime(rs.getTimestamp("dateTime")))));
     }
 
     public void deleteCommentByIssueIdAndCommentId(Long issueId, Long commentId) {

@@ -173,12 +173,15 @@ public class IssueRepository {
         return new Issues(jdbc.query(ISSUE_SQL + " WHERE issue.milestoneId = :milestoneId", parameter, issueMapper));
     }
 
-    public void addComment(String content, String writerId, Long issueId) {
+    public long addComment(String content, String writerId, Long issueId) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
         SqlParameterSource parameter = new MapSqlParameterSource()
                 .addValue("content", content)
                 .addValue("writerId", writerId)
                 .addValue("issueId", issueId);
-        jdbc.update(INSERT_COMMENT, parameter);
+        jdbc.update(INSERT_COMMENT, parameter, keyHolder);
+
+        return Objects.requireNonNull(keyHolder.getKey()).longValue();
     }
 
     public void updateComment(Long commentId, String content) {
@@ -212,7 +215,7 @@ public class IssueRepository {
                 .addValue("issueId", issueId);
         jdbc.update(UPDATE_ISSUE_MILESTONE, parameter);
     }
-    
+
     public void updateAssigneesOfIssue(Long issueId, List<String> assigneeIds) {
         deleteAssignees(issueId);
         assigneeIds.forEach(assigneeId -> addAssignee(issueId, assigneeId));

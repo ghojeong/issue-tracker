@@ -61,15 +61,16 @@ public class IssueRepository {
         Labels labels = getLabels(issueId);
 
         String milestoneTitle = rs.getString("milestoneTitle");
+        Timestamp milestoneDueDate = rs.getTimestamp("milestoneDueDate");
         MilestoneInfo milestoneInfo = milestoneTitle != null ? new MilestoneInfo(
                 milestoneTitle,
                 rs.getString("milestoneDescription"),
                 Status.from(rs.getString("milestoneStatus")),
-                rs.getTimestamp("milestoneDueDate").toLocalDateTime()
+                milestoneDueDate != null ? milestoneDueDate.toLocalDateTime() : null
         ) : null;
 
         Writer writer = new Writer(rs.getString("user.id"), rs.getString("avatarUrl"));
-
+        Timestamp createdDate = rs.getTimestamp("createdDate");
         return new Issue(
                 issueId,
                 milestoneInfo,
@@ -77,7 +78,7 @@ public class IssueRepository {
                 rs.getString("content"),
                 Status.from(rs.getString("statusId")),
                 writer,
-                rs.getTimestamp("createdDate").toLocalDateTime(),
+                createdDate != null ? createdDate.toLocalDateTime() : null,
                 assignees,
                 labels
         );
@@ -207,12 +208,12 @@ public class IssueRepository {
 
         List<Comment> commentList = jdbc.query(FIND_ALL_COMMENT_BY_ISSUE_ID, params, (rs, rowNum) -> {
             Writer writer = new Writer(rs.getString("name"), rs.getString("avatarUrl"));
-
+            Timestamp dateTime = rs.getTimestamp("datetime");
             return new Comment(rs.getLong("id"),
                     rs.getLong("issueId"),
                     writer,
                     rs.getString("content"),
-                    rs.getTimestamp("datetime").toLocalDateTime());
+                    dateTime != null ? dateTime.toLocalDateTime() : null);
         });
 
         return new Comments(commentList);
@@ -283,13 +284,16 @@ public class IssueRepository {
                 .addValue("issueId", issueId)
                 .addValue("commentId", commentId);
 
-        return jdbc.queryForObject(FIND_COMMENT, parameter, ((rs, rowNum) -> new Comment(
-                rs.getLong("id"),
-                rs.getLong("issueId"),
-                new Writer(rs.getString("writerId"), null), // 댓글 조회에 profileImage는 굳이 필요 없는 거 같아서 null 처리
-                rs.getString("content"),
-                rs.getTimestamp("dateTime") != null ? rs.getTimestamp("dateTime").toLocalDateTime() : null
-        )));
+        return jdbc.queryForObject(FIND_COMMENT, parameter, ((rs, rowNum) -> {
+            Timestamp dateTime = rs.getTimestamp("dateTime");
+            return new Comment(
+                    rs.getLong("id"),
+                    rs.getLong("issueId"),
+                    new Writer(rs.getString("writerId"), null), // 댓글 조회에 profileImage는 굳이 필요 없는 거 같아서 null 처리
+                    rs.getString("content"),
+                    dateTime != null ? dateTime.toLocalDateTime() : null
+            );
+        }));
     }
 
     public void deleteCommentByIssueIdAndCommentId(Long issueId, Long commentId) {

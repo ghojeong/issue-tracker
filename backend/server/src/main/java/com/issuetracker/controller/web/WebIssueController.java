@@ -12,6 +12,7 @@ import com.issuetracker.service.IssueService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/web/issues")
@@ -44,7 +45,7 @@ public class WebIssueController {
 
     @PostMapping
     @LoginRequired
-    public long createIssue(HttpServletRequest request, @RequestBody InsertIssueRequest issue) {
+    public long createIssue(HttpServletRequest request, @Valid @RequestBody InsertIssueRequest issue) {
         String writerId = (String) request.getAttribute("userId");
         return issueService.save(writerId, issue);
     }

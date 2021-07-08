@@ -2,11 +2,17 @@ package com.issuetracker.dto.request;
 
 import com.issuetracker.domain.InsertIssue;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class InsertIssueRequest {
+
+    @NotNull(message = "title 이 null 값이어선 안됩니다.")
     private final String title;
+
+    @NotNull(message = "comment 가 null 값이어선 안됩니다.")
     private final String comment;
+
     private final Long milestoneId;
     private final List<String> assigneeIds;
     private final List<Long> labelIds;

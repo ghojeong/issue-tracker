@@ -10,7 +10,6 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Timestamp;
 import java.util.*;
 
 import static com.issuetracker.repository.sql.AssigneeQueriesKt.*;
@@ -22,6 +21,7 @@ import static com.issuetracker.repository.sql.LabelQueriesKt.FIND_ALL_LABEL;
 import static com.issuetracker.repository.sql.LabelQueriesKt.FIND_ALL_LABEL_BY_ISSUE_ID;
 import static com.issuetracker.repository.sql.MilestoneQueriesKt.FIND_ALL_MILESTONE;
 import static com.issuetracker.repository.sql.UserQueriesKt.FIND_ALL_USER;
+import static com.issuetracker.util.TimestampUtil.toLocalDateTime;
 
 @Repository
 public class IssueRepository {
@@ -61,16 +61,14 @@ public class IssueRepository {
         Labels labels = getLabels(issueId);
 
         String milestoneTitle = rs.getString("milestoneTitle");
-        Timestamp milestoneDueDate = rs.getTimestamp("milestoneDueDate");
         MilestoneInfo milestoneInfo = milestoneTitle != null ? new MilestoneInfo(
                 milestoneTitle,
                 rs.getString("milestoneDescription"),
                 Status.from(rs.getString("milestoneStatus")),
-                milestoneDueDate != null ? milestoneDueDate.toLocalDateTime() : null
+                toLocalDateTime(rs.getTimestamp("milestoneDueDate"))
         ) : null;
 
         Writer writer = new Writer(rs.getString("user.id"), rs.getString("avatarUrl"));
-        Timestamp createdDate = rs.getTimestamp("createdDate");
         return new Issue(
                 issueId,
                 milestoneInfo,
@@ -78,7 +76,7 @@ public class IssueRepository {
                 rs.getString("content"),
                 Status.from(rs.getString("statusId")),
                 writer,
-                createdDate != null ? createdDate.toLocalDateTime() : null,
+                toLocalDateTime(rs.getTimestamp("createdDate")),
                 assignees,
                 labels
         );
@@ -137,12 +135,11 @@ public class IssueRepository {
         Labels labels = new Labels(labelList);
 
         List<MilestoneInfo> milestoneInfoList = jdbc.query(FIND_ALL_MILESTONE, Collections.emptyMap(), (rs, rowNum) -> {
-            Timestamp dueDate = rs.getTimestamp("dueDate");
             return new MilestoneInfo(
                     rs.getString("title"),
                     rs.getString("description"),
                     Status.from(rs.getString("statusId")),
-                    dueDate != null ? dueDate.toLocalDateTime() : null
+                    toLocalDateTime(rs.getTimestamp("dueDate"))
             );
         });
 
@@ -208,12 +205,11 @@ public class IssueRepository {
 
         List<Comment> commentList = jdbc.query(FIND_ALL_COMMENT_BY_ISSUE_ID, params, (rs, rowNum) -> {
             Writer writer = new Writer(rs.getString("name"), rs.getString("avatarUrl"));
-            Timestamp dateTime = rs.getTimestamp("datetime");
             return new Comment(rs.getLong("id"),
                     rs.getLong("issueId"),
                     writer,
                     rs.getString("content"),
-                    dateTime != null ? dateTime.toLocalDateTime() : null);
+                    toLocalDateTime(rs.getTimestamp("datetime")));
         });
 
         return new Comments(commentList);
@@ -285,13 +281,12 @@ public class IssueRepository {
                 .addValue("commentId", commentId);
 
         return jdbc.queryForObject(FIND_COMMENT, parameter, ((rs, rowNum) -> {
-            Timestamp dateTime = rs.getTimestamp("dateTime");
             return new Comment(
                     rs.getLong("id"),
                     rs.getLong("issueId"),
                     new Writer(rs.getString("writerId"), null), // 댓글 조회에 profileImage는 굳이 필요 없는 거 같아서 null 처리
                     rs.getString("content"),
-                    dateTime != null ? dateTime.toLocalDateTime() : null
+                    toLocalDateTime(rs.getTimestamp("dateTime"))
             );
         }));
     }

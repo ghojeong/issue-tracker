@@ -6,10 +6,10 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Timestamp;
 import java.util.Collections;
 
 import static com.issuetracker.repository.sql.MilestoneQueriesKt.*;
+import static com.issuetracker.util.TimestampUtil.toLocalDateTime;
 
 @Repository
 public class MilestoneRepository {
@@ -24,12 +24,11 @@ public class MilestoneRepository {
 
     public Milestones findAllMilestoneInfo() {
         return new Milestones(jdbc.query(FIND_ALL_MILESTONE, Collections.emptyMap(), (rs, rowNum) -> {
-            Timestamp dueDate = rs.getTimestamp("dueDate");
             MilestoneInfo milestoneInfo = new MilestoneInfo(
                     rs.getString("title"),
                     rs.getString("description"),
                     Status.from(rs.getString("statusId")),
-                    dueDate != null ? dueDate.toLocalDateTime() : null);
+                    toLocalDateTime(rs.getTimestamp("dueDate")));
             Long milestoneId = rs.getLong("id");
             Issues issues = issueRepository.findIssuesByMilestone(milestoneId);
             return new Milestone(milestoneId, issues, milestoneInfo);

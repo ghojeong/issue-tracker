@@ -28,10 +28,14 @@ public class WebIssueController {
         return issueService.getIssues(user, issueStatus);
     }
 
-    //TODO. 로직 미구현
-    @PatchMapping
+    @PutMapping("close")
     public void closeIssue(@RequestBody IssuesNumbersRequest issueNumber) {
-        issueService.toggleIssue(issueNumber); //TODO. toggle 네이밍 변경 필요해보임.
+        issueService.closeIssue(issueNumber); //TODO. toggle 네이밍 변경 필요해보임.
+    }
+
+    @PutMapping("open")
+    public void openIssue(@RequestBody IssuesNumbersRequest issueNumber) {
+        issueService.openIssue(issueNumber); //TODO. toggle 네이밍 변경 필요해보임.
     }
 
     //INFO. 이슈생성 버튼 클릭시 제공해주는 요소(담당자, 레이블, 마일스톤 리스트..)

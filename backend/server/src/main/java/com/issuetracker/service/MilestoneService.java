@@ -37,4 +37,12 @@ public class MilestoneService {
         issueRepository.deleteMilestoneId(milestoneId);
         milestoneRepository.delete(milestoneId);
     }
+
+    public void close(Long milestoneId) {
+        milestoneRepository.close(milestoneId);
+    }
+
+    public void open(Long milestoneId) {
+        milestoneRepository.open(milestoneId);
+    }
 }

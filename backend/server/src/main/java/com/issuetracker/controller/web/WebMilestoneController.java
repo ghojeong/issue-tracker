@@ -36,4 +36,14 @@ public class WebMilestoneController {
         milestoneService.delete(milestoneId);
     }
 
+    @PutMapping("/{milestoneId}/close")
+    public void closeMilestone(@PathVariable Long milestoneId) {
+        milestoneService.close(milestoneId);
+    }
+
+    @PutMapping("/{milestoneId}/open")
+    public void openMilestone(@PathVariable Long milestoneId) {
+        milestoneService.open(milestoneId);
+    }
+
 }

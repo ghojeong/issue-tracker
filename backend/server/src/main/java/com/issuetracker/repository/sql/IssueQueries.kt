@@ -33,3 +33,9 @@ const val DELETE_ISSUE_BY_ID: String = """
 DELETE FROM issue WHERE id=:issueId
   
 """
+
+const val UPDATE_ISSUE_BY_ID: String = """
+    
+UPDATE issue SET statusId = :status WHERE issue.id = :issueId;
+  
+"""

@@ -98,9 +98,34 @@ public class IssueRepository {
                 rs.getString("textColor"))));
     }
 
-    // 이슈의 status를 토글하는 기능을 만들고자 했음. on/off
-    // DTO 나중에 없애기
-    public void toggle(IssuesNumbers issueNumbers) {
+    public void closeIssue(IssuesNumbers issueNumbers) {
+        for (Long issueId : issueNumbers.toList()) {
+            Map<String, Long> parameter = Collections.singletonMap("issueId", issueId);
+            Issue issue = jdbc.queryForObject(ISSUE_SQL + " WHERE issue.id = :issueId", parameter, issueMapper);
+            String issueStatus = Objects.requireNonNull(issue).getStatus().name();
+
+            if (issueStatus.equals("OPEN")) {
+                SqlParameterSource param = new MapSqlParameterSource()
+                        .addValue("status", "CLOSE")
+                        .addValue("issueId", issue.getIssueId());
+                jdbc.update(UPDATE_ISSUE_BY_ID, param);
+            }
+        }
+    }
+
+    public void openIssue(IssuesNumbers issueNumbers) {
+        for (Long issueId : issueNumbers.toList()) {
+            Map<String, Long> parameter = Collections.singletonMap("issueId", issueId);
+            Issue issue = jdbc.queryForObject(ISSUE_SQL + " WHERE issue.id = :issueId", parameter, issueMapper);
+            String issueStatus = Objects.requireNonNull(issue).getStatus().name();
+
+            if (issueStatus.equals("CLOSE")) {
+                SqlParameterSource param = new MapSqlParameterSource()
+                        .addValue("status", "OPEN")
+                        .addValue("issueId", issue.getIssueId());
+                jdbc.update(UPDATE_ISSUE_BY_ID, param);
+            }
+        }
     }
 
     public IssueOption findIssueOption() {

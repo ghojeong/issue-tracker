@@ -32,10 +32,12 @@ public class IssueService {
         return IssuesResponse.from(issueRepository.getIssues(userDto.toUser(), Status.from(status)));
     }
 
-    //INFO.  "issueNumbers": [1, 2, 3] 이 들어오면, 해당 번호의 이슈의 상태를 반전
-    //INFO. 아직 repository 완성되지 않음.
-    public void toggleIssue(IssuesNumbersRequest issueNumber) {
-        issueRepository.toggle(issueNumber.toIssueNumber()); //TODO. toggle 네이밍 변경 필요해보임.
+    public void closeIssue(IssuesNumbersRequest issueNumber) {
+        issueRepository.closeIssue(issueNumber.toIssueNumber());
+    }
+
+    public void openIssue(IssuesNumbersRequest issueNumber) {
+        issueRepository.openIssue(issueNumber.toIssueNumber());
     }
 
     public IssueOptionResponse findIssueOption() {

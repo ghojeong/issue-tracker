@@ -16,7 +16,7 @@ DROP TABLE IF EXISTS `pyrodb`.`email`;
 CREATE TABLE `pyrodb`.`email`
 (
     `email`  VARCHAR(50)  NOT NULL PRIMARY KEY,
-    `userId` VARCHAR(300) NOT NULL,
+    `userId` VARCHAR(50) NOT NULL,
     FOREIGN KEY (`userId`) REFERENCES `pyrodb`.`user` (`id`)
 );
 
@@ -31,7 +31,7 @@ CREATE TABLE `pyrodb`.`milestone`
 (
     `id`          INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `title`       VARCHAR(50) NOT NULL,
-    `description` VARCHAR(300),
+    `description` VARCHAR(8192),
     `statusId`    VARCHAR(50)  NOT NULL,
     `dueDate`     TIMESTAMP NULL,
     FOREIGN KEY (`statusId`) REFERENCES `pyrodb`.`status` (`id`)
@@ -42,8 +42,8 @@ CREATE TABLE `pyrodb`.`issue`
 (
     `id`          INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `title`       VARCHAR(50)  NOT NULL,
-    `content`     VARCHAR(300),
-    `writerId`    VARCHAR(300) NOT NULL,
+    `content`     VARCHAR(8192),
+    `writerId`    VARCHAR(50) NOT NULL,
     `statusId`    VARCHAR(50)  NOT NULL,
     `milestoneId` INT,
     `createdDate`     TIMESTAMP,
@@ -66,9 +66,9 @@ DROP TABLE IF EXISTS `pyrodb`.`comment`;
 CREATE TABLE `pyrodb`.`comment`
 (
     `id`       INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `content`  VARCHAR(300) NOT NULL,
+    `content`  VARCHAR(8192) NOT NULL,
     `dateTime` TIMESTAMP,
-    `writerId` VARCHAR(300) NOT NULL,
+    `writerId` VARCHAR(50) NOT NULL,
     `issueId`  INT,
     FOREIGN KEY (`writerId`) REFERENCES `pyrodb`.`user` (`id`),
     FOREIGN KEY (`issueId`) REFERENCES `pyrodb`.`issue` (`id`)
@@ -79,7 +79,7 @@ CREATE TABLE `pyrodb`.`label`
 (
     `id`              INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `title`           VARCHAR(50) NOT NULL,
-    `description`     VARCHAR(300),
+    `description`     VARCHAR(8192),
     `backgroundColor` VARCHAR(16),
     `textColor`       VARCHAR(16)
 );

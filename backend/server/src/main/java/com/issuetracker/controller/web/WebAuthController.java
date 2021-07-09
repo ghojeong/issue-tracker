@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import static org.springframework.http.HttpStatus.CREATED;
 
@@ -38,7 +39,7 @@ public class WebAuthController {
     }
 
     @PostMapping("/auth")
-    public ResponseEntity<AuthResponse> auth(@RequestBody AuthRequest authRequest) {
+    public ResponseEntity<AuthResponse> auth(@Valid @RequestBody AuthRequest authRequest) {
         String code = authRequest.getCode();
         AccessTokenResponse accessTokenResponse = gitHubService.getAccessToken(code);
         String accessToken = accessTokenResponse.getAccessToken();

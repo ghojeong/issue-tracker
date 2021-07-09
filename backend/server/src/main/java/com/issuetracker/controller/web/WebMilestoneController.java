@@ -5,6 +5,8 @@ import com.issuetracker.dto.response.MilestonesResponse;
 import com.issuetracker.service.MilestoneService;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/web/milestones")
 public class WebMilestoneController {
@@ -20,12 +22,12 @@ public class WebMilestoneController {
     }
 
     @PostMapping
-    public Long createMilestone(@RequestBody MilestoneRequest milestoneRequest) {
-        return milestoneService.save(milestoneRequest);
+    public void createMilestone(@Valid @RequestBody MilestoneRequest milestoneRequest) {
+        milestoneService.save(milestoneRequest);
     }
 
     @PutMapping("/{milestoneId}")
-    public void updateMilestone(@PathVariable Long milestoneId, @RequestBody MilestoneRequest milestoneRequest) {
+    public void updateMilestone(@PathVariable Long milestoneId, @Valid @RequestBody MilestoneRequest milestoneRequest) {
         milestoneService.update(milestoneId, milestoneRequest);
     }
 

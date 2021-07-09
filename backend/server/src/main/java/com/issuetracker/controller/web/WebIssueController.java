@@ -7,7 +7,6 @@ import com.issuetracker.dto.response.CommentsResponse;
 import com.issuetracker.dto.response.IssueDetailResponse;
 import com.issuetracker.dto.response.IssueOptionResponse;
 import com.issuetracker.dto.response.IssuesResponse;
-import com.issuetracker.service.AuthService;
 import com.issuetracker.service.IssueService;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,11 +17,9 @@ import javax.validation.Valid;
 @RequestMapping("/api/web/issues")
 public class WebIssueController {
 
-    private final AuthService authService;
     private final IssueService issueService;
 
-    public WebIssueController(AuthService authService, IssueService issueService) {
-        this.authService = authService;
+    public WebIssueController(IssueService issueService) {
         this.issueService = issueService;
     }
 
@@ -57,13 +54,13 @@ public class WebIssueController {
 
     @PutMapping("/{issueId}")
     @LoginRequired
-    public void updateIssue(HttpServletRequest request, @RequestBody UpdateIssueRequest issue, @PathVariable Long issueId) {
+    public void updateIssue(HttpServletRequest request, @Valid @RequestBody UpdateIssueRequest issue, @PathVariable Long issueId) {
         String loginUserId = (String) request.getAttribute("userId");
         issueService.updateIssue(loginUserId, issue, issueId);
     }
 
     @PutMapping("/{issueId}/milestones")
-    public void updateIssueMilestone(@RequestBody UpdateIssueMilestoneRequest milestoneRequest, @PathVariable Long issueId) {
+    public void updateIssueMilestone(@Valid @RequestBody UpdateIssueMilestoneRequest milestoneRequest, @PathVariable Long issueId) {
         issueService.updateIssue(milestoneRequest, issueId);
     }
 
@@ -88,13 +85,13 @@ public class WebIssueController {
 
     @PostMapping("/{issueId}/comments")
     @LoginRequired
-    public Long createComment(@PathVariable Long issueId, @RequestBody CommentRequest commentRequest, HttpServletRequest request) {
+    public Long createComment(@PathVariable Long issueId, @Valid @RequestBody CommentRequest commentRequest, HttpServletRequest request) {
         String writerId = (String) request.getAttribute("userId");
         return issueService.addComment(commentRequest, writerId, issueId);
     }
 
     @PutMapping("/{issueId}/comments/{commentId}")
-    public void updateComment(@PathVariable Long commentId, @RequestBody CommentRequest commentRequest) {
+    public void updateComment(@PathVariable Long commentId, @Valid @RequestBody CommentRequest commentRequest) {
         issueService.updateComment(commentId, commentRequest);
     }
 

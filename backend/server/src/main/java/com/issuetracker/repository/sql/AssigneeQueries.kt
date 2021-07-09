@@ -7,13 +7,6 @@ const val FIND_ALL_ASSIGNEE_BY_USER_ID: String = """
     WHERE assignee.issueId = :issueId;
 """
 
-const val FIND_ALL_ASSIGNEE: String = """
-    SELECT userId, name, avatarUrl
-    FROM assignee 
-    INNER JOIN user 
-    ON assignee.userId = user.id;
-"""
-
 const val INSERT_ASSIGNEE: String = """
     INSERT INTO assignee(issueId, userId) VALUES (:issueId, :assigneeId);
 """

@@ -28,8 +28,8 @@ public class LabelService {
         return new LabelsResponse(labels);
     }
 
-    public void save(LabelRequest labelRequest) {
-        labelRepository.save(labelRequest.toLabel());
+    public Long save(LabelRequest labelRequest) {
+        return labelRepository.save(labelRequest.toLabel());
     }
 
     public void update(Long labelId, LabelRequest labelRequest) {

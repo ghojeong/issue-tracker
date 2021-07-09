@@ -4,9 +4,12 @@ import com.issuetracker.domain.*;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collections;
+import java.util.Objects;
 
 import static com.issuetracker.repository.sql.MilestoneQueriesKt.*;
 import static com.issuetracker.util.TimestampUtil.toLocalDateTime;
@@ -35,13 +38,17 @@ public class MilestoneRepository {
         }));
     }
 
-    public void save(MilestoneInfo milestoneInfo) {
+    public Long save(MilestoneInfo milestoneInfo) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
         SqlParameterSource parameter = new MapSqlParameterSource()
                 .addValue("title", milestoneInfo.getTitle())
                 .addValue("description", milestoneInfo.getDescription())
                 .addValue("statusId", milestoneInfo.getStatus().name())
                 .addValue("dueDate", milestoneInfo.getDueDate());
-        jdbc.update(INSERT_MILESTONE, parameter);
+        jdbc.update(INSERT_MILESTONE, parameter, keyHolder);
+
+        return Objects.requireNonNull(keyHolder.getKey()).longValue();
     }
 
     public void update(Long milestoneId, MilestoneInfo milestoneInfo) {

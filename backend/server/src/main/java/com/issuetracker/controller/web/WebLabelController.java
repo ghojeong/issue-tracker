@@ -23,8 +23,8 @@ public class WebLabelController {
     }
 
     @PostMapping
-    public void createLabel(@RequestBody LabelRequest labelRequest) {
-        labelService.save(labelRequest);
+    public Long createLabel(@RequestBody LabelRequest labelRequest) {
+        return labelService.save(labelRequest);
     }
 
     @PutMapping("/{labelId}")

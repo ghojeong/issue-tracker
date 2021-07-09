@@ -21,3 +21,23 @@ const val DELETE_MILESTONE: String = """
 DELETE FROM milestone WHERE id=:milestoneId 
   
 """
+
+const val CLOSE_MILESTONE: String = """
+
+UPDATE milestone SET statusId = 'CLOSE' WHERE milestone.id = :milestoneId;
+  
+"""
+
+const val OPEN_MILESTONE: String = """
+
+UPDATE milestone SET statusId = 'OPEN' WHERE milestone.id = :milestoneId;
+  
+"""
+
+const val FIND_MILESTONE_BY_ID: String = """
+
+SELECT id, title, description, statusId, dueDate
+FROM milestone
+WHERE milestone.id = :milestoneId;
+  
+"""

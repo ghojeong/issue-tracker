@@ -64,4 +64,16 @@ public class MilestoneRepository {
                 .addValue("milestoneId", milestoneId);
         jdbc.update(DELETE_MILESTONE, parameter);
     }
+
+    public void close(Long milestoneId) {
+        SqlParameterSource parameter2 = new MapSqlParameterSource()
+                .addValue("milestoneId", milestoneId);
+        jdbc.update(CLOSE_MILESTONE, parameter2);
+    }
+
+    public void open(Long milestoneId) {
+        SqlParameterSource parameter = new MapSqlParameterSource()
+                .addValue("milestoneId", milestoneId);
+        jdbc.update(OPEN_MILESTONE, parameter);
+    }
 }

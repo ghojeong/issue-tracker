@@ -38,7 +38,7 @@ public class MilestoneRepository {
         }));
     }
 
-    public long save(MilestoneInfo milestoneInfo) {
+    public Long save(MilestoneInfo milestoneInfo) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         SqlParameterSource parameter = new MapSqlParameterSource()

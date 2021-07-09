@@ -28,7 +28,7 @@ public class LabelService {
         return new LabelsResponse(labels);
     }
 
-    public long save(LabelRequest labelRequest) {
+    public Long save(LabelRequest labelRequest) {
         return labelRepository.save(labelRequest.toLabel());
     }
 

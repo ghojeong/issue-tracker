@@ -42,7 +42,7 @@ public class IssueService {
         return IssueOptionResponse.from(issueRepository.findIssueOption());
     }
 
-    public long save(String writerId, InsertIssueRequest issueDto) {
+    public Long save(String writerId, InsertIssueRequest issueDto) {
         return issueRepository.save(writerId, issueDto.toInsertIssue());
     }
 
@@ -57,7 +57,7 @@ public class IssueService {
         return CommentsResponse.from(issueRepository.findCommentsByIssueId(issueId));
     }
 
-    public long addComment(CommentRequest commentRequest, String writerId, Long issueId) {
+    public Long addComment(CommentRequest commentRequest, String writerId, Long issueId) {
         return issueRepository.addComment(commentRequest.getContent(), writerId, issueId);
     }
 

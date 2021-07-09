@@ -35,7 +35,7 @@ public class LabelRepository {
         return jdbc.query(FIND_ALL_LABEL, Collections.emptyMap(), new LabelMapper());
     }
 
-    public long save(Label label) {
+    public Long save(Label label) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         SqlParameterSource parameter = new MapSqlParameterSource()

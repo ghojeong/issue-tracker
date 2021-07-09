@@ -45,7 +45,7 @@ public class WebIssueController {
 
     @PostMapping
     @LoginRequired
-    public long createIssue(HttpServletRequest request, @Valid @RequestBody InsertIssueRequest issue) {
+    public Long createIssue(HttpServletRequest request, @Valid @RequestBody InsertIssueRequest issue) {
         String writerId = (String) request.getAttribute("userId");
         return issueService.save(writerId, issue);
     }
@@ -88,7 +88,7 @@ public class WebIssueController {
 
     @PostMapping("/{issueId}/comments")
     @LoginRequired
-    public long createComment(@PathVariable Long issueId, @RequestBody CommentRequest commentRequest, HttpServletRequest request) {
+    public Long createComment(@PathVariable Long issueId, @RequestBody CommentRequest commentRequest, HttpServletRequest request) {
         String writerId = (String) request.getAttribute("userId");
         return issueService.addComment(commentRequest, writerId, issueId);
     }

@@ -134,7 +134,7 @@ public class IssueRepository {
 
 
         //TODO. 마일스톤 id,와 issue를 또 한번 마일스톤을 돌아서 구할지?
-        long cnt = 0L;
+        Long cnt = 0L;
 
         Milestones milestones = new Milestones(new ArrayList<>());
         for (MilestoneInfo milestoneInfo : milestoneInfoList) {
@@ -144,7 +144,7 @@ public class IssueRepository {
         return new IssueOption(assignees, labels, milestones);
     }
 
-    public long save(String writerId, InsertIssue issue) {
+    public Long save(String writerId, InsertIssue issue) {
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -173,7 +173,7 @@ public class IssueRepository {
         return new Issues(jdbc.query(ISSUE_SQL + " WHERE issue.milestoneId = :milestoneId", parameter, issueMapper));
     }
 
-    public long addComment(String content, String writerId, Long issueId) {
+    public Long addComment(String content, String writerId, Long issueId) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         SqlParameterSource parameter = new MapSqlParameterSource()
                 .addValue("content", content)

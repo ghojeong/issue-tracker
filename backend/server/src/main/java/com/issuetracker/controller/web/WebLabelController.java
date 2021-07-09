@@ -21,7 +21,7 @@ public class WebLabelController {
     }
 
     @PostMapping
-    public long createLabel(@RequestBody LabelRequest labelRequest) {
+    public Long createLabel(@RequestBody LabelRequest labelRequest) {
         return labelService.save(labelRequest);
     }
 

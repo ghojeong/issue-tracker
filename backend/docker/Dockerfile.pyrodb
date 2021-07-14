@@ -1,0 +1,16 @@
+FROM mysql:5.7
+
+ENV MYSQL_DATABASE=pyrodb
+ENV MYSQL_USER=pyro
+ENV MYSQL_ROOT_PASSWORD=root1234
+ENV MYSQL_PASSWORD=pyro1234
+
+ENV TZ=Asia/Seoul
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+ADD ./db/conf /etc/mysql/conf.d
+ADD ./db/initdb /docker-entrypoint-initdb.d
+
+EXPOSE 3306
+
+CMD ["mysqld"]

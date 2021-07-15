@@ -7,6 +7,7 @@ import com.issuetracker.dto.auth.AuthResponse;
 import com.issuetracker.dto.auth.UserDto;
 import com.issuetracker.service.AuthService;
 import com.issuetracker.service.UserService;
+import com.issuetracker.service.github.GitHubLocalhostService;
 import com.issuetracker.service.github.GitHubService;
 import com.issuetracker.service.github.GitHubWebService;
 import com.issuetracker.util.JwtUtil;
@@ -21,11 +22,13 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RestController
 @RequestMapping("/api/web")
 public class WebAuthController {
+    private final GitHubService gitHubLocalHostService;
     private final GitHubService gitHubService;
     private final UserService userService;
     private final AuthService authService;
 
-    public WebAuthController(GitHubWebService gitHubService, UserService userService, AuthService authService) {
+    public WebAuthController(GitHubLocalhostService gitHubLocalHostService, GitHubWebService gitHubService, UserService userService, AuthService authService) {
+        this.gitHubLocalHostService = gitHubLocalHostService;
         this.gitHubService = gitHubService;
         this.userService = userService;
         this.authService = authService;
@@ -40,6 +43,23 @@ public class WebAuthController {
 
     @PostMapping("/auth")
     public ResponseEntity<AuthResponse> auth(@Valid @RequestBody AuthRequest authRequest) {
+        String code = authRequest.getCode();
+        AccessTokenResponse accessTokenResponse = gitHubService.getAccessToken(code);
+        String accessToken = accessTokenResponse.getAccessToken();
+        UserDto userDto = gitHubService.getUser(accessToken);
+
+        userService.save(userDto);
+        authService.save(userDto, accessTokenResponse);
+
+        return ResponseEntity.status(CREATED)
+                .body(new AuthResponse(
+                        JwtUtil.createJwt(userDto),
+                        userDto.getName(),
+                        userDto.getAvatarUrl()));
+    }
+
+    @PostMapping("/localhost/auth")
+    public ResponseEntity<AuthResponse> localhostAuth(@Valid @RequestBody AuthRequest authRequest) {
         String code = authRequest.getCode();
         AccessTokenResponse accessTokenResponse = gitHubService.getAccessToken(code);
         String accessToken = accessTokenResponse.getAccessToken();

@@ -61,9 +61,9 @@ public class WebAuthController {
     @PostMapping("/localhost/auth")
     public ResponseEntity<AuthResponse> localhostAuth(@Valid @RequestBody AuthRequest authRequest) {
         String code = authRequest.getCode();
-        AccessTokenResponse accessTokenResponse = gitHubService.getAccessToken(code);
+        AccessTokenResponse accessTokenResponse = gitHubLocalHostService.getAccessToken(code);
         String accessToken = accessTokenResponse.getAccessToken();
-        UserDto userDto = gitHubService.getUser(accessToken);
+        UserDto userDto = gitHubLocalHostService.getUser(accessToken);
 
         userService.save(userDto);
         authService.save(userDto, accessTokenResponse);

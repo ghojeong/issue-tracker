@@ -45,6 +45,7 @@ public abstract class GitHubService {
                     .exchange(request, UserInfoDto.class)
                     .getBody();
         } catch (Exception e) {
+            e.printStackTrace();
             throw new GitHubException("유저 정보 획득 실패");
         }
     }

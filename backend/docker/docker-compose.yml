@@ -2,7 +2,6 @@ version: "3"
 services:
   db:
     image: pyrodb:1.0
-    platform: linux/x86_64
     container_name: pyrodb-1.0
     build:
       context: .
@@ -13,14 +12,12 @@ services:
 
   adminer:
     image: adminer
-    platform: linux/x86_64
     container_name: adminer9984
     ports:
       - 9984:8080
 
   redis:
     image: redis
-    platform: linux/x86_64
     container_name: redis15552
     hostname: redis15552
     command: redis-server --requirepass redis1234 --port 6379

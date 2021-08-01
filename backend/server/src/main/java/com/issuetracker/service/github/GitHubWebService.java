@@ -1,24 +1,16 @@
 package com.issuetracker.service.github;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class GitHubWebService extends GitHubService {
-    @Value("${github.web.client.id}")
-    private String CLIENT_ID;
-
-    @Value("${github.web.client.secret}")
-    private String CLIENT_SECRET;
-
-
     @Override
     String getClientId() {
-        return CLIENT_ID;
+        return "2a42dd1b1e2aad1238e9";
     }
 
     @Override
     String getClientSecret() {
-        return CLIENT_SECRET;
+        return "c34678e8b0aaca11d7c2f53dfc46993bc0a29748";
     }
 }

@@ -6,11 +6,11 @@ import org.springframework.stereotype.Service;
 public class GitHubLocalhostService extends GitHubService {
     @Override
     String getClientId() {
-        return "e0ec416c1189c6a7f776";
+        return "bd67de79012efe833a1e";
     }
 
     @Override
     String getClientSecret() {
-        return "33bea9cc6eae950f9ecf49f225af9f2e94ee6dda";
+        return "ab4be51bbc28ffcd5b2ec952049ae2877d8665b2";
     }
 }

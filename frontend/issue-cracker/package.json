@@ -59,5 +59,6 @@
     "@typescript-eslint/parser": "^4.15.2",
     "eslint": "^7.20.0",
     "eslint-plugin-react": "^7.22.0"
-  }
+  },
+  "proxy": "http://issue-tracker.pyro-squad.com"
 }

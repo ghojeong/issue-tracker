@@ -17,13 +17,13 @@ export const LOGO_TITLE = 'Issue Cracker..🍪';
 const DEVELOPE = {
   BASE_URL: 'http://localhost:3000',
   CLIENT_ID: 'e0ec416c1189c6a7f776',
-  API_URL: '/localhost/auth',
+  API_URL: '/api/web/localhost/auth',
 };
 
 const DEPLOY = {
-  BASE_URL: 'http://issue-tracker.pyro-squad.com',
+  BASE_URL: 'http://localhost:8080',
   CLIENT_ID: '2a42dd1b1e2aad1238e9',
-  API_URL: '/api/web/auth',
+  API_URL: '/api/web/localhost/auth',
 };
 
 const selectMode = (mode: string) => (mode === 'dev' ? DEVELOPE : DEPLOY);
@@ -31,7 +31,7 @@ const MODE = selectMode('dev');
 
 //url
 export const URL = {
-  AUTH: `${MODE.API_URL}`,
+  AUTH: `${DEPLOY.BASE_URL}${MODE.API_URL}`,
   LOGIN: `https://github.com/login/oauth/authorize?client_id=${MODE.CLIENT_ID}&scope=read:user,user:email&redirect_uri=${MODE.BASE_URL}/authentication`,
   FORM: `${DEPLOY.BASE_URL}/api/web/issues/form`,
   ISSUES: `${DEPLOY.BASE_URL}/api/web/issues`,

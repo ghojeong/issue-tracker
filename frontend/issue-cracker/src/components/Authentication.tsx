@@ -12,6 +12,8 @@ const Authentication = (): JSX.Element => {
   const location = useLocation();
   const setUserToken = useSetRecoilState(token);
 
+  console.log(authUri);
+
   useEffect(() => {
     const getToken = async () => {
       const { code } = qs.parse(location.search, {
@@ -29,10 +31,15 @@ const Authentication = (): JSX.Element => {
           }),
         });
         const data = await response.json();
-        localStorage.setItem('token', data.token);
 
-        setUserToken(data.token);
-        history.push(P.ISSUE_LIST);
+        if (data.token) {
+          localStorage.setItem('token', data.token);
+          setUserToken(data.token);
+          history.push(P.ISSUE_LIST);
+        } else {
+          history.push(P.LOGIN);
+          console.log('로그인 실패: 토큰 겟 실패');
+        }
       } catch (error) {}
     };
 

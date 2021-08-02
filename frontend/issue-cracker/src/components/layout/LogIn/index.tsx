@@ -13,6 +13,7 @@ import {
 import theme from '../../styles/theme';
 
 const LogIn: FC = () => {
+  console.log(U.LOGIN);
   return (
     <LogInDiv>
       <LogInBox>

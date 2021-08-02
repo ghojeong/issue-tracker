@@ -16,12 +16,12 @@ export const LOGO_TITLE = 'Issue Cracker..🍪';
 
 const DEVELOPE = {
   BASE_URL: 'http://localhost:3000',
-  CLIENT_ID: 'e0ec416c1189c6a7f776',
+  CLIENT_ID: 'bd67de79012efe833a1e',
   API_URL: '/api/web/localhost/auth',
 };
 
 const DEPLOY = {
-  BASE_URL: 'http://localhost:8080',
+  BASE_URL: 'http://issue-tracker.pyro-squad.com',
   CLIENT_ID: '2a42dd1b1e2aad1238e9',
   API_URL: '/api/web/localhost/auth',
 };

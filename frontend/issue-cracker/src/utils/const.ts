@@ -1,19 +1,42 @@
 // Logo
 export const LOGO_TITLE = 'Issue Cracker..🍪';
-const DEPLOY = 'http://issue-tracker.pyro-squad.com';
-// const LOCAL = 'http://localhost:8080';
-// const LOCAL_LOGIN = 'http://localhost:3000';
 
-const LOGIN_URL = DEPLOY;
-const BASE_URL = DEPLOY;
+// Mode (DEVELOPE=3000, DEPLOY=squad, LOCAL=8080, )
+
+// const DEPLOY = 'http://issue-tracker.pyro-squad.com';
+// const LOCAL = 'http://localhost:8080';
+// const DEVELOPE = 'http://localhost:3000';
+
+// const DEPLOY_ID = '2a42dd1b1e2aad1238e9';
+// const DEVELOPE_ID = 'e0ec416c1189c6a7f776';
+
+// const LOGIN_URL = LOCAL_LOGIN;
+// const BASE_URL = DEPLOY;
+// const CLIENT_ID = DEVELOPE_ID;
+
+const DEVELOPE = {
+  BASE_URL: 'http://localhost:3000',
+  CLIENT_ID: 'bd67de79012efe833a1e',
+  API_URL: '/api/web/localhost/auth',
+};
+
+const DEPLOY = {
+  BASE_URL: 'http://issue-tracker.pyro-squad.com',
+  CLIENT_ID: '2a42dd1b1e2aad1238e9',
+  API_URL: '/api/web/localhost/auth',
+};
+
+const selectMode = (mode: string) => (mode === 'dev' ? DEVELOPE : DEPLOY);
+const MODE = selectMode('dev');
+
 //url
 export const URL = {
-  AUTH: `${BASE_URL}/api/web/auth`,
-  LOGIN: `https://github.com/login/oauth/authorize?client_id=2a42dd1b1e2aad1238e9&scope=read:user,user:email&redirect_uri=${LOGIN_URL}/authentication`,
-  FORM: `${BASE_URL}/api/web/issues/form`,
-  ISSUES: `${BASE_URL}/api/web/issues`,
-  LABELS: `${BASE_URL}/api/web/labels`,
-  MILESTONE: `${BASE_URL}/api/web/milestones`,
+  AUTH: `${DEPLOY.BASE_URL}${MODE.API_URL}`,
+  LOGIN: `https://github.com/login/oauth/authorize?client_id=${MODE.CLIENT_ID}&scope=read:user,user:email&redirect_uri=${MODE.BASE_URL}/authentication`,
+  FORM: `${DEPLOY.BASE_URL}/api/web/issues/form`,
+  ISSUES: `${DEPLOY.BASE_URL}/api/web/issues`,
+  LABELS: `${DEPLOY.BASE_URL}/api/web/labels`,
+  MILESTONE: `${DEPLOY.BASE_URL}/api/web/milestones`,
 };
 //path
 export const PATH = {

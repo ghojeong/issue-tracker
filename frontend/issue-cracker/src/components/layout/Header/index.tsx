@@ -2,10 +2,11 @@ import React, { FC, useEffect } from 'react';
 import styled from 'styled-components';
 import { ProfileImg as S } from '../../styles/CommonStyles';
 import Logo from '../../common/Logo';
-import { LOGO_TITLE, BUTTON_SIZE as BS } from '../../../utils/const';
+import { LOGO_TITLE, BUTTON_SIZE as BS, PATH as P } from '../../../utils/const';
 import jwtDecode from 'jwt-decode';
 import { useSetRecoilState } from 'recoil';
 import { decodedToken } from '../../../store/Recoil';
+import { useHistory } from 'react-router-dom';
 
 interface TokenProps {
   name: string;
@@ -15,6 +16,8 @@ const Header: FC = () => {
   const token = localStorage.getItem('token');
   const decoded = token && jwtDecode<TokenProps>(token);
   const setDecodedToken = useSetRecoilState(decodedToken);
+  const history = useHistory();
+
   useEffect(() => {
     decoded &&
       setDecodedToken({

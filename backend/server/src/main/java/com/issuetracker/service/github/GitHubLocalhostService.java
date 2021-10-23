@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class GitHubLocalhostService extends GitHubService {
+    // 웹 프론튿와 동일한지 확인 필요
     @Override
     String getClientId() {
         return "bd67de79012efe833a1e";

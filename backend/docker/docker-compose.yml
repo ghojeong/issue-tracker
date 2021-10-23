@@ -1,0 +1,28 @@
+version: "3"
+services:
+  db:
+    image: pyrodb:1.0
+    container_name: pyrodb-1.0
+    build:
+      context: .
+      dockerfile: ./Dockerfile.pyrodb
+    ports:
+      - "12345:3306"
+    restart: always
+
+  adminer:
+    image: adminer
+    container_name: adminer9984
+    ports:
+      - 9984:8080
+
+  redis:
+    image: redis
+    container_name: redis15552
+    hostname: redis15552
+    command: redis-server --requirepass redis1234 --port 6379
+    labels:
+      - "name=redis"
+      - "mode=standalone"
+    ports:
+      - 15552:6379

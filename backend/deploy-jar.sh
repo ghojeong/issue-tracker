@@ -1,7 +1,7 @@
 # 출처: https://www.notion.so/cc778488e5524e1999a1bcf0c19f0006
 
-KEY_PATH=/Users/g/ssh-key-2021-07-01.key
-SERVER_PATH=ubuntu@132.226.22.147
+KEY_PATH=/Users/g/LightsailDefaultKeyPair-ap-northeast-2.pem
+SERVER_PATH=ubuntu@3.38.105.34
 JAR_FILE=issuetracker.jar
 
 cd ./server

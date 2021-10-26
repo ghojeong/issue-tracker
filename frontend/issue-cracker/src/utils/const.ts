@@ -15,14 +15,14 @@ export const LOGO_TITLE = 'Issue Cracker..🍪';
 // const CLIENT_ID = DEVELOPE_ID;
 
 const DEVELOPE = {
-  BASE_URL: 'http://3.38.105.34',
-  CLIENT_ID: 'bd67de79012efe833a1e',
+  BASE_URL: 'http://localhost:3000',
+  CLIENT_ID: '8d3e5607a4abb690a65d',
   API_URL: '/api/web/localhost/auth',
 };
 
 const DEPLOY = {
-  BASE_URL: 'http://3.38.105.34:8080',
-  CLIENT_ID: '2a42dd1b1e2aad1238e9',
+  BASE_URL: 'http://localhost:8080',
+  CLIENT_ID: 'ada4e59669522bb588d4',
   API_URL: '/api/web/localhost/auth',
 };
 

@@ -1,7 +1,7 @@
 # 출처: https://www.notion.so/cc778488e5524e1999a1bcf0c19f0006
 
 KEY_PATH=/Users/g/LightsailDefaultKeyPair-ap-northeast-2.pem
-SERVER_PATH=ubuntu@3.38.105.34
+SERVER_PATH=ubuntu@issue-cracker.pyro-squad.com
 JAR_FILE=issuetracker.jar
 
 cd ./server

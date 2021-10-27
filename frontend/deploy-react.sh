@@ -1,5 +1,5 @@
 KEY_PATH=/Users/g/LightsailDefaultKeyPair-ap-northeast-2.pem
-EC2_PATH=ubuntu@3.38.105.34
+EC2_PATH=ubuntu@issue-cracker.pyro-squad.com
 BUILD_PATH=./issue-cracker/build
 NGINX_PATH=/var/www/html
 ZIP_FILE=webfront.tar.gz

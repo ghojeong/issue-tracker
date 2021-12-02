@@ -9,11 +9,13 @@ public class UpdateIssueRequest {
 
     @NotBlank(message = "title이 공백이어선 안됩니다.")
     @NotNull(message = "title 이 null 값이어선 안됩니다.")
-    private final String title;
+    private String title;
 
     @NotBlank(message = "comment가 공백이어선 안됩니다.")
     @NotNull(message = "comment가 null 값이어선 안됩니다.")
-    private final String comment;
+    private String comment;
+
+    protected UpdateIssueRequest() {}
 
     public UpdateIssueRequest(String title, String comment) {
         this.title = title;

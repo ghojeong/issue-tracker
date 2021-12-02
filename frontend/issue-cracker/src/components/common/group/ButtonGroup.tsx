@@ -7,6 +7,7 @@ import styled from 'styled-components';
 interface Prop {
   type: string;
   name: string;
+  disabled?: boolean;
   color?: string;
   icon?: JSX.Element;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
@@ -23,6 +24,7 @@ type IButtonType = ClassNameMap<
 interface IButton {
   classes: IButtonType;
   name: string;
+  disabled?: boolean;
   color?: string;
   icon?: JSX.Element | undefined;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
@@ -31,6 +33,7 @@ interface IButton {
 const ButtonGroup: FC<Prop> = ({
   type,
   name,
+  disabled,
   onClick,
   color = 'white',
   icon,
@@ -38,24 +41,25 @@ const ButtonGroup: FC<Prop> = ({
   const classes = useButtonStyles();
 
   return {
-    large: <ButtonLarge {...{ classes, name, onClick, color }} />,
-    medium: <ButtonMedium {...{ classes, name, onClick, color }} />,
-    smallFill: <ButtonSmallFill {...{ classes, name, onClick, color, icon }} />,
+    large: <ButtonLarge {...{ classes, name, disabled, onClick, color }} />,
+    medium: <ButtonMedium {...{ classes, name, disabled, onClick, color }} />,
+    smallFill: <ButtonSmallFill {...{ classes, name, disabled, onClick, color, icon }} />,
     smallBorder: (
-      <ButtonSmallBorder {...{ classes, name, onClick, color, icon }} />
+      <ButtonSmallBorder {...{ classes, name, disabled, onClick, color, icon }} />
     ),
     mediumText: (
-      <ButtonMediumText {...{ classes, name, onClick, color, icon }} />
+      <ButtonMediumText {...{ classes, name, disabled, onClick, color, icon }} />
     ),
-    smallText: <ButtonSmallText {...{ classes, name, onClick, color, icon }} />,
+    smallText: <ButtonSmallText {...{ classes, name, disabled, onClick, color, icon }} />,
   }[type] as JSX.Element;
 };
 
 export default ButtonGroup;
 
-function ButtonLarge({ classes, name, onClick, color }: IButton) {
+function ButtonLarge({ classes, name, disabled, onClick, color }: IButton) {
   return (
     <Button
+      disabled={disabled}
       variant="contained"
       className={classes.buttonLarge}
       style={{
@@ -69,9 +73,10 @@ function ButtonLarge({ classes, name, onClick, color }: IButton) {
   );
 }
 
-function ButtonMedium({ classes, name, onClick, color }: IButton) {
+function ButtonMedium({ classes, name, disabled, onClick, color }: IButton) {
   return (
     <Button
+      disabled={disabled}
       variant="contained"
       className={classes.buttonMedium}
       style={{
@@ -84,9 +89,10 @@ function ButtonMedium({ classes, name, onClick, color }: IButton) {
   );
 }
 
-function ButtonSmallFill({ classes, name, onClick, color, icon }: IButton) {
+function ButtonSmallFill({ classes, name, disabled, onClick, color, icon }: IButton) {
   return (
     <CustomButton
+      disabled={disabled}
       variant="contained"
       startIcon={icon}
       className={classes.buttonSmallFill}
@@ -101,9 +107,10 @@ function ButtonSmallFill({ classes, name, onClick, color, icon }: IButton) {
   );
 }
 
-function ButtonSmallBorder({ classes, name, onClick, color, icon }: IButton) {
+function ButtonSmallBorder({ classes, name, disabled, onClick, color, icon }: IButton) {
   return (
     <Button
+      disabled={disabled}
       variant="outlined"
       startIcon={icon}
       className={classes.buttonSmallBorder}
@@ -117,9 +124,10 @@ function ButtonSmallBorder({ classes, name, onClick, color, icon }: IButton) {
   );
 }
 
-function ButtonMediumText({ classes, name, onClick, icon }: IButton) {
+function ButtonMediumText({ classes, name, disabled, onClick, icon }: IButton) {
   return (
     <Button
+      disabled={disabled}
       variant="text"
       startIcon={icon}
       className={classes.buttonMediumText}
@@ -130,9 +138,10 @@ function ButtonMediumText({ classes, name, onClick, icon }: IButton) {
   );
 }
 
-function ButtonSmallText({ classes, name, icon, onClick }: IButton) {
+function ButtonSmallText({ classes, name, disabled, icon, onClick }: IButton) {
   return (
     <Button
+      disabled={disabled}
       variant="text"
       startIcon={icon}
       onClick={onClick}

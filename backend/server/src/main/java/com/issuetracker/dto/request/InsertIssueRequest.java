@@ -10,15 +10,17 @@ public class InsertIssueRequest {
 
     @NotBlank(message = "title이 공백이어선 안됩니다.")
     @NotNull(message = "title 이 null 값이어선 안됩니다.")
-    private final String title;
+    private String title;
 
     @NotBlank(message = "comment가 공백이어선 안됩니다.")
     @NotNull(message = "comment 가 null 값이어선 안됩니다.")
-    private final String comment;
+    private String comment;
 
-    private final Long milestoneId;
-    private final List<String> assigneeIds;
-    private final List<Long> labelIds;
+    private Long milestoneId;
+    private List<String> assigneeIds;
+    private List<Long> labelIds;
+
+    protected InsertIssueRequest() {}
 
     public InsertIssueRequest(String title, String comment, Long milestoneId, List<String> assigneeIds, List<Long> labelIds) {
         this.title = title;

@@ -1,14 +1,21 @@
 // Logo
 export const LOGO_TITLE = 'Issue Cracker..🍪';
 
-const DEVELOP = {
+interface ENVIRONMENT {
+  BASE_URL: string,
+  API_URL: string,
+  AUTH_PATH: string,
+  CLIENT_ID: string,
+}
+
+const DEVELOP: ENVIRONMENT = {
   BASE_URL: 'http://localhost:3000',
   API_URL: 'http://localhost:8080/api/web',
   AUTH_PATH: `/localhost/auth`,
   CLIENT_ID: '8d3e5607a4abb690a65d',
 };
 
-const PRODUCT = {
+const PRODUCT: ENVIRONMENT = {
   BASE_URL: 'http://issue-cracker.pyro-squad.com',
   API_URL: 'http://issue-cracker.pyro-squad.com:8080/api/web',
   AUTH_PATH: '/auth',

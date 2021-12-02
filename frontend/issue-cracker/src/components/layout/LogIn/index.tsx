@@ -18,7 +18,7 @@ const LogIn: FC = () => {
     <LogInDiv>
       <LogInBox>
         <Logo type={B.LARGE} name={LOGO_TITLE} />
-        <a href={U.LOGIN}>
+        <a href={U.LOGIN} style={{paddingTop: 32}}>
           <ButtonBox>
             <ButtonList
               type={B.LARGE}
@@ -27,7 +27,7 @@ const LogIn: FC = () => {
             />
           </ButtonBox>
         </a>
-        <TextBox>or</TextBox>
+        {/* <TextBox>or</TextBox>
         <InputBox>
           <InputGroup type={B.LARGE} name={L.ID} variant={'filled'} />
           <InputGroup type={B.LARGE} name={L.PASSWORD} variant={'filled'} />
@@ -39,7 +39,7 @@ const LogIn: FC = () => {
             // color={theme.colors.yellow}
           />
         </ButtonBox>
-        <RegisterButton />
+        <RegisterButton /> */}
       </LogInBox>
     </LogInDiv>
   );

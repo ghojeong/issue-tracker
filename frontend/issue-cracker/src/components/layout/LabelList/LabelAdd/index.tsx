@@ -44,8 +44,10 @@ const LabelAdd = (): JSX.Element => {
         </InputContainer>
       </LabelAddCell>
       <ButtonContainer>
-        <ButtonBox onClick={handleClickButton}>
+        <ButtonBox>
           <ButtonGroup
+            disabled={!labelAddInput.title || !labelAddInput.textColor}
+            onClick={handleClickButton}
             type={BS.SMALL_FILL}
             name={BN.COMPLETE}
             icon={<AddIcon style={{ fontSize: 16 }} />}

@@ -9,8 +9,7 @@ public class AuthRequest {
     @NotBlank(message = "code는 공백일 수 없습니다.")
     private String code;
 
-    protected AuthRequest() {
-    }
+    protected AuthRequest() {}
 
     public AuthRequest(String code) {
         this.code = code;

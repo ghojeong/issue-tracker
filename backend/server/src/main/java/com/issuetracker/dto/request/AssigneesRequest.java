@@ -9,8 +9,7 @@ public class AssigneesRequest {
     @JsonProperty("assigneeIds")
     private List<String> assigneeIds;
 
-    protected AssigneesRequest() {
-    }
+    protected AssigneesRequest() {}
 
     public AssigneesRequest(List<String> assigneeIds) {
         this.assigneeIds = assigneeIds;

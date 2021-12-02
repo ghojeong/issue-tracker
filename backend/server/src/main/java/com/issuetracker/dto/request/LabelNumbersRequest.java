@@ -9,8 +9,7 @@ public class LabelNumbersRequest {
     @JsonProperty("labelIds")
     private List<Long> labelIds;
 
-    public LabelNumbersRequest() {
-    }
+    protected LabelNumbersRequest() {}
 
     public LabelNumbersRequest(List<Long> labelIds) {
         this.labelIds = labelIds;

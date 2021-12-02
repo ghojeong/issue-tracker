@@ -12,8 +12,7 @@ public class IssuesNumbersRequest {
     @JsonProperty("issueNumbers")
     private List<Long> issueNumbers;
 
-    public IssuesNumbersRequest() {
-    }
+    protected IssuesNumbersRequest() {}
 
     public IssuesNumbersRequest(List<Long> issueNumbers) {
         this.issueNumbers = issueNumbers;

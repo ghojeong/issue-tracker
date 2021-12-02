@@ -11,13 +11,15 @@ public class MilestoneRequest {
 
     @NotNull(message = "title이 NULL일 수 없습니다.")
     @NotBlank(message = "title이 공백일 수 없습니다.")
-    private final String title;
+    private String title;
 
     @NotNull(message = "description이 NULL일 수 없습니다.")
     @NotBlank(message = "description이 공백일 수 없습니다.")
-    private final String description;
+    private String description;
 
-    private final LocalDateTime dueDate;
+    private LocalDateTime dueDate;
+
+    protected MilestoneRequest() {}
 
     public MilestoneRequest(String title, String description, LocalDateTime dueDate) {
         this.title = title;

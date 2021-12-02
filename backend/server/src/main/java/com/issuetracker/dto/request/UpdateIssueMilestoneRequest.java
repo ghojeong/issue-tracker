@@ -9,8 +9,7 @@ public class UpdateIssueMilestoneRequest {
     @NotNull(message = "milestoneId은 null일 수 없습니다.")
     private Long milestoneId;
 
-    protected UpdateIssueMilestoneRequest() {
-    }
+    protected UpdateIssueMilestoneRequest() {}
 
     public UpdateIssueMilestoneRequest(Long milestoneId) {
         this.milestoneId = milestoneId;

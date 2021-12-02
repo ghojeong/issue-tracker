@@ -28,8 +28,8 @@ const IssueTableHeader = ({
   return (
     <S.IssueTableHeader>
       <S.IssueTableHeaderLeft>
-        <CheckBoxes />
-        <CommonButton
+        {/* <CheckBoxes /> */}
+        {/* <CommonButton
           icon={<OpenIconGroup type={'default'} />}
           text={
             <TextGroup type={T.SMALL} content={TT.OPEN_ISSUE} color="#222" />
@@ -46,12 +46,12 @@ const IssueTableHeader = ({
             />
           }
           count={<CountGroup count={closedIssue} color="#6E7191" />}
-        />
+        /> */}
       </S.IssueTableHeaderLeft>
       <S.IssueTableHeaderRight>
-        {F.ISSUE_TABLE_HEADER_LIST.map((menu) => (
+        {/* {F.ISSUE_TABLE_HEADER_LIST.map((menu) => (
           <FilterMenu {...{ menu }} list={FILTER_DROPDOWN} key={uuidv4()} />
-        ))}
+        ))} */}
       </S.IssueTableHeaderRight>
     </S.IssueTableHeader>
   );

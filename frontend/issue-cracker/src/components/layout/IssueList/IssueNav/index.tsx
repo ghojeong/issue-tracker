@@ -16,9 +16,9 @@ const IssueNav: FC = () => {
   return (
     <IssueNavDiv>
       <IssueNavContainer>
-        <SelectBox>
+        {/* <SelectBox>
           <IssueFilter />
-        </SelectBox>
+        </SelectBox> */}
         <AnotherBox>
           <TabBox>
             <React.Suspense fallback={null}>

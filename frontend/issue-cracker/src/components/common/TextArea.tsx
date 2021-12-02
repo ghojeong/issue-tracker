@@ -17,16 +17,16 @@ const TextArea = (): JSX.Element => {
 
   return (
     <TextAreaStyle>
-      <DashedLine />
+      {/* <DashedLine /> */}
       <TextAreaUI onChange={handleChangeInputContent} />
-      <AddFileBox>
+      {/* <AddFileBox>
         <AttachFileBox>
           <div>
             <CustomAttachFileIcon />
           </div>
           <div>파일 첨부하기</div>
         </AttachFileBox>
-      </AddFileBox>
+      </AddFileBox> */}
     </TextAreaStyle>
   );
 };

@@ -16,12 +16,18 @@ const IssueDetailInputContent = (): JSX.Element => {
     getPost(
       `${URL.ISSUES}/${issueDetail.issueId}/comments`, 
       userToken, { content: comment }
-    ).then(() => location.reload())
+    ).then(() => fetch(`${URL.ISSUES}/${issueDetail.issueId}`)
+      .then(res => res.json())
+      .then(issueDetail => { 
+        setIssueDetail(issueDetail);
+        setComment("");
+      })
+    )
   }
 
   return (
     <IssueDetailInputContentStyle>
-      <TextArea onChange={(e) => setComment(e.target.value)}/>
+      <TextArea value={comment} onChange={(e) => setComment(e.target.value)}/>
       <IssueDetailButton
         disabled={!comment}
         onClick={submitComment}

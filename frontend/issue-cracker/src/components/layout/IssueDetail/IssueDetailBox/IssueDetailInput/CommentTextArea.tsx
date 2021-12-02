@@ -4,26 +4,29 @@ import styled from 'styled-components';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 
 interface Props {
+  value: string
   onChange: ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement>
 }
 
-const TextArea = ({ onChange }: Props): JSX.Element => (
+const TextArea = ({ value, onChange }: Props): JSX.Element => (
     <TextAreaStyle>
-        <TextAreaUI onChange={onChange} />
+        <TextAreaUI value={value} onChange={onChange} />
     </TextAreaStyle>
 );
 
 export default TextArea;
 
 interface TextAreaUIProps {
+  value: string
   onChange: ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement>;
 }
 
-const TextAreaUI = ({ onChange }: TextAreaUIProps): JSX.Element => {
+const TextAreaUI = ({ value, onChange }: TextAreaUIProps): JSX.Element => {
   return (
     <TextareaAutosize
       aria-label="empty textarea"
       placeholder="코멘트를 입력하세요"
+      value={value}
       onChange={onChange}
       style={{
         background: 'inherit',

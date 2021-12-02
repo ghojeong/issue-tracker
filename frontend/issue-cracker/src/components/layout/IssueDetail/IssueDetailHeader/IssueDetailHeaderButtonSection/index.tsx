@@ -23,7 +23,7 @@ const IssueDetailHeaderButtonSection = ({
       ) : (
         <>
           <IssueDetailTitleEditButton />
-          <IssueDetailIssueCloseButton {...{ callback }} />
+          {/* <IssueDetailIssueCloseButton {...{ callback }} /> */}
         </>
       )}
     </>

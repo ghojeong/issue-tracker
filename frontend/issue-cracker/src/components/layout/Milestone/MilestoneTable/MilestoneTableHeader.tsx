@@ -33,7 +33,7 @@ const MilestoneTableHeader = (): JSX.Element => {
           }
           count={<CountGroup count={openMilestoneCount} color="#222" />}
         />
-        <CommonButton
+        {/* <CommonButton
           icon={<ClosedIconGroup type={'disabled'} />}
           text={
             <TextGroup
@@ -43,7 +43,7 @@ const MilestoneTableHeader = (): JSX.Element => {
             />
           }
           count={<CountGroup count={closeMilestoneCount} color="#6E7191" />}
-        />
+        /> */}
       </MilestoneTableHeaderWrapper>
     </S.IssueTableHeader>
   );

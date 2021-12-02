@@ -38,7 +38,7 @@ const MilestoneCell = ({
       </LeftBox>
       <RightBox>
         <RightUpper>
-          <MilestoneCloseButton {...{ id }} />
+          {/* <MilestoneCloseButton {...{ id }} /> */}
           <MilestoneEditButton {...{ id }} />
           <MilestoneDeleteButton {...{ id }} />
         </RightUpper>

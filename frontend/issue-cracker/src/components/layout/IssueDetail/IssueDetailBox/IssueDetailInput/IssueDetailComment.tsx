@@ -13,7 +13,6 @@ import { TYPE as T } from '../../../../../utils/const';
 
 const IssueDetailComment = (): JSX.Element => {
   const issueDetail = useRecoilValue<IssueDataProps>(issueDetailState);
-  // const { comments } = issueDetail;
   console.log(issueDetail);
   return (
     <>

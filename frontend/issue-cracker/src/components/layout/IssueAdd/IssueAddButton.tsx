@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import TextGroup from '../../common/group/TextGroup';
@@ -56,6 +56,7 @@ const IssueAddButton = (): JSX.Element => {
       <ButtonGroup
         type={BS.MEDIUM}
         name={BN.COMPLETE}
+        disabled={!issueAdd.title || !issueAdd.comment}
         onClick={handleClickCompleteButton}
         color="#ffffff"
       />

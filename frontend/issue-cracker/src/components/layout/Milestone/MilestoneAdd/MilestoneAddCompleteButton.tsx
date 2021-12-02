@@ -25,8 +25,10 @@ const MilestoneAddCompleteButton = (): JSX.Element => {
   };
 
   return (
-    <ButtonBox onClick={handleClickButton}>
+    <ButtonBox>
       <ButtonGroup
+        disabled={!milestoneAddInput.title || !milestoneAddInput.description}
+        onClick={handleClickButton}
         type={BS.SMALL_FILL}
         name={BN.COMPLETE}
         icon={<AddIcon style={{ fontSize: 16 }} />}

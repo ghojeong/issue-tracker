@@ -25,8 +25,10 @@ const LabelEditCompleteButton = (): JSX.Element => {
   };
 
   return (
-    <ButtonBox onClick={handleClickCompleteButton}>
+    <ButtonBox>
       <ButtonGroup
+        disabled={!labelEditInput.title || !labelEditInput.textColor}
+        onClick={handleClickCompleteButton}
         type={BS.SMALL_FILL}
         name={BN.COMPLETE}
         icon={<AddIcon style={{ fontSize: 16 }} />}

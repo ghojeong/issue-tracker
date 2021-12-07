@@ -13,6 +13,6 @@ public class AssigneeService {
     }
 
     public AssigneesResponse getAllIssues() {
-        return AssigneesResponse.from(assigneeRepository.getAllIssues());
+        return AssigneesResponse.from(assigneeRepository.getAllAssignees());
     }
 }

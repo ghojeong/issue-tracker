@@ -18,7 +18,7 @@ public class AssigneeRepository {
         this.jdbc = jdbc;
     }
 
-    public Assignees getAllIssues() {
+    public Assignees getAllAssignees() {
         return new Assignees(jdbc.query(FIND_ALL_USER, Collections.emptyMap(), (rs, rowNum) -> new Assignee(
                 rs.getString("userId"),
                 rs.getString("name"),

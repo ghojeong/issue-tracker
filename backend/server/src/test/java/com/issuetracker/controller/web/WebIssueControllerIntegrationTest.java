@@ -37,4 +37,12 @@ class WebIssueControllerIntegrationTest {
                 .assertThat()
                 .statusCode(404);
     }
+
+    @Test
+    void 이슈_생성시_사이드_옵션을_조회_할때_상태코드_200(){
+        get("/form")
+                .then()
+                .assertThat()
+                .statusCode(200);
+    }
 }

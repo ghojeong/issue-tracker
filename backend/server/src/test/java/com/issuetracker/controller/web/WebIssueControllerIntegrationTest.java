@@ -26,4 +26,15 @@ class WebIssueControllerIntegrationTest {
                 .log().ifValidationFails()
                 .statusCode(200);
     }
+
+    //TODO. 쿼리파라미터 필터로 이슈 조회하는 테스트도 추후 작성 해야함.
+
+    //TODO. 배포 환경에서는 99999999번째 이슈가 있을 수도 있다. 상수를 안쓰는 방법을 찾아보자.
+    @Test
+    void 존재하지_않는_이슈_상세_정보_조회() {
+        get("/99999999")
+                .then()
+                .assertThat()
+                .statusCode(404);
+    }
 }

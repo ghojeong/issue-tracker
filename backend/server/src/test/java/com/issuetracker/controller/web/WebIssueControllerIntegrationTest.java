@@ -45,4 +45,15 @@ class WebIssueControllerIntegrationTest {
                 .assertThat()
                 .statusCode(200);
     }
+
+    //TODO. 배포 환경에서는 99999999번째 이슈가 있을 수도 있다. 상수를 안쓰는 방법을 찾아보자.
+    //TODO. 존재하지_않는_이슈면 댓글을 조회할 수도 없어야 한다. 하지만 200이 뜨고 있다. :: 고쳐야 하지 않을까?
+    @Test
+    void 특정_이슈의_댓글을_조회하면_상태코드_200(){
+        get("/9999999/comments")
+                .then()
+                .assertThat()
+                .log().ifValidationFails()
+                .statusCode(200);
+    }
 }

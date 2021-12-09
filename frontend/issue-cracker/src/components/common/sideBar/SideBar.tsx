@@ -57,7 +57,7 @@ const SideBar = (): JSX.Element => {
   ];
 
   const checkedData = useRecoilValue(dropCheckState);
-  const issueDetailId = useRecoilValue(issueDetailState);
+  const issueDetail = useRecoilValue(issueDetailState);
 
   const [checkedAssignee, checkedLabel, checkedMilestone] = [
     checkedData.assignee,
@@ -89,7 +89,7 @@ const SideBar = (): JSX.Element => {
 
       setIsDropAssignee((prev: boolean) => {
         const assigneeUrl =
-          U.ISSUES + '/' + issueDetailId.issueId + '/assignees';
+          U.ISSUES + '/' + issueDetail.issueId + '/assignees';
         if (prev)
           getPut(assigneeUrl, userToken, {
             assigneeIds: getValueInJson(checkedAssignee, 'id'),
@@ -98,7 +98,7 @@ const SideBar = (): JSX.Element => {
       });
 
       setIsDropLabel((prev: boolean) => {
-        const labelUrl = U.ISSUES + '/' + issueDetailId.issueId + '/labels';
+        const labelUrl = U.ISSUES + '/' + issueDetail.issueId + '/labels';
         if (prev)
           getPut(labelUrl, userToken, {
             labelIds: getValueInJson(checkedLabel, 'id'),
@@ -108,7 +108,7 @@ const SideBar = (): JSX.Element => {
 
       setIsDropMilestone((prev: boolean) => {
         const milestoneUrl =
-          U.ISSUES + '/' + issueDetailId.issueId + '/milestones';
+          U.ISSUES + '/' + issueDetail.issueId + '/milestones';
 
         if (prev)
           getPut(milestoneUrl, userToken, {
